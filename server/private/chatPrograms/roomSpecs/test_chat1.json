@@ -1,0 +1,26 @@
+{   
+    "type": "header",
+    "chatRoomName": "Chat Room 1",
+    "startTime": "7.7.21 20:00",
+    "post": "post1",
+    "comments": [
+        {
+            "userName": "user1",
+            "time":     "-1000",
+            "content": "asdasd hello",
+            "replies": [
+                {
+                    "userName": "user3",
+                    "time":     "-100",
+                    "content": "asdasd hello"
+                }
+            ],
+            "likes": [
+                {
+                    "userName": "user4",
+                    "time":     "-900"
+                }
+            ]
+        }
+    ]
+}
