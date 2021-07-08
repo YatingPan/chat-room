@@ -1,49 +1,68 @@
 <script lang="ts">
 	import { Router, Link, Route } from "svelte-routing";
     import { onMount } from "svelte";
-    import  commentStore from "./stores/commentStore";
-    import type { Comment, NewComment } from "./types/message.type";
+    import  store from "./stores/store";
+    import type { Comment, NewComment } from "../types/message.type";
+    import type { Room, User, UserExtended } from "../types/user.type";
+    import moment from "moment"
 
 	// export let url = "";
 
-    let comment = ""
-    let comments : Array<Comment> = []
+    let commentText = "";
+    let comments: Array<Comment> = [];
+    let user: UserExtended;
+    let room: Room;
+
+    const formatTime = (date: Date): string => {
+        return moment(date).format("Do MMMM YY, h:mm")
+        //date.toLocaleString('de-DE', {weekday: "long", year: "numeric", month:"numeric", day: "numeric"});
+    }
 
     function onSendComment(e) {
-        if( comment.length > 0) {
-            console.log("Sending Comment: ", comment)
+        if( commentText.length > 0) {
             const comObj : NewComment = {
-                "userName": "uuuser",
-                "content": comment
+                "user": user.user,
+                "content": commentText
             }
-            commentStore.sendComment(comObj)
+            commentText = ""
+            console.log("Sending Comment: ", comObj)
+            store.sendComment(comObj)
         } else {
             console.log("Not sending comment")
         }
     }
 
     onMount(() => {
-        commentStore.subscribe(currentComment => {
-            comments = [... comments, currentComment]
+        store.commentStore.subscribe(currentComment => {
+            if(currentComment) comments = [... comments, currentComment]
+        })
+
+        store.userStore.subscribe(userData => {
+            user = userData
+        })
+
+        store.roomStore.subscribe((roomData: Room) => {
+            room = roomData
         })
     })
     
 </script>
 <main>
     <div id="topboard">
-       
+        Welcome to {room?.name}
     </div>
 
 	<div id="content">
 
+        <div class="userName">We assigned you the name: {user?.user?.name} and the id: {user?.user?.id}</div>
         <div>
             <h2>Comments:</h2>
-            {#each comments as comment}
-                <p> <b>{comment?.userName}</b> -> {comment?.content}</p>
+            {#each comments as comment, i}
+                <p> <italic>{formatTime(comment?.time)}</italic> <bold>{comment?.user.name}</bold> -> {comment?.content}</p>
             {/each}
         </div>
 
-        <input type="text" bind:value={comment}>
+        <input type="text" bind:value={commentText}>
         <button on:click={onSendComment}>
             Send Comment
         </button>

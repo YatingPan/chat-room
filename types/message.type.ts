@@ -1,11 +1,13 @@
+import type { User } from "./user.type"
+
 export type Comment = {
     id: number
-    time: string
-    userName: string
+    time: Date
+    user: User
     content: string
 }
 export type NewComment = {
-    userName: string
+    user: User
     content: string
 }
 export type Reply = {

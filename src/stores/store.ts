@@ -1,80 +1,92 @@
 import { io } from "socket.io-client";
-import { writable, readable } from "svelte/store";
+import { writable, readable, Writable, Readable } from "svelte/store";
+import type { Comment, NewComment } from "../../types/message.type"
+import type { UserAssignment, User, AccessInfo, UserExtended, Room } from "../../types/user.type";
 
-const time = readable(null, set => {
-	set(new Date());
+const userToStorage = (user: UserExtended): string => JSON.stringify(user)
+const roomToStorage = (room: Room): string => JSON.stringify(room)
 
-	const interval = setInterval(() => {
-		set(new Date());
-	}, 1000);
+const storageToUser = (storedUserData: string): UserExtended => JSON.parse(storedUserData)
+const storageToRoom = (storedRoomData: string): Room => JSON.parse(storedRoomData)
 
-	return () => clearInterval(interval);
-});
 
-const commentStore = writable("")
+const socket = io();
+
+const commentStore: Writable<Comment> = writable()
+const userStore: Writable<UserExtended | undefined> = writable(storageToUser(sessionStorage.getItem("userData")))
+const roomStore: Writable<Room | undefined> = writable(storageToRoom(sessionStorage.getItem("roomData")))
+
 // const chatRoom = readable(null, set => {
 //     set()
 // })
 
-const socket = io();
 
-
-// client-side
+// Server requests an access code from client
 socket.on("requestAccessCode", (arg) => {
 	console.log("Server requested Access code.");
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const hasAccessCode = urlParams.has('accessCode');
-  const accessCode = hasAccessCode ? urlParams.get("accessCode") : undefined
+	// Grabbing access code from URL
+	const urlParams = new URLSearchParams(window.location.search);
+	const hasAccessCode = urlParams.has('accessCode');
+	const accessCode = hasAccessCode ? urlParams.get("accessCode") : undefined
+	console.log(`My Access code: ${accessCode}`)
 
-  console.log(`My Access code: ${accessCode}`)
-  
-	socket.emit("checkAccessCode", encodeURIComponent(accessCode))
+	const storedUserData: UserExtended = storageToUser(sessionStorage.getItem("userData"))
+	let accessInfo: AccessInfo = { "accessCode": encodeURIComponent(accessCode) }
+	if(storedUserData){
+		accessInfo["user"] = storedUserData.user
+	}
+	console.log(accessInfo, storedUserData)
+	socket.emit("accessInfo", accessInfo)
 });
-socket.on("chatRoomAssignment", (data) => {
-	if(data.accessGranted) {
-		console.log("Access granted for Room: "+data.chatRoomName)
 
-	} else {
-		console.log("Access denied, propably wrong access code")
+socket.on("checkCron", data => {
+	console.log(data)
+})
+socket.on("userAssignment", (userAssignment: UserAssignment) => {
+	console.log(userAssignment)
+	console.log("Access granted for Room: " + userAssignment.room.name)
+	console.log("userAssignment", userAssignment)
+
+	const user: UserExtended = userAssignment.user
+	const room: Room = userAssignment.room
+	
+	console.log("Assigned User:", user)
+	if(user){
+		sessionStorage.setItem("userData", userToStorage(user))
+		userStore.set(user)
+	}
+	if(room) {
+		sessionStorage.setItem("roomData", roomToStorage(room))
+		roomStore.set(room)
 	}
 })
-socket.on("message", (arg) => {
-  console.log(arg); // world
-});
+
+socket.on("accessDenied", (data) => {
+	console.log("Access denied, propably wrong access code")
+})
+
+socket.on("comment", (data: Comment) => {
+	commentStore.set(data)
+})
 
 // function reply() {
 
 // }
 
-// function comment() {
-
-// }
+const sendComment = (newComment: NewComment) => {
+	socket.emit("broadcastComment", newComment)
+}
 
 // function like() {
 
 // }
 
-// socket.on('messages', messages => {
-// 	app.set({
-// 	  messages
-// 	});
-// });
-
-  // app.on('submitForm', () => {
-  // 	const { newMessage, username } = app.get();
-  // 	socket.emit('newMessage', {
-  // 	  text: newMessage,
-  // 	  author: username
-  // 	});
-  // 	app.set({ newMessage: '' });
-  //   });
-	
-  //   app.on('setUsername', () => {
-  // 	app.set({ username: document.getElementById('enter-username').value });
-  //   });
 
 export default {
-    subscribe: commentStore.subscribe 
+    commentStore,
+	sendComment,
+	roomStore,
+	userStore
 }
 

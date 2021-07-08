@@ -1,6 +1,7 @@
 {   
-    "roomName": "Chat Room 1",
-    "startTime": "7.7.21 20:00",
+    "type": "header",
+    "roomName": "Chat Room 2",
+    "startTime": "2021-07-08 20:00",
     "post": "post1",
     "comments": [
         {
