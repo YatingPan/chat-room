@@ -1,7 +1,7 @@
 'use strict';
 import type { UserAssignment, AccessInfo, User, UserExtended, Room } from "../types/user.type"
 import type { NewComment, Comment} from "../types/message.type"
-import { getRoomMetaData, getAssignedChatRoom, availableRooms, initRooms } from "./util/room";
+import { getRoomMetaData, getAssignedChatRoom, getAvailableRooms } from "./util/room";
 
 const express = require('express');
 const app = express();
@@ -24,18 +24,17 @@ let userId = 0;
 let commentID = 0;
 let comments: Comment[] = []
 
-initRooms()
-
 // page to display the available chatroom access links
-app.get('/secret', function (req, res, next) {
+app.get('/secret', async function (req, res, next) {
   console.log('Accessing the secret section ...')
-  const availableHashes = availableRooms
-  console.log(availableHashes)
+  const availableRooms = await getAvailableRooms()
+  console.log(availableRooms)
 
-  const html = Object.keys(availableHashes).map(function(hash, index) {
-    const fileName = availableHashes[hash];
+  const html = availableRooms.map(function(hashAndFileName) {
+    const [hash, fileName] = hashAndFileName;
     return `<li>${fileName} -> ${hash}</li>`
-  });
+  }).join("");
+  
   res.write(`
     <!DOCTYPE html>
     <body>

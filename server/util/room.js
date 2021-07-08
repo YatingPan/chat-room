@@ -8,17 +8,6 @@ const publicDir = path.join(__dirname, "../../public");
 const privateDir = path.join(__dirname, "../private");
 const roomDir = path.join(privateDir, "chatPrograms")
 
-let availableRooms = []
-
-const initRooms = async () => {
-    availableRooms = await getAvailableRooms()
-    
-    fs.watch(path.resolve(roomDir, "roomSpecs"), async (eventType, filename) => {
-        console.log(filename);
-        availableRooms = await getAvailableRooms()
-        console.log("Dir changeed", filename, eventType, availableRooms);
-    })
-}
 const startCron = () => {
     // cron.schedule('0,30 * * * * *', async () => {
     //     availableRooms = await getAvailableRooms()
@@ -38,15 +27,23 @@ async function getAvailableRooms() {
 }
   
 async function getAssignedChatRoom(roomID) {
-    //const availableRooms = await getAvailableRooms()
-    const [hash, fileName] = availableRooms.find(([hash, fileName]) => hash === roomID)
-    return fileName
+    const availableRooms = await getAvailableRooms()
+    const availableRoomMap = availableRooms.find(([hash, fileName]) => hash === roomID)
+    if(availableRoomMap){
+        const [_, fileName] = availableRoomMap
+        return fileName
+    }
+    return undefined
 }
 
 async function fileNameToHash(roomFileName) {
-    //const availableRooms = await getAvailableRooms()
-    const [hash, fileName] = availableRooms.find(([hash, fileName]) => fileName === roomFileName)
-    return hash
+    const availableRooms = await getAvailableRooms()
+    const availableRoomMap  = availableRooms.find(([hash, fileName]) => fileName === roomFileName)
+    if(availableRoomMap){
+        const [hash, _] = availableRoomMap
+        return hash
+    }
+    return undefined
 }
 
 
@@ -73,7 +70,6 @@ const getRoomMetaData = async (roomFileName) => {
 module.exports = {
     getRoomMetaData,
     getAssignedChatRoom,
-    availableRooms,
-    initRooms,
+    getAvailableRooms,
     startCron
 } 

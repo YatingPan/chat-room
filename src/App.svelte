@@ -5,6 +5,7 @@
     import type { Comment, NewComment } from "../types/message.type";
     import type { Room, User, UserExtended } from "../types/user.type";
     import moment from "moment"
+    import CommentComponent from "./components/comment.svelte";
 
 	// export let url = "";
 
@@ -12,11 +13,6 @@
     let comments: Array<Comment> = [];
     let user: UserExtended;
     let room: Room;
-
-    const formatTime = (date: Date): string => {
-        return moment(date).format("Do MMMM YY, h:mm")
-        //date.toLocaleString('de-DE', {weekday: "long", year: "numeric", month:"numeric", day: "numeric"});
-    }
 
     function onSendComment(e) {
         if( commentText.length > 0) {
@@ -58,7 +54,7 @@
         <div>
             <h2>Comments:</h2>
             {#each comments as comment, i}
-                <p> <italic>{formatTime(comment?.time)}</italic> <bold>{comment?.user.name}</bold> -> {comment?.content}</p>
+                <CommentComponent comment={comment}/>
             {/each}
         </div>
 

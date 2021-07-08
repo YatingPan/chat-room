@@ -57,18 +57,28 @@ app.use(express.static(publicDir));
 var userId = 0;
 var commentID = 0;
 var comments = [];
-room_1.initRooms();
 // page to display the available chatroom access links
 app.get('/secret', function (req, res, next) {
-    console.log('Accessing the secret section ...');
-    var availableHashes = room_1.availableRooms;
-    console.log(availableHashes);
-    var html = Object.keys(availableHashes).map(function (hash, index) {
-        var fileName = availableHashes[hash];
-        return "<li>" + fileName + " -> " + hash + "</li>";
+    return __awaiter(this, void 0, void 0, function () {
+        var availableRooms, html;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    console.log('Accessing the secret section ...');
+                    return [4 /*yield*/, room_1.getAvailableRooms()];
+                case 1:
+                    availableRooms = _a.sent();
+                    console.log(availableRooms);
+                    html = availableRooms.map(function (hashAndFileName) {
+                        var hash = hashAndFileName[0], fileName = hashAndFileName[1];
+                        return "<li>" + fileName + " -> " + hash + "</li>";
+                    }).join("");
+                    res.write("\n    <!DOCTYPE html>\n    <body>\n      <div id=\"linkList\">\n        <ul>\n          " + html + "\n        </ul>\n      </div>\n    </body>\n  ");
+                    res.end();
+                    return [2 /*return*/];
+            }
+        });
     });
-    res.write("\n    <!DOCTYPE html>\n    <body>\n      <div id=\"linkList\">\n        <ul>\n          " + html + "\n        </ul>\n      </div>\n    </body>\n  ");
-    res.end();
 });
 // Every other link is resolved to the svelte application
 app.get('*', function (req, res) {

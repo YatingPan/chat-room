@@ -7,7 +7,7 @@
 
 </script>
 
-<div id="content">
+<div id="content" lang="ts">
     <div id="static-menu">
         <Router url="{url}">
             <ul>
