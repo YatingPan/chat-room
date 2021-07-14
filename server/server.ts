@@ -1,20 +1,22 @@
 'use strict';
 import type { UserAssignment, AccessInfo, User, UserExtended, Room } from "../types/user.type"
 import type { NewComment, Comment} from "../types/message.type"
-import { getRoomMetaData, getAssignedChatRoom, getAvailableRooms } from "./util/room";
+import { Rooms } from "./util/room.js";
+import { Users } from "./util/users.js";
 
-const express = require('express');
+import express from 'express';
+import path from 'path';
+import http from "http";
+import { Server } from "socket.io";
+
 const app = express();
 
+
 const port = process.env.PORT || 5000;
-const path = require('path');
-const http = require("http");
-const { Server } = require("socket.io");
 const server = http.createServer(app)
 const io = new Server(server);
 
-const {userJoin, getUserFromID} = require("./util/users")
-
+const __dirname =  path.join(path.resolve(), "server");
 const publicDir = path.join(__dirname, "../public");
 const privateDir = path.join(__dirname, "private");
 
@@ -27,7 +29,7 @@ let comments: Comment[] = []
 // page to display the available chatroom access links
 app.get('/secret', async function (req, res, next) {
   console.log('Accessing the secret section ...')
-  const availableRooms = await getAvailableRooms()
+  const availableRooms = await Rooms.getAvailableRooms()
   console.log(availableRooms)
 
   const html = availableRooms.map(function(hashAndFileName) {
@@ -62,14 +64,14 @@ io.on("connection", socket => {
   io.to(socket.id).emit("requestAccessCode", "");
   
   socket.on("accessInfo", async (accessInfo: AccessInfo) => {
-    const assignedChatRoom = await getAssignedChatRoom(accessInfo.accessCode)
+    const assignedChatRoom = await Rooms.getAssignedChatRoom(accessInfo.accessCode)
 
     if (assignedChatRoom) {
 
       // TODO get chatroom name
 
-      const newUser: UserExtended = await userJoin(accessInfo, socket.id)
-      const room: Room = await getRoomMetaData(assignedChatRoom)
+      const newUser: UserExtended = await Users.userJoin(accessInfo, socket.id)
+      const room: Room = await Rooms.getRoomMetaData(assignedChatRoom)
       
       const userAssignment: UserAssignment = {
         "room": room,
@@ -86,7 +88,7 @@ io.on("connection", socket => {
   })
 
   socket.on("broadcastComment", (proposedComment: NewComment) => {
-    const currentUser: UserExtended = getUserFromID(proposedComment.user.id)
+    const currentUser: UserExtended = Users.getUserFromID(proposedComment.user.id)
     const newComment: Comment = {
       id: commentID++,
       content: proposedComment.content,
@@ -102,5 +104,9 @@ io.on("connection", socket => {
   })
 })
 
-
+const test = async () => {
+  Rooms.registerAutomaticMessages(io)
+  //console.log(await loadChatrooms())
+}
+test()
 //startCron()

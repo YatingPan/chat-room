@@ -1,24 +1,75 @@
-{   
-    "type": "header",
+{
     "roomName": "Chat Room 2",
-    "startTime": "2021-07-08 20:00",
-    "post": "post1",
+    "startTime": "2021-07-13 01:57",
+    "initialPost": "post1",
+    "bots": [
+        {
+            "name": "bot1",
+            "moderation": [
+                {
+                    "type": "ban",
+                    "time": 100
+                }
+            ]
+        },
+        {
+            "name": "bot2",
+            "moderation": [
+                {
+                    "type": "ban",
+                    "time": 10
+                }
+            ]
+        }
+    ],
     "comments": [
         {
-            "userName": "user1",
-            "time":     "-1000",
-            "content": "asdasd hello",
+            "userName": "bot1",
+            "time":     10,
+            "content": "Hello from user1 in Room 2",
+            "moderation": {
+                "type": "flag",
+                "time":     15
+            },
             "replies": [
                 {
                     "userName": "user3",
-                    "time":     "-100",
+                    "time":     -100,
                     "content": "asdasd hello"
                 }
             ],
             "likes": [
                 {
                     "userName": "user4",
-                    "time":     "-900"
+                    "time":     -900
+                }
+            ],
+            "dislikes": [
+                {
+                    "userName": "bot2",
+                    "time":     -900
+                }
+            ]
+        },
+        {
+            "userName": "bot2",
+            "time":     14,
+            "content": "Ciao!",
+            "moderation": {
+                "type": "remove",
+                "time": 15
+            },
+            "replies": [
+                {
+                    "userName": "bot2",
+                    "time":     -100,
+                    "content": "asdasd hello"
+                }
+            ],
+            "likes": [
+                {
+                    "userName": "bot1",
+                    "time":     -900
                 }
             ]
         }

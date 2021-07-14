@@ -1,23 +1,41 @@
 {   
     "roomName": "Chat Room 1",
-    "startTime": "7.7.21 20:00",
+    "startTime": "2021-07-13 20:00",
     "post": "post1",
     "comments": [
         {
-            "userName": "user1",
-            "time":     "-1000",
-            "content": "asdasd hello",
+            "userName": "bot1",
+            "time":     10,
+            "content": "Hello from bot1 in Room 1",
             "replies": [
                 {
                     "userName": "user3",
-                    "time":     "-100",
+                    "time":     100,
                     "content": "asdasd hello"
                 }
             ],
             "likes": [
                 {
                     "userName": "user4",
-                    "time":     "-900"
+                    "time":     -900
+                }
+            ]
+        },
+        {
+            "userName": "bot2",
+            "time":     13,
+            "content": "Hello from bot2 in Room 1",
+            "replies": [
+                {
+                    "userName": "user3",
+                    "time":     100,
+                    "content": "asdasd hello"
+                }
+            ],
+            "likes": [
+                {
+                    "userName": "user4",
+                    "time":     1000
                 }
             ]
         }

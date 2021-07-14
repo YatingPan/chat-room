@@ -67,6 +67,7 @@ socket.on("accessDenied", (data) => {
 })
 
 socket.on("comment", (data: Comment) => {
+	console.log("recieved comment", data)
 	commentStore.set(data)
 })
 
