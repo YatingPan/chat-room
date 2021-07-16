@@ -3,6 +3,7 @@ import type { UserAssignment, AccessInfo, User, UserExtended, Room } from "../ty
 import type { NewComment, Comment} from "../types/message.type"
 import { Rooms } from "./util/room.js";
 import { Users } from "./util/users.js";
+import { Posts } from "./util/posts.js";
 
 import express from 'express';
 import path from 'path';
