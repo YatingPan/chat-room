@@ -1,6 +1,9 @@
 {
-    "postTitle": "Post 1 Title",
-    "postTime": -3000,
-    "postContent": "Die Wassermassen wälzen sich regelrecht durch die Strassen, ganze Orte versinken in braunen Fluten. Es sind unfassbare Bilder und Szenen, die sich am Donnerstag in der Eifel und in Teilen von Nordrhein-Westfalen abspielen. Das, was die meisten Menschen in Deutschland bislang nur aus weiter Ferne kannten, ist plötzlich ganz nah. Ein Vater aus Altenburg im Landkreis Ahrweiler ist verzweifelt. Schon gestern, als es stark zu regnen begann, habe er bemerkt, dass der Pegel des sonst seichten Flusses kontinuierlich stieg, wie er der «Bild»-Zeitung erzählt. Am Abend habe er einen Anruf seiner Kinder bekommen, die sagten, es gebe bereits Hochwasser.",
-    "image": "testImage.jpg"
+    "title": "Some Post About Something",
+    "time": "2021-07-13 20:00",
+    "content": "Die Wassermassen wälzen sich regelrecht durch die Strassen, ganze Orte versinken in braunen Fluten. Es sind unfassbare Bilder und Szenen, die sich am Donnerstag in der Eifel und in Teilen von Nordrhein-Westfalen abspielen. Das, was die meisten Menschen in Deutschland bislang nur aus weiter Ferne kannten, ist plötzlich ganz nah. \n Ein Vater aus Altenburg im Landkreis Ahrweiler ist verzweifelt. Schon gestern, als es stark zu regnen begann, habe er bemerkt, dass der Pegel des sonst seichten Flusses kontinuierlich stieg, wie er der «Bild»-Zeitung erzählt. Am Abend habe er einen Anruf seiner Kinder bekommen, die sagten, es gebe bereits Hochwasser.",
+    "imageName": "testImage.jpg",
+    "lead": "Dauerregen hat im Westen Deutschlands Flüsse und Bäche in reissende Fluten verwandelt. Ein Mann sah, wie Häuser in seinem Dorf verschwanden, ein anderer weiss nicht, ob seine Kinder noch am Leben sind.",
+    "likes": 4,
+    "dislikes": 3
 }

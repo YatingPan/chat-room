@@ -1,25 +1,43 @@
 <script lang="ts">
-    import type { Comment, NewComment } from "../../types/message.type"
-    import type { User, UserExtended } from "../../types/user.type";
+    import LikesDislikes from "./likeDislike.svelte";
+    import { onMount } from "svelte";
+    import  store from "../stores/store";
+    import type { Post } from "../../types/post.type";
+    import type { RoomData } from "../../types/user.type";
+    import moment from "moment";
 
+    //const bgImage = "build/Material/images/testImage.jpg"
+    let post: Post = null
+
+    onMount(() => {
+        store.roomStore.subscribe((assignedRoom: RoomData) => {
+            if(assignedRoom?.post) post = assignedRoom.post
+        })
+    })
+    const formatTime = (date: Date): string => {
+        return moment(date).format("HH:mm D.MM.YYYY")
+        //date.toLocaleString('de-DE', {weekday: "long", year: "numeric", month:"numeric", day: "numeric"});
+    }
 </script>
 
 <div class="container">
-    <div class="imageContainer">
-        <img src="https://cdn.unitycms.io/image/ocroped/1200,1200,1000,1000,0,0/sh5JMBwAe88/0L0QWRbyqFLA5IxEP-Hp3R.jpg"/>
-    </div>
-    <div class="header">
-        <h2 class="title">Some post about something</h2>
-        <h3 class="lead">Dauerregen hat im Westen Deutschlands Flüsse und Bäche in reissende Fluten verwandelt. Ein Mann sah, wie Häuser in seinem Dorf verschwanden, ein anderer weiss nicht, ob seine Kinder noch am Leben sind.</h3>
-    </div>
-    <div class="metaDataContainer">
-        <div class="time">15.7.2021</div>
-        <div class="likes">3 likes</div>
-    </div>
-    <div class="text">
-        Die Wassermassen wälzen sich regelrecht durch die Strassen, ganze Orte versinken in braunen Fluten. Es sind unfassbare Bilder und Szenen, die sich am Donnerstag in der Eifel und in Teilen von Nordrhein-Westfalen abspielen. Das, was die meisten Menschen in Deutschland bislang nur aus weiter Ferne kannten, ist plötzlich ganz nah.
-
-Ein Vater aus Altenburg im Landkreis Ahrweiler ist verzweifelt. Schon gestern, als es stark zu regnen begann, habe er bemerkt, dass der Pegel des sonst seichten Flusses kontinuierlich stieg, wie er der «Bild»-Zeitung erzählt. Am Abend habe er einen Anruf seiner Kinder bekommen, die sagten, es gebe bereits Hochwasser.
+    <div class="center">
+        <div class="imageContainer" style="background-image: url({post?.imageURL});">
+            <!-- <img src="build/Material/images/testImage.jpg"/> -->
+        </div>
+        <div class="header">
+            <h2 class="title">{post?.title}</h2>
+            <h3 class="lead">{post?.lead}</h3>
+        </div>
+        <div class="metaDataContainer">
+            <div class="time">
+                <span>{formatTime(post?.time)}</span>
+            </div>
+            <div class="actionsContainer">
+                <LikesDislikes init_likes={post?.initialLikes} init_dislikes={post?.initialDislikes}/>
+            </div>
+        </div>
+        <div class="text">{post?.content}</div>
     </div>
 </div>
 
@@ -27,34 +45,60 @@ Ein Vater aus Altenburg im Landkreis Ahrweiler ist verzweifelt. Schon gestern, a
     @import "src/vars";
     
     .container {
-        border: solid black 2px;
-        width: 90%;
-        
-        display: flex;
-        flex-direction: column;
+        width: 100%;
 
-        .imageContainer {
-            width: 100%;
-            img {
-                width: 100%;
-            }
-        }
-        .header {
-            margin: 1em;
-        }
-        .metaDataContainer {
-            margin: 1em;
+        @media (min-width: $mid-bp) {
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
-
-            .time {
-            }
-            .likes {
-            }
+            justify-content: center;
         }
-        .text {
-            margin: 1em;
+
+        .center {
+            display: flex;
+            flex-direction: column;
+        
+            @media (min-width: $mid-bp) {
+                max-width: $mid-bp;
+            }
+
+            .imageContainer {
+                height: 40vw;
+                max-height: 50vh;
+                margin: 0.5rem 1rem;
+                background-position: center center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                @media (max-width: $mid-bp) {
+                    max-width: none;
+                    width: 100%;
+                    height: 12em;
+                    margin: 0;
+                }
+                margin-right: 1em;
+            }
+            .header {
+                margin: 0.5rem 1rem;
+            }
+            .metaDataContainer {
+                margin: 0.5rem 1rem;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+                .time {
+                    font-size: small;
+                    display: flex;
+                    span {
+                        align-self: center;
+                    }
+                }
+                .actionsContainer {
+
+                }
+            }
+            .text {
+                margin: 1em;
+            }
         }
     }
 </style>

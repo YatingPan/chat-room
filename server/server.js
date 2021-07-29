@@ -1,6 +1,7 @@
 'use strict';
 import { Rooms } from "./util/room.js";
 import { Users } from "./util/users.js";
+// import { Posts } from "./util/post.js";
 import express from 'express';
 import path from 'path';
 import http from "http";
@@ -11,6 +12,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 const __dirname = path.join(path.resolve(), "server");
 const publicDir = path.join(__dirname, "../public");
+console.log(publicDir);
 const privateDir = path.join(__dirname, "private");
 app.use(express.static(publicDir));
 let userId = 0;
@@ -51,9 +53,8 @@ io.on("connection", socket => {
     socket.on("accessInfo", async (accessInfo) => {
         const assignedChatRoom = await Rooms.getAssignedChatRoom(accessInfo.accessCode);
         if (assignedChatRoom) {
-            // TODO get chatroom name
             const newUser = await Users.userJoin(accessInfo, socket.id);
-            const room = await Rooms.getRoomMetaData(assignedChatRoom);
+            const room = await Rooms.getRoomData(assignedChatRoom);
             const userAssignment = {
                 "room": room,
                 "user": newUser

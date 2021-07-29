@@ -5,6 +5,8 @@ export type Comment = {
     time: Date
     user: User
     content: string
+    likes: number
+    dislikes: number
 }
 export type NewComment = {
     user: User

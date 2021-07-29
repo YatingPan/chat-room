@@ -1,9 +1,9 @@
 'use strict';
-import type { UserAssignment, AccessInfo, User, UserExtended, Room } from "../types/user.type"
+import type { UserAssignment, AccessInfo, User, UserExtended, RoomData } from "../types/user.type"
 import type { NewComment, Comment} from "../types/message.type"
 import { Rooms } from "./util/room.js";
 import { Users } from "./util/users.js";
-import { Posts } from "./util/posts.js";
+// import { Posts } from "./util/post.js";
 
 import express from 'express';
 import path from 'path';
@@ -19,6 +19,7 @@ const io = new Server(server);
 
 const __dirname =  path.join(path.resolve(), "server");
 const publicDir = path.join(__dirname, "../public");
+console.log(publicDir)
 const privateDir = path.join(__dirname, "private");
 
 app.use(express.static(publicDir));
@@ -69,10 +70,8 @@ io.on("connection", socket => {
 
     if (assignedChatRoom) {
 
-      // TODO get chatroom name
-
       const newUser: UserExtended = await Users.userJoin(accessInfo, socket.id)
-      const room: Room = await Rooms.getRoomMetaData(assignedChatRoom)
+      const room: RoomData = await Rooms.getRoomData(assignedChatRoom)
       
       const userAssignment: UserAssignment = {
         "room": room,
@@ -94,7 +93,9 @@ io.on("connection", socket => {
       id: commentID++,
       content: proposedComment.content,
       user: proposedComment.user,
-      time: new Date()
+      time: new Date(),
+      likes: 0,
+      dislikes: 0
     }
     comments = [... comments, newComment]
     io.to(currentUser.accessCode).emit('comment', newComment)

@@ -31,13 +31,8 @@
 
 	<div class="content">
         
-        <!-- <div class="userName">We assigned you the name: {user?.user?.name} and the id: {user?.user?.id}</div> -->
-        <div class="postContainer">
-            <Post></Post>
-        </div>
-        <div class="chatRoomContainer">
-            <ChatRoom user={user} />
-        </div>
+        <Post></Post>
+        <ChatRoom user={user} />
 
     </div>
 
@@ -49,30 +44,15 @@
 
 <style lang="scss">
 
-@import "vars";
+    @import "vars";
 
-.content{
-    
-    .postContainer {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
+    :global(a) {
+        text-decoration: none;
     }
-    .chatRoomContainer {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
+    :global(body) { 
+        margin: 0;
+        padding: 0;
     }
-}
-:global(a) {
-    text-decoration: none;
-}
-:global(body) { 
-    margin: 0;
-    padding: 0;
-}
 
   
 </style>

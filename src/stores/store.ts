@@ -1,20 +1,20 @@
 import { io } from "socket.io-client";
 import { writable, readable, Writable, Readable } from "svelte/store";
 import type { Comment, NewComment } from "../../types/message.type"
-import type { UserAssignment, User, AccessInfo, UserExtended, Room } from "../../types/user.type";
+import type { UserAssignment, User, AccessInfo, UserExtended, RoomData } from "../../types/user.type";
 
 const userToStorage = (user: UserExtended): string => JSON.stringify(user)
-const roomToStorage = (room: Room): string => JSON.stringify(room)
+const roomToStorage = (room: RoomData): string => JSON.stringify(room)
 
 const storageToUser = (storedUserData: string): UserExtended => JSON.parse(storedUserData)
-const storageToRoom = (storedRoomData: string): Room => JSON.parse(storedRoomData)
+const storageToRoom = (storedRoomData: string): RoomData => JSON.parse(storedRoomData)
 
 
 const socket = io();
 
 const commentStore: Writable<Comment> = writable()
 const userStore: Writable<UserExtended | undefined> = writable(storageToUser(sessionStorage.getItem("userData")))
-const roomStore: Writable<Room | undefined> = writable(storageToRoom(sessionStorage.getItem("roomData")))
+const roomStore: Writable<RoomData | undefined> = writable(storageToRoom(sessionStorage.getItem("roomData")))
 
 // const chatRoom = readable(null, set => {
 //     set()
@@ -49,7 +49,7 @@ socket.on("userAssignment", (userAssignment: UserAssignment) => {
 	console.log("userAssignment", userAssignment)
 
 	const user: UserExtended = userAssignment.user
-	const room: Room = userAssignment.room
+	const room: RoomData = userAssignment.room
 	
 	console.log("Assigned User:", user)
 	if(user){

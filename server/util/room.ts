@@ -2,6 +2,9 @@ import path from "path";
 import fs  from 'fs';
 import crypt from 'crypto';
 import cron  from 'node-cron';
+import type { RoomData } from "../../types/user.type";
+import { Posts } from "./post.js";
+import type { Post } from "../../types/post.type";
 
 const __dirname = path.resolve();
 const privateDir = path.join(__dirname, "server", "private")
@@ -17,7 +20,7 @@ export module Rooms {
         const roomDataArr = []
         for(let availableRoom of availableRooms) {
             const [_, fileName] = availableRoom
-            const roomData = await getRoomData(fileName)
+            const roomData = await getParsedRoomData(fileName)
             roomDataArr.push(roomData)
         }
         return roomDataArr
@@ -115,23 +118,27 @@ export module Rooms {
         return roomData
     }
 
-    const getRawRoomData = async (roomFileName) => {
+    const getRawRoomData = async (roomFileName: string) => {
         const rawdata = await fs.promises.readFile(path.resolve(roomDir, "roomSpecs", roomFileName))
         const roomData = JSON.parse(rawdata.toString())
         return roomData
     }
 
-    const getRoomData = async (roomFileName) => {
+    const getParsedRoomData = async (roomFileName) => {
         const roomData = await getRawRoomData(roomFileName)
         const parsedRoomData = parseRoomData(roomData, roomFileName)
         return parsedRoomData
     }
-    export const getRoomMetaData = async (roomFileName) => {
-        const roomData = await getRawRoomData(roomFileName)
-        const id = fileNameToHash(roomFileName)
-        const name = roomData["roomName"]
-        const startTime = new Date(Date.parse(roomData["startTime"]))
-        const post = roomData["post"]
+    /**
+     * @returns The a room Object
+     * @argument The file name of a room
+     */
+    export const getRoomData = async (roomFileName: string) : Promise<RoomData> => {
+        const rawRoomData = await getRawRoomData(roomFileName)
+        const id: string = fileNameToHash(roomFileName)
+        const name: string = rawRoomData["roomName"]
+        const startTime: Date = new Date(Date.parse(rawRoomData["startTime"]))
+        const post: Post = await Posts.getPostData(rawRoomData["post"])
 
         return {
             id,
