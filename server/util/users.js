@@ -4,7 +4,6 @@ const __dirname = path.join(path.resolve(), "server");
 const privateDir = path.join(__dirname, "private");
 export var Users;
 (function (Users) {
-    let userID = 0;
     const users = [];
     async function assignUserName() {
         const rawdata = await fs.promises.readFile(path.resolve(privateDir, "nickNames.json"));
@@ -13,14 +12,14 @@ export var Users;
         const chosenNickName = nickNames[Math.floor(Math.random() * nickNames.length)];
         return chosenNickName;
     }
-    const createUser = async (accessInfo, id) => {
+    const createUser = async (accessCode, id) => {
         const userName = await assignUserName();
         return {
             "user": {
                 "name": userName,
                 "id": id,
             },
-            "accessCode": accessInfo.accessCode
+            "accessCode": accessCode
         };
     };
     Users.userJoin = async (accessInfo, id) => {
@@ -30,7 +29,7 @@ export var Users;
             console.log("Logging in user", user);
             return user;
         }
-        let newUser = await createUser(accessInfo, id);
+        let newUser = await createUser(accessInfo?.accessCode, id);
         console.log("New user created", newUser);
         users.push(newUser);
         //console.log("Users:", users)

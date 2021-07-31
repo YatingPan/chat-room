@@ -1,7 +1,7 @@
 <script lang="ts">
     import moment from "moment";
     
-    import type { Comment } from "../../types/message.type"
+    import type { Comment } from "../../types/comment.type"
     import LikesDislikes from "./likeDislike.svelte";
     import SendCommentComponent from "./sendCommentComponent.svelte"
 
@@ -29,7 +29,7 @@
     <p class="text">{comment?.content}</p>
     
     <div class="actionsContainer">
-       <LikesDislikes init_likes={comment?.likes} init_dislikes={comment?.dislikes}/>
+       <LikesDislikes init_likes={comment?.likes.length} init_dislikes={comment?.dislikes.length}/>
         <div class="reply-button">
                 <a class="">
                     <button on:click="{() => showReplyInput = !showReplyInput}">

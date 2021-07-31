@@ -1,4 +1,4 @@
-import type { Post } from "../../types/post.type";
+import type { Post, UnparsedPost } from "../../types/room.type";
 
 import path from "path";
 import crypt from 'crypto';
@@ -15,24 +15,24 @@ export module Posts {
     const fileNameToHash = (fileName) => 
         encodeURIComponent(crypt.createHash('sha256').update(fileName).digest('base64'))
 
-    const getRawRoomData = async (postFileName: string) => {
+    const getRawRoomData = async (postFileName: string): Promise<UnparsedPost> => {
         const rawdata = await fs.promises.readFile(path.resolve(roomDir, "posts", postFileName))
-        const roomData = JSON.parse(rawdata.toString())
+        const roomData: UnparsedPost = JSON.parse(rawdata.toString())
         return roomData
     }
 
     export const getPostData = async (postFileName: string): Promise<Post> => {
 
-        const rawPostData = await getRawRoomData(postFileName);
+        const unparsedPostData: UnparsedPost = await getRawRoomData(postFileName);
 
         const id = fileNameToHash(postFileName);
-        const time: Date = new Date(Date.parse(rawPostData["time"]))
-        const title: string = rawPostData["title"]
-        const lead: string = rawPostData["lead"]
-        const content: string = rawPostData["content"]
-        const imageURL: string = path.join("build", "postImages", rawPostData["imageName"])
-        const initialLikes: number = rawPostData["likes"]
-        const initialDislikes: number = rawPostData["dislikes"]
+        const time: Date = new Date(Date.parse(unparsedPostData.time))
+        const title: string = unparsedPostData.title
+        const lead: string = unparsedPostData.lead
+        const content: string = unparsedPostData.content
+        const imageURL: string = path.join("build", "postImages", unparsedPostData.imageName)
+        const initialLikes: number = unparsedPostData.initialLikes
+        const initialDislikes: number = unparsedPostData.initialDislikes
         
         return {
             id,

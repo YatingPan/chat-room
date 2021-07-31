@@ -13,15 +13,15 @@ export var Posts;
         return roomData;
     };
     Posts.getPostData = async (postFileName) => {
-        const rawPostData = await getRawRoomData(postFileName);
+        const unparsedPostData = await getRawRoomData(postFileName);
         const id = fileNameToHash(postFileName);
-        const time = new Date(Date.parse(rawPostData["time"]));
-        const title = rawPostData["title"];
-        const lead = rawPostData["lead"];
-        const content = rawPostData["content"];
-        const imageURL = path.join("build", "postImages", rawPostData["imageName"]);
-        const initialLikes = rawPostData["likes"];
-        const initialDislikes = rawPostData["dislikes"];
+        const time = new Date(Date.parse(unparsedPostData.time));
+        const title = unparsedPostData.title;
+        const lead = unparsedPostData.lead;
+        const content = unparsedPostData.content;
+        const imageURL = path.join("build", "postImages", unparsedPostData.imageName);
+        const initialLikes = unparsedPostData.initialLikes;
+        const initialDislikes = unparsedPostData.initialDislikes;
         return {
             id,
             time,

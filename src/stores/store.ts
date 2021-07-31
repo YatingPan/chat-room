@@ -1,7 +1,8 @@
 import { io } from "socket.io-client";
 import { writable, readable, Writable, Readable } from "svelte/store";
-import type { Comment, NewComment } from "../../types/message.type"
-import type { UserAssignment, User, AccessInfo, UserExtended, RoomData } from "../../types/user.type";
+import type { Comment, ProposedComment } from "../../types/comment.type"
+import type { RoomData } from "../../types/room.type";
+import type { UserAssignment, User, AccessInfo, UserExtended } from "../../types/user.type";
 
 const userToStorage = (user: UserExtended): string => JSON.stringify(user)
 const roomToStorage = (room: RoomData): string => JSON.stringify(room)
@@ -75,7 +76,7 @@ socket.on("comment", (data: Comment) => {
 
 // }
 
-const sendComment = (newComment: NewComment) => {
+const sendComment = (newComment: ProposedComment) => {
 	socket.emit("broadcastComment", newComment)
 }
 

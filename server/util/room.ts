@@ -1,19 +1,16 @@
 import path from "path";
 import fs  from 'fs';
 import crypt from 'crypto';
-import cron  from 'node-cron';
-import type { RoomData } from "../../types/user.type";
 import { Posts } from "./post.js";
-import type { Post } from "../../types/post.type";
+import type { Post, RoomData, UnparsedRoomData } from "../../types/room.type";
+import type { BotComment, Comment, UnparsedBotComment } from "../../types/comment.type.js";
+import { Chats } from "./chat.js";
 
 const __dirname = path.resolve();
 const privateDir = path.join(__dirname, "server", "private")
 const roomDir = path.join(privateDir, "chatPrograms")
 
 export module Rooms {
-
-    let rooms = []
-    let bots = []
 
     const loadChatrooms = async () => {
         const availableRooms = await getAvailableRooms()
@@ -26,47 +23,6 @@ export module Rooms {
         return roomDataArr
     }
 
-    async function registerBots() {
-        
-    }
-    export async function registerAutomaticMessages(io) {
-        const rooms = await loadChatrooms()
-
-        for(let room of rooms) {
-            const roomCode = room["code"];
-            for(let comment of room["comments"]) {
-                console.log("code", roomCode)
-                // Create a new JavaScript Date object based on the timestamp
-                const date = new Date(comment["time"]);
-                // Hours part from the timestamp
-                const hours = date.getHours();
-                // Minutes part from the timestamp
-                const minutes = date.getMinutes();
-                // Seconds part from the timestamp
-                const seconds = date.getSeconds();
-                const year = date.getFullYear();
-                const month = date.getMonth()+1;
-                const dayOfMonth = date.getDate();
-                const newComment = {
-                    "id": 404,
-                    "time": date,
-                    "user": {
-                        "id": room["userToID"](comment["userName"]) ,
-                        "name": comment["userName"]
-                    },
-                    "content": comment["content"]
-                }
-                function sendComment(){
-                    console.log("sending to ", roomCode, io.sockets.adapter.rooms)
-                    io.to(roomCode).emit('comment', newComment)
-                    console.log("sending comment", newComment)              
-                }
-                console.log(`${seconds} ${minutes} ${hours} ${dayOfMonth} ${month} *`)
-                cron.schedule(`${seconds} ${minutes} ${hours} ${dayOfMonth} ${month} *`, sendComment);
-            }
-        }
-    }
-
     // Access is granted if the access Code is equal to the sha265 hash of a file in the chatPrograms directory
     // TODO: not every time fs read
     export async function getAvailableRooms() {
@@ -77,7 +33,7 @@ export module Rooms {
         }, [])
     }
     
-    export async function getAssignedChatRoom(roomID) {
+    export async function getAssignedChatRoom(roomID: string): Promise<string> {
         const availableRooms = await getAvailableRooms()
         const availableRoomMap = availableRooms.find(([hash, fileName]) => hash === roomID)
         if(availableRoomMap){
@@ -87,7 +43,7 @@ export module Rooms {
         return undefined
     }
 
-    async function fileNameLookup(roomFileName) {
+    async function fileNameLookup(roomFileName: string): Promise<string> {
         const availableRooms = await getAvailableRooms()
         const availableRoomMap = availableRooms.find(([hash, fileName]) => fileName === roomFileName)
         if(availableRoomMap){
@@ -97,28 +53,40 @@ export module Rooms {
         return undefined
     }
 
-    const  fileNameToHash = (fileName) => 
-        encodeURIComponent(crypt.createHash('sha256').update(fileName).digest('base64'))
+    const  fileNameToHash = (fileName: string) => 
+    encodeURIComponent(crypt.createHash('sha256')
+            .update(fileName)
+            .digest('base64'))
 
-    const parseRoomData = (roomData, fileName) => {
-
-        const startTimeTimeStamp = Date.now() //Date.parse(roomData["startTime"])
+    const parseRoomData = async (roomData: UnparsedRoomData, fileName: string): Promise<RoomData> => {
+        
+        // Just for debugging always start room on server start
+        const startTimeTimeStamp = Date.now() // Date.parse(roomData["startTime"])
+        const startTime = new Date(startTimeTimeStamp)
         // add two hours to timestamp
         //const startTimeSwitzerlandTime = startTimeTimeStamp + 2 * 60 * 60 * 1000
-        
-        roomData["startTime"] = startTimeTimeStamp
-        roomData["comments"] = roomData["comments"].map( comment => {
-            comment["time"] = startTimeTimeStamp + comment["time"] * 1000
-            return comment
+
+        // The duration of the room experiment in minutes
+        const duration = roomData.duration
+        const automaticComments: BotComment[] = roomData.comments.map( (comment: UnparsedBotComment): BotComment => {
+            return Chats.parseComment(comment, startTimeTimeStamp)
         })
-        // TODO: Implement id mapping
-        roomData["userToID"] = (userName) => 404
-        roomData["code"] = fileNameToHash(fileName)
+        const id: string = fileNameToHash(fileName)
+        const name: string = roomData.roomName
+        const post: Post = await Posts.getPostData(roomData.postName)
         
-        return roomData
+        const parsedRoomData: RoomData = {
+            id,
+            name,
+            startTime,
+            duration,
+            post,
+            automaticComments
+        }
+        return parsedRoomData
     }
 
-    const getRawRoomData = async (roomFileName: string) => {
+    const getRawRoomData = async (roomFileName: string): Promise<UnparsedRoomData> => {
         const rawdata = await fs.promises.readFile(path.resolve(roomDir, "roomSpecs", roomFileName))
         const roomData = JSON.parse(rawdata.toString())
         return roomData
@@ -134,17 +102,8 @@ export module Rooms {
      * @argument The file name of a room
      */
     export const getRoomData = async (roomFileName: string) : Promise<RoomData> => {
-        const rawRoomData = await getRawRoomData(roomFileName)
-        const id: string = fileNameToHash(roomFileName)
-        const name: string = rawRoomData["roomName"]
-        const startTime: Date = new Date(Date.parse(rawRoomData["startTime"]))
-        const post: Post = await Posts.getPostData(rawRoomData["post"])
-
-        return {
-            id,
-            name,
-            startTime,
-            post
-        }
+        const unparsedRoomData: UnparsedRoomData = await getRawRoomData(roomFileName)
+       
+        return parseRoomData(unparsedRoomData, roomFileName)
     }
 }

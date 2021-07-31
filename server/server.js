@@ -1,6 +1,7 @@
 'use strict';
 import { Rooms } from "./util/room.js";
 import { Users } from "./util/users.js";
+import { Chats } from "./util/chat.js";
 // import { Posts } from "./util/post.js";
 import express from 'express';
 import path from 'path';
@@ -15,9 +16,6 @@ const publicDir = path.join(__dirname, "../public");
 console.log(publicDir);
 const privateDir = path.join(__dirname, "private");
 app.use(express.static(publicDir));
-let userId = 0;
-let commentID = 0;
-let comments = [];
 // page to display the available chatroom access links
 app.get('/secret', async function (req, res, next) {
     console.log('Accessing the secret section ...');
@@ -48,8 +46,7 @@ server.listen(port, () => {
 });
 // run when client connects
 io.on("connection", socket => {
-    console.log("New websocket connection");
-    io.to(socket.id).emit("requestAccessCode", "");
+    io.to(socket.id).emit("requestAccessCode");
     socket.on("accessInfo", async (accessInfo) => {
         const assignedChatRoom = await Rooms.getAssignedChatRoom(accessInfo.accessCode);
         if (assignedChatRoom) {
@@ -69,24 +66,11 @@ io.on("connection", socket => {
         }
     });
     socket.on("broadcastComment", (proposedComment) => {
-        const currentUser = Users.getUserFromID(proposedComment.user.id);
-        const newComment = {
-            id: commentID++,
-            content: proposedComment.content,
-            user: proposedComment.user,
-            time: new Date()
-        };
-        comments = [...comments, newComment];
-        io.to(currentUser.accessCode).emit('comment', newComment);
-        console.log(newComment);
+        const sendingUser = Users.getUserFromID(proposedComment.user.id);
+        Chats.broadcastComment(proposedComment, sendingUser, io);
     });
     socket.on("disconnect", () => {
         io.emit('userDisconnect', "A user has left the chat");
     });
 });
-const test = async () => {
-    Rooms.registerAutomaticMessages(io);
-    //console.log(await loadChatrooms())
-};
-test();
 //# sourceMappingURL=server.js.map

@@ -1,7 +1,8 @@
 {
     "roomName": "Chat Room 2",
     "startTime": "2021-07-13 01:57",
-    "initialPost": "post1",
+    "duration": 15,
+    "postName": "post1.json",
     "bots": [
         {
             "name": "bot1",

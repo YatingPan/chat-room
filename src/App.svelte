@@ -2,14 +2,14 @@
 	import { Router, Link, Route } from "svelte-routing";
     import { onMount } from "svelte";
     import  store from "./stores/store";
-    import type { Comment, NewComment } from "../types/message.type";
-    import type { Room, User, UserExtended } from "../types/user.type";
+    import type { Comment, ProposedComment } from "../types/comment.type";
+    import type { RoomData, User, UserExtended } from "../types/user.type";
     import ChatRoom from "./components/chatRoom.svelte";
     import Post from "./components/post.svelte";
 
 	// export let url = "";
     let user: UserExtended;
-    let room: Room;
+    let room: RoomData;
 
    
     onMount(() => {
@@ -18,7 +18,7 @@
             user = userData
         })
 
-        store.roomStore.subscribe((roomData: Room) => {
+        store.roomStore.subscribe((roomData: RoomData) => {
             room = roomData
         })
     })

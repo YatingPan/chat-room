@@ -1,4 +1,4 @@
-import type { Post } from "./post.type"
+import type { RoomData } from "./room.type"
 
 
 export type User = {
@@ -8,12 +8,6 @@ export type User = {
 export type UserExtended = {
     user: User
     accessCode: string
-}
-export type RoomData = {
-    id: string
-    name: string,
-    startTime: Date,
-    post: Post
 }
 export type AccessInfo = {
     accessCode: string

@@ -1,13 +1,12 @@
 import path from 'path';
 import fs from 'fs';
+import type { AccessInfo, User, UserExtended } from '../../types/user.type';
 
 const __dirname =  path.join(path.resolve(), "server");
 const privateDir = path.join(__dirname, "private");
 
 export module Users {
-    let userID = 0
-    const users = []
-
+    const users: UserExtended[] = []
 
     async function assignUserName(){
         const rawdata = await fs.promises.readFile(path.resolve(privateDir, "nickNames.json"));
@@ -18,18 +17,18 @@ export module Users {
         return chosenNickName
     }
     
-    const createUser = async (accessInfo, id) => {
+    const createUser = async (accessCode: string, id: string): Promise<UserExtended> => {
         const userName = await assignUserName()
         return {
             "user": {
                 "name": userName,
                 "id": id,
             },
-            "accessCode": accessInfo.accessCode
+            "accessCode": accessCode
         }
     }
 
-    export const userJoin = async (accessInfo, id) => {
+    export const userJoin = async (accessInfo: AccessInfo, id: string) => {
 
         // Check if the user is already logged in with its details
         const user = getUserFromID(accessInfo?.user?.id)
@@ -39,7 +38,7 @@ export module Users {
             return user
         }
 
-        let newUser = await createUser(accessInfo, id);
+        let newUser: UserExtended = await createUser(accessInfo?.accessCode, id);
         console.log("New user created",newUser)
         users.push(newUser)
         //console.log("Users:", users)

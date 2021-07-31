@@ -1,7 +1,27 @@
 {   
     "roomName": "Chat Room 1",
     "startTime": "2021-07-13 20:00",
-    "post": "post1.json",
+    "postName": "post1.json",
+    "bots": [
+        {
+            "name": "bot1",
+            "moderation": [
+                {
+                    "type": "ban",
+                    "time": 100
+                }
+            ]
+        },
+        {
+            "name": "bot2",
+            "moderation": [
+                {
+                    "type": "ban",
+                    "time": 10
+                }
+            ]
+        }
+    ],
     "comments": [
         {
             "userName": "bot1",

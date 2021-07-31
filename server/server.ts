@@ -1,14 +1,16 @@
 'use strict';
-import type { UserAssignment, AccessInfo, User, UserExtended, RoomData } from "../types/user.type"
-import type { NewComment, Comment} from "../types/message.type"
+import type { UserAssignment, AccessInfo, User, UserExtended } from "../types/user.type"
+import type { Comment, ProposedComment} from "../types/comment.type"
 import { Rooms } from "./util/room.js";
 import { Users } from "./util/users.js";
+import { Chats } from "./util/chat.js";
 // import { Posts } from "./util/post.js";
 
 import express from 'express';
 import path from 'path';
 import http from "http";
 import { Server } from "socket.io";
+import type { RoomData } from "../types/room.type";
 
 const app = express();
 
@@ -23,10 +25,6 @@ console.log(publicDir)
 const privateDir = path.join(__dirname, "private");
 
 app.use(express.static(publicDir));
-
-let userId = 0;
-let commentID = 0;
-let comments: Comment[] = []
 
 // page to display the available chatroom access links
 app.get('/secret', async function (req, res, next) {
@@ -62,8 +60,7 @@ server.listen(port, () => {
 
 // run when client connects
 io.on("connection", socket => {
-  console.log("New websocket connection")
-  io.to(socket.id).emit("requestAccessCode", "");
+  io.to(socket.id).emit("requestAccessCode");
   
   socket.on("accessInfo", async (accessInfo: AccessInfo) => {
     const assignedChatRoom = await Rooms.getAssignedChatRoom(accessInfo.accessCode)
@@ -87,28 +84,19 @@ io.on("connection", socket => {
     }
   })
 
-  socket.on("broadcastComment", (proposedComment: NewComment) => {
-    const currentUser: UserExtended = Users.getUserFromID(proposedComment.user.id)
-    const newComment: Comment = {
-      id: commentID++,
-      content: proposedComment.content,
-      user: proposedComment.user,
-      time: new Date(),
-      likes: 0,
-      dislikes: 0
-    }
-    comments = [... comments, newComment]
-    io.to(currentUser.accessCode).emit('comment', newComment)
-    console.log(newComment)
+  socket.on("broadcastComment", (proposedComment: ProposedComment) => {
+    const sendingUser: UserExtended = Users.getUserFromID(proposedComment.user.id)
+    
+    Chats.broadcastComment(proposedComment, sendingUser, io)
   })
   socket.on("disconnect", () => {
     io.emit('userDisconnect', "A user has left the chat")
   })
 })
 
-const test = async () => {
-  Rooms.registerAutomaticMessages(io)
-  //console.log(await loadChatrooms())
-}
-test()
+// const test = async () => {
+//   Rooms.registerAutomaticMessages(io)
+//   //console.log(await loadChatrooms())
+// }
+// test()
 //startCron()

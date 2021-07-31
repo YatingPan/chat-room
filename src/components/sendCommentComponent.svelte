@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { NewComment } from "../../types/message.type"
+    import type { NewComment } from "../../types/comment.type"
     import type { UserExtended } from "../../types/user.type";
 
     import  store from "../stores/store";

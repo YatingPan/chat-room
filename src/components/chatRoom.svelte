@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Comment, NewComment } from "../../types/message.type"
+    import type { Comment, NewComment } from "../../types/comment.type"
     import type { User, UserExtended } from "../../types/user.type";
 
     import CommentComponent from "./comment.svelte"
