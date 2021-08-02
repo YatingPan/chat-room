@@ -4,6 +4,7 @@ import path from "path";
 import crypt from 'crypto';
 import fs  from 'fs';
 import type { URL } from "url";
+import type { Like } from "../../types/comment.type";
 
 const __dirname = path.resolve();
 const privateDir = path.join(__dirname, "server", "private")
@@ -31,9 +32,21 @@ export module Posts {
         const lead: string = unparsedPostData.lead
         const content: string = unparsedPostData.content
         const imageURL: string = path.join("build", "postImages", unparsedPostData.imageName)
-        const initialLikes: number = unparsedPostData.initialLikes
-        const initialDislikes: number = unparsedPostData.initialDislikes
-        
+        const likes: Like[] = [... Array(unparsedPostData.likes)].map((): Like => { 
+            return {
+                userID: "NoOne",
+                time: new Date(),
+                parentCommentID: 0
+            }
+        })
+        const dislikes: Like[] = [... Array(unparsedPostData.dislikes).keys()].map((): Like => { 
+            return {
+                userID: "NoOne",
+                time: new Date(),
+                parentCommentID: 0
+            }
+        })
+        console.log(likes, dislikes)
         return {
             id,
             time,
@@ -41,8 +54,8 @@ export module Posts {
             lead,
             content,
             imageURL,
-            initialLikes,
-            initialDislikes
+            likes,
+            dislikes
         }
     }
 }

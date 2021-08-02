@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 import { writable, readable, Writable, Readable } from "svelte/store";
-import type { Comment, ProposedComment } from "../../types/comment.type"
+import type { ActionsUpdate, Comment, Like, ProposedComment, ProposedReply, Reply, RevokeLike } from "../../types/comment.type"
 import type { RoomData } from "../../types/room.type";
 import type { UserAssignment, User, AccessInfo, UserExtended } from "../../types/user.type";
 
@@ -14,8 +14,10 @@ const storageToRoom = (storedRoomData: string): RoomData => JSON.parse(storedRoo
 const socket = io();
 
 const commentStore: Writable<Comment> = writable()
+const replyStore: Writable<Reply> = writable()
+const actionsStore: Writable<ActionsUpdate> = writable()
 const userStore: Writable<UserExtended | undefined> = writable(storageToUser(sessionStorage.getItem("userData")))
-const roomStore: Writable<RoomData | undefined> = writable(storageToRoom(sessionStorage.getItem("roomData")))
+const roomStore: Writable<RoomData | undefined> = writable()//writable(storageToRoom(sessionStorage.getItem("roomData")))
 
 // const chatRoom = readable(null, set => {
 //     set()
@@ -41,9 +43,6 @@ socket.on("requestAccessCode", (arg) => {
 	socket.emit("accessInfo", accessInfo)
 });
 
-socket.on("checkCron", data => {
-	console.log(data)
-})
 socket.on("userAssignment", (userAssignment: UserAssignment) => {
 	console.log(userAssignment)
 	console.log("Access granted for Room: " + userAssignment.room.name)
@@ -53,23 +52,33 @@ socket.on("userAssignment", (userAssignment: UserAssignment) => {
 	const room: RoomData = userAssignment.room
 	
 	console.log("Assigned User:", user)
-	if(user){
+	// TODO better login check?
+	if (user) {
 		sessionStorage.setItem("userData", userToStorage(user))
 		userStore.set(user)
 	}
 	if(room) {
 		sessionStorage.setItem("roomData", roomToStorage(room))
+		console.log("recieved roomData")
 		roomStore.set(room)
 	}
 })
 
 socket.on("accessDenied", (data) => {
-	console.log("Access denied, propably wrong access code")
+	console.log("Access denied. Propably wrong access code.")
 })
 
-socket.on("comment", (data: Comment) => {
-	console.log("recieved comment", data)
-	commentStore.set(data)
+socket.on("comment", (newComment: Comment) => {
+	console.log("recieved comment", newComment)
+	commentStore.set(newComment)
+})
+socket.on("reply", (newReply: Reply) => {
+	console.log("recieved reply", newReply)
+	replyStore.set(newReply)
+})
+socket.on("actionsUpdate", (newActions: ActionsUpdate) => {
+	console.log("recieved actions", newActions)
+	actionsStore.set(newActions)
 })
 
 // function reply() {
@@ -80,14 +89,34 @@ const sendComment = (newComment: ProposedComment) => {
 	socket.emit("broadcastComment", newComment)
 }
 
-// function like() {
+const sendReply = (newReply: ProposedReply) => {
+	socket.emit("broadcastReply", newReply)
+}
 
-// }
+const sendLike= (newLike: Like) => {
+	socket.emit("broadcastLike", newLike)
+}
+const sendDislike= (newDislike: Like) => {
+	socket.emit("broadcastDislike", newDislike)
+}
 
+const sendRevokeLike = (newLike: RevokeLike) => {
+	socket.emit("broadcastRevoceLike", newLike)
+}
+const sendRevokeDislike = (newDislike: RevokeLike) => {
+	socket.emit("broadcastRevoceDislike", newDislike)
+}
 
 export default {
     commentStore,
+	replyStore,
 	sendComment,
+	sendReply,
+	sendLike,
+	sendRevokeLike,
+	sendDislike,
+	sendRevokeDislike,
+	actionsStore,
 	roomStore,
 	userStore
 }

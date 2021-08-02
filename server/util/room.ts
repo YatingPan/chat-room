@@ -12,15 +12,16 @@ const roomDir = path.join(privateDir, "chatPrograms")
 
 export module Rooms {
 
+    let rooms = {}
+
     const loadChatrooms = async () => {
         const availableRooms = await getAvailableRooms()
-        const roomDataArr = []
         for(let availableRoom of availableRooms) {
             const [_, fileName] = availableRoom
-            const roomData = await getParsedRoomData(fileName)
-            roomDataArr.push(roomData)
+            const roomData = await getRoomData(fileName)
+            rooms[roomData.id] = roomData
         }
-        return roomDataArr
+        console.log(rooms)
     }
 
     // Access is granted if the access Code is equal to the sha265 hash of a file in the chatPrograms directory
@@ -63,8 +64,6 @@ export module Rooms {
         // Just for debugging always start room on server start
         const startTimeTimeStamp = Date.now() // Date.parse(roomData["startTime"])
         const startTime = new Date(startTimeTimeStamp)
-        // add two hours to timestamp
-        //const startTimeSwitzerlandTime = startTimeTimeStamp + 2 * 60 * 60 * 1000
 
         // The duration of the room experiment in minutes
         const duration = roomData.duration
@@ -74,7 +73,7 @@ export module Rooms {
         const id: string = fileNameToHash(fileName)
         const name: string = roomData.roomName
         const post: Post = await Posts.getPostData(roomData.postName)
-        
+        console.log(post)
         const parsedRoomData: RoomData = {
             id,
             name,
@@ -91,19 +90,22 @@ export module Rooms {
         const roomData = JSON.parse(rawdata.toString())
         return roomData
     }
-
-    const getParsedRoomData = async (roomFileName) => {
-        const roomData = await getRawRoomData(roomFileName)
-        const parsedRoomData = parseRoomData(roomData, roomFileName)
-        return parsedRoomData
-    }
     /**
      * @returns The a room Object
      * @argument The file name of a room
      */
-    export const getRoomData = async (roomFileName: string) : Promise<RoomData> => {
+    const getRoomData = async (roomFileName: string) : Promise<RoomData> => {
         const unparsedRoomData: UnparsedRoomData = await getRawRoomData(roomFileName)
        
         return parseRoomData(unparsedRoomData, roomFileName)
+    }
+
+    export const getStaticRoomData = async (roomID: string): Promise<RoomData> => {
+        if(!rooms.hasOwnProperty(roomID)) {
+            console.log("Loading Rooms for the first time")
+            await loadChatrooms()
+        }
+        
+        return rooms[roomID]
     }
 }

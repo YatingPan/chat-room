@@ -1,6 +1,6 @@
 import type { User } from "./user.type"
 
-// Type of likes for comments and posts
+// Type of likes for comments
 export type BotLike = {
     botName: string
     time: Date
@@ -8,6 +8,17 @@ export type BotLike = {
 export type Like = {
     userID: string
     time: Date
+    parentCommentID: number
+}
+export type RevokeLike = {
+    userID: string
+    parentCommentID: number
+}
+
+export type ActionsUpdate = {
+    parentCommentID: number
+    likes: Like[]
+    dislikes: Like[]
 }
 
 export type Comment = {
@@ -15,16 +26,21 @@ export type Comment = {
     time: Date
     user: User
     content: string
-    likes: Like[]
-    dislikes: Like[]
 }
+
 export type BotComment = {
+    id: number
     time: Date
     botName: string
     content: string
     replies?: BotComment[]
     likes: BotLike[]
     dislikes: BotLike[]
+}
+
+export type Reply = {
+    comment: Comment
+    parentID: number
 }
 
 export enum ModerationType { Ban, Flag, Remove }
@@ -36,16 +52,23 @@ export enum ModerationType { Ban, Flag, Remove }
 // }
 
 
-/**
- * Types for unparsed Data
- */
-
-
+ export type UnparsedBotLike = {
+    botName: string
+    time: number
+}
 // Type for comments sent to the server for broadcasting
 export type ProposedComment = {
     user: User
     content: string
 }
+export type ProposedReply = {
+    comment: ProposedComment
+    parentID: number
+}
+
+/**
+ * Types for unparsed Data
+ */
 
 // Type of Bot specification JSON
 export type UparsedBot = {
@@ -66,6 +89,6 @@ export type UnparsedBotComment = {
     content: string
     moderation: UnparsedModeration
     replies?: UnparsedBotComment[]
-    likes?: BotLike[]
-    dislikes?: BotLike[]
+    likes?: UnparsedBotLike[]
+    dislikes?: UnparsedBotLike[]
 }

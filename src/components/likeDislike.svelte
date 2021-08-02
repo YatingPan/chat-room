@@ -1,28 +1,61 @@
 <script lang="ts">
-    import type { Like } from "../../types/likes.type"
+    import { onMount } from "svelte";
+    import type { Like, RevokeLike } from "../../types/comment.type";
+    import type { User, UserExtended } from "../../types/user.type";
+    import store from "../stores/store";
 
-    export let init_likes : number
-    export let init_dislikes : number
+    export let likes : Like[]
+    export let dislikes : Like[]
+    export let parentIsComment = true
+    export let parentCommentID: number = null
+    let user: User
+    $: likeNr = likes ? likes.length : 0
+    $: dislikeNr = dislikes ? dislikes.length : 0
     $: iLiked = false
     $: iDisliked = false
-    $: likes = init_likes + (iLiked ? 1 : 0)
-    $: dislikes = init_dislikes + (iDisliked ? 1 : 0)
 
+    const generateLike = (parentCommentID: number): Like=> {
+
+        const newLike: Like = {
+            userID: user.id,
+            time: new Date(),
+            parentCommentID
+        }
+        return newLike
+    }
+    const generateRevokeLike = (parentCommentID: number): RevokeLike => {
+        const newLike: RevokeLike = {
+            userID: user.id,
+            parentCommentID
+        }
+        return newLike
+    }
+    
     const like = () => {
         iLiked = !iLiked
         iDisliked = false
-        // TODO: send like to server
+
+        if(iLiked) store.sendLike(generateLike(parentCommentID))
+        else store.sendRevokeLike(generateRevokeLike(parentCommentID))
     }
     const dislike = () => {
         iDisliked = !iDisliked
         iLiked = false
-        // TODO: send dislike to server
+        if(iDisliked) store.sendDislike(generateLike(parentCommentID))
+        else store.sendRevokeDislike(generateRevokeLike(parentCommentID))
     }
+
+    onMount(() => {
+        store.userStore.subscribe((userExt: UserExtended) => {
+            if(userExt) user = userExt.user
+            console.log(parentCommentID, likes, dislikes)
+        })
+    })
 </script>
 
 <div class="likes-dislikes">
     <div class="likes up-down">
-        <span class="vote-count">{likes}</span>
+        <span class="vote-count">{likeNr}</span>
         <button class:active={iLiked} on:click={like}>
             <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;">
                 <g class="icon">
@@ -32,7 +65,7 @@
         </button>
     </div>
     <div class="dislikes up-down">
-        <span class="vote-count">{dislikes}</span>
+        <span class="vote-count">{dislikeNr}</span>
         <button class:active={iDisliked} on:click={dislike}>
             <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;">
                 <g class="icon">

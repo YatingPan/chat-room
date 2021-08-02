@@ -1,10 +1,9 @@
 'use strict';
 import type { UserAssignment, AccessInfo, User, UserExtended } from "../types/user.type"
-import type { Comment, ProposedComment} from "../types/comment.type"
+import type { Comment, Like, ProposedComment, ProposedReply, RevokeLike} from "../types/comment.type"
 import { Rooms } from "./util/room.js";
 import { Users } from "./util/users.js";
 import { Chats } from "./util/chat.js";
-// import { Posts } from "./util/post.js";
 
 import express from 'express';
 import path from 'path';
@@ -68,7 +67,7 @@ io.on("connection", socket => {
     if (assignedChatRoom) {
 
       const newUser: UserExtended = await Users.userJoin(accessInfo, socket.id)
-      const room: RoomData = await Rooms.getRoomData(assignedChatRoom)
+      const room: RoomData = await Rooms.getStaticRoomData(accessInfo.accessCode)
       
       const userAssignment: UserAssignment = {
         "room": room,
@@ -89,6 +88,37 @@ io.on("connection", socket => {
     
     Chats.broadcastComment(proposedComment, sendingUser, io)
   })
+  socket.on("broadcastReply", (proposedReply: ProposedReply) => {
+    console.log(proposedReply)
+    const sendingUser: UserExtended = Users.getUserFromID(proposedReply.comment.user.id)
+    
+    Chats.broadcastReply(proposedReply, sendingUser, io)
+  })
+  socket.on("broadcastLike", (proposedLike: Like) => {
+    console.log(proposedLike)
+    const sendingUser: UserExtended = Users.getUserFromID(proposedLike.userID)
+    
+    Chats.broadcastLike(proposedLike, sendingUser, io)
+  })
+  socket.on("broadcastDislike", (proposedDislike: Like) => {
+    console.log(proposedDislike)
+    const sendingUser: UserExtended = Users.getUserFromID(proposedDislike.userID)
+    
+    Chats.broadcastDislike(proposedDislike, sendingUser, io)
+  })
+  socket.on("broadcastRevoceLike", (proposedRevokation: RevokeLike) => {
+    console.log(proposedRevokation)
+    const sendingUser: UserExtended = Users.getUserFromID(proposedRevokation.userID)
+    
+    Chats.broadcastRevokeLike(proposedRevokation, sendingUser, io)
+  })
+  socket.on("broadcastRevoceDislike", (proposedRevokation: RevokeLike) => {
+    console.log(proposedRevokation)
+    const sendingUser: UserExtended = Users.getUserFromID(proposedRevokation.userID)
+    
+    Chats.broadcastRevokeDislike(proposedRevokation, sendingUser, io)
+  })
+  
   socket.on("disconnect", () => {
     io.emit('userDisconnect', "A user has left the chat")
   })
@@ -100,3 +130,5 @@ io.on("connection", socket => {
 // }
 // test()
 //startCron()
+
+

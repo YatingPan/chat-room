@@ -1,30 +1,54 @@
 <script lang="ts">
-    import type { NewComment } from "../../types/comment.type"
-    import type { UserExtended } from "../../types/user.type";
+import { onMount } from "svelte";
+
+    import type { ProposedComment, ProposedReply } from "../../types/comment.type"
+    import type { User, UserExtended } from "../../types/user.type";
 
     import  store from "../stores/store";
 
-    export let user: UserExtended;
+    export let isReply: Boolean = false
+    export let parentID: number = null
+    export let showReplyInput: Boolean
+    let user: User = undefined;
+    const commentTypeStr = isReply ? "reply" : "comment"
+
+    onMount( () => {
+        store.userStore.subscribe((usr) => {
+            user = usr?.user
+        })
+    })
+    const focus = input => {
+        console.log(input)
+        input.focus()
+    }
     let commentText: string = "";
     
     const onSendComment = () => {
         if( commentText.length > 0) {
-            const comObj : NewComment = {
-                "user": user.user,
+            const comObj: ProposedComment = {
+                "user": user,
                 "content": commentText
             }
             commentText = ""
-            console.log("Sending Comment: ", comObj)
-            store.sendComment(comObj)
+            console.log(`Sending ${commentTypeStr}: `, comObj)
+            if(isReply) {
+                const replyObj: ProposedReply = {
+                    comment: comObj,
+                    parentID
+                }
+                store.sendReply(replyObj)
+            }
+            else store.sendComment(comObj)
         } else {
             console.log("Not sending comment")
         }
+        // Toggle off input field
+        showReplyInput = false
     }
 </script>
 
 <div class="newCommentField">
-    <textarea type="text" bind:value={commentText} 
-    placeholder="Send a comment" cols="30" rows="5"></textarea>
+    <textarea type="text" bind:value={commentText} placeholder="{`Send a ${commentTypeStr}`}" cols="30" rows="5" autofocus></textarea>
     <button on:click={onSendComment}>
         <img src="build/icons/sendIcon.svg" alt="send comment">
     </button>

@@ -20,8 +20,21 @@ export var Posts;
         const lead = unparsedPostData.lead;
         const content = unparsedPostData.content;
         const imageURL = path.join("build", "postImages", unparsedPostData.imageName);
-        const initialLikes = unparsedPostData.initialLikes;
-        const initialDislikes = unparsedPostData.initialDislikes;
+        const likes = [...Array(unparsedPostData.likes)].map(() => {
+            return {
+                userID: "NoOne",
+                time: new Date(),
+                parentCommentID: 0
+            };
+        });
+        const dislikes = [...Array(unparsedPostData.dislikes).keys()].map(() => {
+            return {
+                userID: "NoOne",
+                time: new Date(),
+                parentCommentID: 0
+            };
+        });
+        console.log(likes, dislikes);
         return {
             id,
             time,
@@ -29,8 +42,8 @@ export var Posts;
             lead,
             content,
             imageURL,
-            initialLikes,
-            initialDislikes
+            likes,
+            dislikes
         };
     };
 })(Posts || (Posts = {}));

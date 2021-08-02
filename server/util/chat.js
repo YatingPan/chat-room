@@ -1,14 +1,28 @@
 export var Chats;
 (function (Chats) {
     let comments = [];
+    // replies maps comment ids to an array of its replies
+    let replies = {};
+    let likes = {};
+    let dislikes = {};
     let commentID = 0;
-    const parseLike = (unparsedLike) => unparsedLike;
+    let botCommentID = -1;
+    const parseLike = (unparsedLike, startTime) => {
+        const time = new Date(startTime + unparsedLike.time * 1000);
+        const botLike = {
+            botName: unparsedLike.botName,
+            time
+        };
+        return botLike;
+    };
     function parseComment(unparsedComment, startTime) {
+        const id = botCommentID--;
         const time = new Date(startTime + unparsedComment.time * 1000);
         const replies = unparsedComment.replies?.map((reply) => parseComment(reply, startTime));
-        const likes = unparsedComment.likes?.map((like) => parseLike(like));
-        const dislikes = unparsedComment.dislikes?.map((dislike) => parseLike(dislike));
+        const likes = unparsedComment.likes?.map((like) => parseLike(like, startTime));
+        const dislikes = unparsedComment.dislikes?.map((dislike) => parseLike(dislike, startTime));
         const comment = {
+            id,
             time,
             botName: unparsedComment.botName,
             content: unparsedComment.content,
@@ -65,13 +79,124 @@ export var Chats;
             id: commentID++,
             content: proposedComment.content,
             user: proposedComment.user,
-            time: new Date(),
-            likes: [],
-            dislikes: []
+            time: new Date()
         };
         comments = [...comments, newComment];
         io.to(sendingUser.accessCode).emit('comment', newComment);
         console.log(newComment);
+    };
+    const containsUserAction = (newAction, actionsObj) => {
+        console.log(actionsObj);
+        if (actionsObj.hasOwnProperty(newAction.parentCommentID)) {
+            const actionsOnComment = actionsObj[newAction.parentCommentID];
+            const userActionIndex = actionsOnComment.findIndex((like) => like.userID === newAction.userID);
+            console.log("userAction", actionsOnComment[userActionIndex]);
+            if (-1 < userActionIndex) {
+                console.log("Already liked");
+                return true;
+            }
+        }
+        return false;
+    };
+    const addAction = (newLike, actionsObj) => {
+        if (actionsObj.hasOwnProperty(newLike.parentCommentID)) {
+            [...actionsObj[newLike.parentCommentID], newLike];
+        }
+        else {
+            actionsObj[newLike.parentCommentID] = [newLike];
+        }
+    };
+    const removeDislike = (parentCommentID, userID) => {
+        if (dislikes.hasOwnProperty(parentCommentID)) {
+            const actionsOnComment = dislikes[parentCommentID];
+            const userActionIndex = actionsOnComment.findIndex((like) => like.userID === userID);
+            if (userActionIndex > -1) {
+                actionsOnComment.splice(userActionIndex, 1);
+                dislikes = actionsOnComment;
+            }
+        }
+    };
+    const removeLike = (parentCommentID, userID) => {
+        if (likes.hasOwnProperty(parentCommentID)) {
+            const actionsOnComment = likes[parentCommentID];
+            const userActionIndex = actionsOnComment.findIndex((like) => like.userID === userID);
+            if (userActionIndex > -1) {
+                actionsOnComment.splice(userActionIndex, 1);
+                likes = actionsOnComment;
+            }
+        }
+    };
+    Chats.broadcastLike = (proposedLike, sendingUser, io) => {
+        const newLike = proposedLike;
+        const likeValid = !containsUserAction(newLike, likes);
+        if (likeValid) {
+            addAction(newLike, likes);
+            removeDislike(newLike.parentCommentID, sendingUser.user.id);
+            const actionsUpdate = {
+                parentCommentID: newLike.parentCommentID,
+                likes: likes[newLike.parentCommentID],
+                dislikes: dislikes[newLike.parentCommentID]
+            };
+            io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate);
+            console.log("actionsUpdate", actionsUpdate);
+            console.log("likes", likes);
+            console.log("dislikes", dislikes);
+        }
+    };
+    Chats.broadcastDislike = (proposedDislike, sendingUser, io) => {
+        const newDislike = proposedDislike;
+        const dislikeValid = !containsUserAction(newDislike, dislikes);
+        if (dislikeValid) {
+            addAction(newDislike, dislikes);
+            console.log("dislikes", dislikes);
+            removeLike(newDislike.parentCommentID, sendingUser.user.id);
+            const actionsUpdate = {
+                parentCommentID: newDislike.parentCommentID,
+                likes: likes[newDislike.parentCommentID],
+                dislikes: dislikes[newDislike.parentCommentID]
+            };
+            io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate);
+        }
+        console.log("newDislike", newDislike);
+        console.log("likes", likes);
+        console.log("dislikes", dislikes);
+    };
+    Chats.broadcastRevokeLike = (proposedRevokation, sendingUser, io) => {
+        const parentID = proposedRevokation.parentCommentID;
+        removeLike(parentID, sendingUser.user.id);
+        const actionsUpdate = {
+            parentCommentID: parentID,
+            likes: likes[parentID],
+            dislikes: dislikes[parentID]
+        };
+        io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate);
+    };
+    Chats.broadcastRevokeDislike = (proposedRevokation, sendingUser, io) => {
+        const parentID = proposedRevokation.parentCommentID;
+        removeDislike(parentID, sendingUser.user.id);
+        const actionsUpdate = {
+            parentCommentID: parentID,
+            likes: likes[parentID],
+            dislikes: dislikes[parentID]
+        };
+        io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate);
+    };
+    Chats.broadcastReply = (proposedReply, sendingUser, io) => {
+        const newReply = {
+            comment: {
+                id: commentID++,
+                content: proposedReply.comment.content,
+                user: proposedReply.comment.user,
+                time: new Date()
+            },
+            parentID: proposedReply.parentID
+        };
+        if (replies[proposedReply.parentID])
+            [...replies[proposedReply.parentID], newReply];
+        else
+            replies[proposedReply.parentID] = [newReply];
+        io.to(sendingUser.accessCode).emit('reply', newReply);
+        console.log(newReply);
     };
 })(Chats || (Chats = {}));
 //# sourceMappingURL=chat.js.map

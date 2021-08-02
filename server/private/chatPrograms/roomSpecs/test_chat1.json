@@ -2,6 +2,7 @@
     "roomName": "Chat Room 1",
     "startTime": "2021-07-13 20:00",
     "postName": "post1.json",
+    "duration": 15,
     "bots": [
         {
             "name": "bot1",
@@ -24,59 +25,121 @@
     ],
     "comments": [
         {
-            "userName": "bot1",
-            "time":     -10,
-            "content": "Hello from bot1 in Room 1",
+            "botName": "AnotherBot",
+            "time":     0,
+            "content": "Ciao, wenn Fangts ah?"
+        },
+        {   
+            "botName": "HalloIchBinEinBot",
+            "time":     -100,
+            "content": "Hoi!",
             "replies": [
                 {
-                    "userName": "user3",
-                    "time":     100,
-                    "content": "asdasd hello"
+                    "botName": "user3",
+                    "time":     -90,
+                    "content": "reply 1"
                 }
             ],
             "likes": [
                 {
-                    "userName": "user4",
+                    "botName": "user4",
+                    "time":     5
+                },
+                {
+                    "botName": "user2",
+                    "time":     -200
+                }
+            ],
+            "dislikes": [
+                {
+                    "botName": "user4",
                     "time":     -900
                 },
                 {
-                    "userName": "user2",
+                    "botName": "user2",
                     "time":     -200
                 }
             ]
         },
         {
-            "userName": "bot2",
-            "time":     13,
-            "content": "Hello from bot2 in Room 1",
+            "botName": "bot1",
+            "time":     -6000,
+            "content": "Hallo mitenand.",
             "replies": [
                 {
-                    "userName": "user3",
-                    "time":     100,
-                    "content": "asdasd hello"
+                    "botName": "user3",
+                    "time":     0,
+                    "content": "reply 2"
+                },
+                {
+                    "botName": "user5",
+                    "time":     0,
+                    "content": "reply 3"
                 }
             ],
             "likes": [
                 {
-                    "userName": "user4",
-                    "time":     1000
+                    "botName": "user4",
+                    "time":     -900
+                },
+                {
+                    "botName": "user2",
+                    "time":     -200
+                }
+            ],
+            "dislikes": [
+                {
+                    "botName": "user4",
+                    "time":     -900
+                },
+                {
+                    "botName": "user2",
+                    "time":     -200
                 }
             ]
         },
         {
-            "userName": "bot3",
+            "botName": "bot2",
             "time":     5,
-            "content": "Hiiii",
+            "content": "Hey, ich bin auch da!",
             "replies": [
                 {
-                    "userName": "user3",
-                    "time":     100,
-                    "content": "asdasd hello"
+                    "botName": "user3",
+                    "time":     6,
+                    "content": "reply 4"
                 }
             ],
             "likes": [
                 {
-                    "userName": "user4",
+                    "botName": "user4",
+                    "time":     1000
+                }
+            ],
+            "dislikes": [
+                {
+                    "botName": "user4",
+                    "time":     -900
+                },
+                {
+                    "botName": "user2",
+                    "time":     -200
+                }
+            ]
+        },
+        {
+            "botName": "Irgendöpper",
+            "time":     14,
+            "content": "hooi!",
+            "replies": [
+                {
+                    "botName": "user3",
+                    "time":     5,
+                    "content": "reply 7"
+                }
+            ],
+            "likes": [
+                {
+                    "botName": "user4",
                     "time":     -900
                 }
             ]

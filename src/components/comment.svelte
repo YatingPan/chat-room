@@ -1,13 +1,20 @@
 <script lang="ts">
     import moment from "moment";
     
-    import type { Comment } from "../../types/comment.type"
+    import type { Comment, Like } from "../../types/comment.type"
+    import CommentComponent from "./comment.svelte"
     import LikesDislikes from "./likeDislike.svelte";
     import SendCommentComponent from "./sendCommentComponent.svelte"
 
     export let comment: Comment
     export let myComment: Boolean = false
+    export let replies: Comment[] = []
+    export let likes: {}
+    export let dislikes: {}
+    export let isTopLevelComment: Boolean = true
     let showReplyInput: Boolean = false
+    $: thisCommentLikes = likes[comment.id] ? likes[comment.id] : []
+    $: thisCommentDislikes = dislikes[comment.id] ? dislikes[comment.id] : []
 
     const formatTime = (date: Date): string => {
         return moment(date).format("D.MM.YYYY, HH:mm")
@@ -18,9 +25,6 @@
 <article class="commentCard" class:myComment={myComment}>
     
     <header class="CommentCard_header">
-        <div class="userImage">
-            <img src="https://api.20min.ch/user/static/15@4x.1a9d6907bd8a7b66b15d3dc47dd8533469c08e25431f80e0a865d29ce4753ebc.png" alt="ManniderLibero" class="sc-1164gis-0 vWuDk">
-        </div>
         <div class="userInfo">
             <h2 class="userName">{comment?.user?.name}</h2>
             <h3 class="time">{formatTime(comment?.time)}</h3>
@@ -29,27 +33,25 @@
     <p class="text">{comment?.content}</p>
     
     <div class="actionsContainer">
-       <LikesDislikes init_likes={comment?.likes.length} init_dislikes={comment?.dislikes.length}/>
-        <div class="reply-button">
-                <a class="">
-                    <button on:click="{() => showReplyInput = !showReplyInput}">
-                        <span>Reply</span>
-                    </button>
-                </a>
+       <LikesDislikes likes={thisCommentLikes} dislikes={thisCommentDislikes} parentCommentID={comment.id}/>
+        <div class="reply-button" class:showReplyButton={isTopLevelComment}>
+            <button on:click="{() => showReplyInput = !showReplyInput}">
+                <span>Reply</span>
+            </button>
         </div>
-    
-        <!-- <div class="Likes">
-            <span class="likeIcon" style="color: rgb(91, 142, 219);"></span> 
-            <span>2 Likes</span>
+    </div>
+    {#if showReplyInput}
+        <div class="reply-input">
+            <SendCommentComponent parentID={comment.id} isReply={true} bind:showReplyInput={showReplyInput}/>
         </div>
-        <div><span>Reply</span></div> -->
-    </div>
-    <div class="reply-input" class:showReplyInput={showReplyInput}>
-        <SendCommentComponent/>
-    </div>
-    <div class="replies" class:showReplies={comment?.replies}>
-        
-    </div>
+    {/if}
+    {#if replies}  
+        <div class="repliesContrainer" class:showReplies={replies}> 
+            {#each replies as reply, i}
+                <CommentComponent comment={reply} replies={[]} isTopLevelComment={false} likes={likes} dislikes={dislikes}/>
+            {/each}
+        </div>
+    {/if}
 
 
 </article>
@@ -57,6 +59,11 @@
 <style lang="scss">
     @import "src/vars";
     
+    @keyframes newComment {
+        from { background: rgb(179, 179, 179)}
+        to   { background: white}
+    }
+
     .commentCard:last-of-type {
         border-bottom: .0625rem solid rgba(0,0,0,.15);
     }
@@ -64,40 +71,30 @@
         border-top: .0625rem solid rgba(0,0,0,.15);
         color: #1a1a1a;
         padding: 0.5rem;
+        animation: newComment 2s linear;
 
         header {
-            h1, h2 {
-                font-size: 1em;
-            }
             align-items: center;
             display: flex;
-            
-            .userImage {
-                border-radius: 50%;
-                display: inline-block;
-                height: 48px;
-                width: 48px;
-                img {
-                    height: 100%
-                }
-            }
             .userInfo {
                 margin-left: .625rem;
                 font-size: .875rem;
-                line-height: 1.125rem;
+                line-height: 1.5rem;
                 .userName {
+                    font-size: medium;
                     font-weight: 900;
                     margin: 0;
                 }
                 .time {
                     font-weight: 400;
+                    font-size: small;
                     margin: 0;
                 }
             }
         }
 
         p.text {
-            padding: 0 .625rem 0 3.625rem;
+            padding: 0 .625rem 0 0.625rem;
             font-size: 1rem;
             line-height: 1.4375rem;
         }
@@ -105,15 +102,19 @@
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            padding: 0 .625rem 0 3.625rem;
+            padding: 0 .625rem 0 0.625rem;
             align-items: center;
             
             .reply-button {
+                display: none;
                 button {
                     width: 5em;
                     background: rgb(189, 193, 248);
                     border: #1a1a1a bold 2px;
                 }
+            }
+            .reply-button.showReplyButton {
+                display: block;
             }
 
         }
@@ -123,21 +124,15 @@
             border: #1a1a1a bold 2px;
         }
 
-        .reply-input.showReplyInput {
-            display: block;
-        }
         .reply-input {
-            display: none;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            padding: 0 .625rem 0 3.625rem;
-            height: 10em;
             width: 100%;
-            .reply-text {
-                height: 90%;
-                width: 80%;
-            }
+        }
+
+        .repliesContrainer {
+            margin-left: 2rem;
         }
     }
 </style>

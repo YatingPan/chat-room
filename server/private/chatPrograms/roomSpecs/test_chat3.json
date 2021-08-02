@@ -1,0 +1,60 @@
+{   
+    "roomName": "Chat Room 1",
+    "startTime": "2021-07-13 20:00",
+    "postName": "post1.json",
+    "duration": 15,
+    "bots": [
+        {
+            "name": "bot1",
+            "moderation": [
+                {
+                    "type": "ban",
+                    "time": 100
+                }
+            ]
+        },
+        {
+            "name": "bot2",
+            "moderation": [
+                {
+                    "type": "ban",
+                    "time": 10
+                }
+            ]
+        }
+    ],
+    "comments": [
+        {   
+            "botName": "HalloIchBinEinBot",
+            "time":     -100,
+            "content": "Hoi!",
+            "replies": [
+                {
+                    "botName": "user3",
+                    "time":     -90,
+                    "content": "reply 1"
+                }
+            ],
+            "likes": [
+                {
+                    "botName": "user4",
+                    "time":     5
+                },
+                {
+                    "botName": "user2",
+                    "time":     -200
+                }
+            ],
+            "dislikes": [
+                {
+                    "botName": "user4",
+                    "time":     -900
+                },
+                {
+                    "botName": "user2",
+                    "time":     -200
+                }
+            ]
+        }
+    ]
+}

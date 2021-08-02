@@ -1,21 +1,35 @@
-import type { BotComment, BotLike, Like, UnparsedBotComment } from "../../types/comment.type"
+import type { ActionsUpdate, BotComment, BotLike, Like, ProposedReply, Reply, RevokeLike, UnparsedBotComment, UnparsedBotLike } from "../../types/comment.type"
 import type { ProposedComment, Comment } from "../../types/comment.type"
 import type { UserExtended } from "../../types/user.type"
 
 export module Chats {
 
     let comments: Comment[] = []
+    // replies maps comment ids to an array of its replies
+    let replies = {}
+    let likes = {}
+    let dislikes = {}
     let commentID = 0
+    let botCommentID = -1
 
-    const parseLike = (unparsedLike: BotLike): BotLike => unparsedLike
+    const parseLike = (unparsedLike: UnparsedBotLike, startTime: number): BotLike => {
+        const time = new Date(startTime + unparsedLike.time * 1000)
+        const botLike: BotLike = {
+            botName: unparsedLike.botName,
+            time
+        }
+        return botLike
+    }
 
     export function parseComment(unparsedComment: UnparsedBotComment, startTime: number): BotComment {
+        const id = botCommentID--
         const time = new Date(startTime + unparsedComment.time * 1000)
         const replies = unparsedComment.replies?.map((reply: UnparsedBotComment) => parseComment(reply, startTime))
-        const likes = unparsedComment.likes?.map((like: BotLike) => parseLike(like))
-        const dislikes = unparsedComment.dislikes?.map((dislike: BotLike) => parseLike(dislike))
+        const likes = unparsedComment.likes?.map((like: UnparsedBotLike) => parseLike(like, startTime))
+        const dislikes = unparsedComment.dislikes?.map((dislike: UnparsedBotLike) => parseLike(dislike, startTime))
         
         const comment: BotComment = {
+            id,
             time,
             botName: unparsedComment.botName,
             content: unparsedComment.content,
@@ -73,14 +87,140 @@ export module Chats {
             id: commentID++,
             content: proposedComment.content,
             user: proposedComment.user,
-            time: new Date(),
-            likes: [],
-            dislikes: []
+            time: new Date()
         }
         comments = [... comments, newComment]
 
         io.to(sendingUser.accessCode).emit('comment', newComment)
         console.log(newComment)
     }
+
+    const containsUserAction = (newAction: Like, actionsObj): Boolean => {
+        console.log(actionsObj)
+        if (actionsObj.hasOwnProperty(newAction.parentCommentID)){
+            const actionsOnComment: Like[] = actionsObj[newAction.parentCommentID]
+            const userActionIndex = actionsOnComment.findIndex((like: Like) => like.userID === newAction.userID)
+            console.log("userAction", actionsOnComment[userActionIndex])
+            if(-1 < userActionIndex) {
+                console.log("Already liked")
+                return true
+            }
+        } 
+
+        return false
+    }
+    const addAction = (newLike: Like, actionsObj) => {
+        if (actionsObj.hasOwnProperty(newLike.parentCommentID)){
+            [... actionsObj[newLike.parentCommentID], newLike]
+        } else{
+            actionsObj[newLike.parentCommentID] = [newLike]
+        }
+    }
+    const removeDislike = (parentCommentID: number, userID: string) => { 
+        if (dislikes.hasOwnProperty(parentCommentID)){
+            const actionsOnComment: Like[] = dislikes[parentCommentID]
+            const userActionIndex = actionsOnComment.findIndex((like: Like) => like.userID === userID)
+            if (userActionIndex > -1) {
+                actionsOnComment.splice(userActionIndex, 1);
+                dislikes = actionsOnComment
+            }
+        }
+    }
+    const removeLike = (parentCommentID: number, userID: string) => { 
+        if (likes.hasOwnProperty(parentCommentID)){
+            const actionsOnComment: Like[] = likes[parentCommentID]
+            const userActionIndex = actionsOnComment.findIndex((like: Like) => like.userID === userID)
+            if (userActionIndex > -1) {
+                actionsOnComment.splice(userActionIndex, 1);
+                likes = actionsOnComment
+            }
+        }
+    }
+    
+    export const broadcastLike = (proposedLike: Like, sendingUser: UserExtended, io): void => {
+        const newLike: Like = proposedLike
+        const likeValid: Boolean = !containsUserAction(newLike, likes)
+
+        if(likeValid) {
+            addAction(newLike, likes)
+            removeDislike(newLike.parentCommentID, sendingUser.user.id)
+            
+            const actionsUpdate: ActionsUpdate = {
+                parentCommentID: newLike.parentCommentID,
+                likes: likes[newLike.parentCommentID],
+                dislikes: dislikes[newLike.parentCommentID]
+            }
+
+            io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate)
+            console.log("actionsUpdate", actionsUpdate)
+            console.log("likes", likes)
+            console.log("dislikes", dislikes)
+        }
+    }
+    export const broadcastDislike = (proposedDislike: Like, sendingUser: UserExtended, io): void => {
+        const newDislike: Like = proposedDislike
+        const dislikeValid: Boolean = !containsUserAction(newDislike, dislikes)
+
+        if(dislikeValid) {
+            addAction(newDislike, dislikes)
+            console.log("dislikes", dislikes)
+            removeLike(newDislike.parentCommentID, sendingUser.user.id)
+
+            const actionsUpdate: ActionsUpdate = {
+                parentCommentID: newDislike.parentCommentID,
+                likes: likes[newDislike.parentCommentID],
+                dislikes: dislikes[newDislike.parentCommentID]
+            }
+
+            io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate)
+        }
+
+        console.log("newDislike", newDislike)
+        console.log("likes", likes)
+        console.log("dislikes", dislikes)
+    }
+    export const broadcastRevokeLike = (proposedRevokation: RevokeLike, sendingUser: UserExtended, io) => {
+        const parentID = proposedRevokation.parentCommentID
+        removeLike(parentID, sendingUser.user.id)
+
+        const actionsUpdate: ActionsUpdate = {
+            parentCommentID: parentID,
+            likes: likes[parentID],
+            dislikes: dislikes[parentID]
+        }
+
+        io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate)
+    }
+    export const broadcastRevokeDislike = (proposedRevokation: RevokeLike, sendingUser: UserExtended, io) => {
+        const parentID = proposedRevokation.parentCommentID
+        removeDislike(parentID, sendingUser.user.id)
+
+        const actionsUpdate: ActionsUpdate = {
+            parentCommentID: parentID,
+            likes: likes[parentID],
+            dislikes: dislikes[parentID]
+        }
+
+        io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate)
+    }
+    export const broadcastReply = (proposedReply: ProposedReply, sendingUser: UserExtended, io): void => {
+        const newReply: Reply = {
+            comment: {
+                id: commentID++,
+                content: proposedReply.comment.content,
+                user: proposedReply.comment.user,
+                time: new Date()
+            },
+            parentID: proposedReply.parentID
+        }
+        if (replies[proposedReply.parentID])
+            [... replies[proposedReply.parentID], newReply]
+        else
+            replies[proposedReply.parentID] = [newReply]
+
+        io.to(sendingUser.accessCode).emit('reply', newReply)
+        console.log(newReply)
+    }
 }
+
 

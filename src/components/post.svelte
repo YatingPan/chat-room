@@ -2,8 +2,7 @@
     import LikesDislikes from "./likeDislike.svelte";
     import { onMount } from "svelte";
     import  store from "../stores/store";
-    import type { Post } from "../../types/post.type";
-    import type { RoomData } from "../../types/user.type";
+    import type { RoomData, Post } from "../../types/room.type";
     import moment from "moment";
 
     //const bgImage = "build/Material/images/testImage.jpg"
@@ -34,7 +33,8 @@
                 <span>{formatTime(post?.time)}</span>
             </div>
             <div class="actionsContainer">
-                <LikesDislikes init_likes={post?.initialLikes} init_dislikes={post?.initialDislikes}/>
+                <!-- TODO fix likes and dislikes -->
+                <LikesDislikes parentIsComment={false} likes={post?.likes} dislikes={post?.dislikes}/>
             </div>
         </div>
         <div class="text">{post?.content}</div>
