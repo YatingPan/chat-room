@@ -34,18 +34,15 @@ export module Posts {
         const likes: Like[] = [... Array(unparsedPostData.likes)].map((): Like => { 
             return {
                 userID: "NoOne",
-                time: new Date(),
-                parentCommentID: 0
+                time: new Date()
             }
         })
         const dislikes: Like[] = [... Array(unparsedPostData.dislikes).keys()].map((): Like => { 
             return {
                 userID: "NoOne",
-                time: new Date(),
-                parentCommentID: 0
+                time: new Date()
             }
         })
-        console.log(likes, dislikes)
         return {
             id,
             time,

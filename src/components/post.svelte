@@ -4,14 +4,28 @@
     import  store from "../stores/store";
     import type { RoomData, Post } from "../../types/room.type";
     import moment from "moment";
+    import type { ActionsUpdate, Like } from "../../types/comment.type";
 
     //const bgImage = "build/Material/images/testImage.jpg"
     let post: Post = null
+    let likes: Like[] 
+    let dislikes: Like[]
     $: headerImageURL = `../build/postImages/${post?.imageName}`
 
     onMount(() => {
         store.roomStore.subscribe((assignedRoom: RoomData) => {
-            if(assignedRoom?.post) post = assignedRoom.post
+            if(assignedRoom?.post) {
+                post = assignedRoom.post
+                likes = post?.likes
+                dislikes = post?.dislikes
+            }
+        })
+
+        store.actionsStore.subscribe((actionsUpdate: ActionsUpdate) => {
+            if(actionsUpdate && actionsUpdate.parentCommentID == 0) {
+                likes = actionsUpdate.likes
+                dislikes = actionsUpdate.dislikes
+            }
         })
     })
     const formatTime = (date: Date): string => {
@@ -35,7 +49,7 @@
             </div>
             <div class="actionsContainer">
                 <!-- TODO fix likes and dislikes -->
-                <LikesDislikes parentIsComment={false} likes={post?.likes} dislikes={post?.dislikes}/>
+                <LikesDislikes likes={likes} dislikes={dislikes} parentCommentID={0}/>
             </div>
         </div>
         <div class="text">{post?.content}</div>

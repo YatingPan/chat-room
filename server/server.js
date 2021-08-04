@@ -73,25 +73,10 @@ io.on("connection", socket => {
         const sendingUser = Users.getUserFromID(proposedReply.comment.user.id);
         Chats.broadcastReply(proposedReply, sendingUser, io);
     });
-    socket.on("broadcastLike", (proposedLike) => {
-        console.log(proposedLike);
-        const sendingUser = Users.getUserFromID(proposedLike.userID);
-        Chats.broadcastLike(proposedLike, sendingUser, io);
-    });
-    socket.on("broadcastDislike", (proposedDislike) => {
-        console.log(proposedDislike);
-        const sendingUser = Users.getUserFromID(proposedDislike.userID);
-        Chats.broadcastDislike(proposedDislike, sendingUser, io);
-    });
-    socket.on("broadcastRevoceLike", (proposedRevokation) => {
-        console.log(proposedRevokation);
-        const sendingUser = Users.getUserFromID(proposedRevokation.userID);
-        Chats.broadcastRevokeLike(proposedRevokation, sendingUser, io);
-    });
-    socket.on("broadcastRevoceDislike", (proposedRevokation) => {
-        console.log(proposedRevokation);
-        const sendingUser = Users.getUserFromID(proposedRevokation.userID);
-        Chats.broadcastRevokeDislike(proposedRevokation, sendingUser, io);
+    socket.on("broadcastActionsUpdate", (proposedActionsUpdate) => {
+        console.log(proposedActionsUpdate);
+        const sendingUser = Users.getUserFromID(proposedActionsUpdate.senderID);
+        Chats.broadcastActionsUpdate(proposedActionsUpdate, sendingUser, io);
     });
     socket.on("disconnect", () => {
         io.emit('userDisconnect', "A user has left the chat");

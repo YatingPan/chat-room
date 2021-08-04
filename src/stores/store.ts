@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
-import { writable, readable, Writable, Readable } from "svelte/store";
-import type { ActionsUpdate, Comment, Like, ProposedComment, ProposedReply, Reply, RevokeLike } from "../../types/comment.type"
+import { writable, Writable } from "svelte/store";
+import type { ActionsUpdate, Comment, ProposedComment, ProposedReply, Reply } from "../../types/comment.type"
 import type { RoomData } from "../../types/room.type";
 import type { UserAssignment, User, AccessInfo, UserExtended } from "../../types/user.type";
 
@@ -88,18 +88,9 @@ const sendReply = (newReply: ProposedReply) => {
 	socket.emit("broadcastReply", newReply)
 }
 
-const sendLike= (newLike: Like) => {
-	socket.emit("broadcastLike", newLike)
-}
-const sendDislike= (newDislike: Like) => {
-	socket.emit("broadcastDislike", newDislike)
-}
-
-const sendRevokeLike = (newLike: RevokeLike) => {
-	socket.emit("broadcastRevoceLike", newLike)
-}
-const sendRevokeDislike = (newDislike: RevokeLike) => {
-	socket.emit("broadcastRevoceDislike", newDislike)
+const sendActionsUpdate= (newActionsUpdate: ActionsUpdate) => {
+	console.log("newActionsUpdate: ", newActionsUpdate)
+	socket.emit("broadcastActionsUpdate", newActionsUpdate)
 }
 
 export default {
@@ -107,10 +98,7 @@ export default {
 	replyStore,
 	sendComment,
 	sendReply,
-	sendLike,
-	sendRevokeLike,
-	sendDislike,
-	sendRevokeDislike,
+	sendActionsUpdate,
 	actionsStore,
 	roomStore,
 	userStore

@@ -67,27 +67,16 @@ const sendComment = (newComment) => {
 const sendReply = (newReply) => {
     socket.emit("broadcastReply", newReply);
 };
-const sendLike = (newLike) => {
-    socket.emit("broadcastLike", newLike);
-};
-const sendDislike = (newDislike) => {
-    socket.emit("broadcastDislike", newDislike);
-};
-const sendRevokeLike = (newLike) => {
-    socket.emit("broadcastRevoceLike", newLike);
-};
-const sendRevokeDislike = (newDislike) => {
-    socket.emit("broadcastRevoceDislike", newDislike);
+const sendActionsUpdate = (newActionsUpdate) => {
+    console.log("newActionsUpdate: ", newActionsUpdate);
+    socket.emit("broadcastActionsUpdate", newActionsUpdate);
 };
 export default {
     commentStore,
     replyStore,
     sendComment,
     sendReply,
-    sendLike,
-    sendRevokeLike,
-    sendDislike,
-    sendRevokeDislike,
+    sendActionsUpdate,
     actionsStore,
     roomStore,
     userStore

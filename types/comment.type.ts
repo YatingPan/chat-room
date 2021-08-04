@@ -8,14 +8,10 @@ export type BotLike = {
 export type Like = {
     userID: string
     time: Date
-    parentCommentID: number
-}
-export type RevokeLike = {
-    userID: string
-    parentCommentID: number
 }
 
 export type ActionsUpdate = {
+    senderID: string
     parentCommentID: number
     likes: Like[]
     dislikes: Like[]

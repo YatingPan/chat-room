@@ -15,28 +15,26 @@
     let likes = {};
     let dislikes = {};
         
-    const addLike = (newLike: Like) => {
-        if(likes[newLike.parentCommentID]) {
-            likes[newLike.parentCommentID] = [... likes[newLike.parentCommentID], newLike]
+    const addLike = (newLike: Like, parentCommentID: number) => {
+        if(likes[parentCommentID]) {
+            likes[parentCommentID] = [... likes[parentCommentID], newLike]
         } else { 
-            likes[newLike.parentCommentID] = [newLike]
+            likes[parentCommentID] = [newLike]
         }
         console.log(likes)
     }
-    const addDislike = (newDislike: Like) => {
-        if(dislikes[newDislike.parentCommentID]) {
-            dislikes[newDislike.parentCommentID] = [... dislikes[newDislike.parentCommentID], newDislike]
+    const addDislike = (newDislike: Like, parentCommentID: number) => {
+        if(dislikes[parentCommentID]) {
+            dislikes[parentCommentID] = [... dislikes[parentCommentID], newDislike]
         } else {
-            dislikes[newDislike.parentCommentID] = [newDislike]
+            dislikes[parentCommentID] = [newDislike]
         }
     }
     const updateLikes = (commentID: number, updates: Like[]) => {
         likes[commentID] = updates
-        console.log(likes)
     }
     const updateDislikes = (commentID: number, updates: Like[]) => {
         dislikes[commentID] = updates
-        console.log(dislikes)
     }
     const addReply = (newReply: Reply) => {
         if(replies[newReply.parentID]) 
@@ -46,7 +44,6 @@
     }
     const botLikeToLike = (botDislike: BotLike, parentCommentID: number): Like => {
         return {
-            parentCommentID,
             userID: botDislike.botName,
             time: new Date(botDislike.time)
         }
@@ -65,37 +62,16 @@
         return newComment
     }
 
-    const sendAutoLike = (newLike: Like) => {
-        // const likes = autoComment?.likes?.map((botLike: BotLike) => botLikeToLike(botLike, autoComment.id))
-        // const dislikes = autoComment?.dislikes?.map((botDislike: BotLike) => botLikeToLike(botDislike, autoComment.id))
-        addLike(newLike)
-    }
-    const sendAutoDislike = (newDislike: Like) => {
-        // const likes = autoComment?.likes?.map((botLike: BotLike) => botLikeToLike(botLike, autoComment.id))
-        // const dislikes = autoComment?.dislikes?.map((botDislike: BotLike) => botLikeToLike(botDislike, autoComment.id))
-        addDislike(newDislike)
-    }
-
-    const sendAutoComment = (newComment: Comment) => {
+    const addComment = (newComment: Comment) => {
         comments = [... comments, newComment]
     }
 
-    const sendAutoReply = (newReply: Reply) => {
-        console.log("Sending auto Reply", newReply)
-        addReply(newReply)
-        // if(replies[parentCommentID])
-        //     $: replies[parentCommentID] = [... replies[parentCommentID], newReply]
-        // else
-        //     $: replies[parentCommentID] = [newReply]
-    }
-
-    const send = (time: Date, callback, ...args) => {
+    const autoSend = (time: Date, callback, ...args) => {
         const timetarget = time.getTime();
         const timenow =  new Date().getTime();
         const offsetmilliseconds = timetarget - timenow;
         
         
-        console.log("xxxSending", args)
         if (offsetmilliseconds > 0) setTimeout(() => callback.apply(this, args), offsetmilliseconds)
         else callback.apply(this, args)
     }
@@ -128,7 +104,7 @@
                 comms.map((autoComment: BotComment) => {
                     
                     const newComment = generateComment(autoComment)
-                    send(newComment.time, sendAutoComment, newComment)
+                    autoSend(newComment.time, addComment, newComment)
                     
                     if(autoComment.replies) {
                         for(let reply of autoComment.replies) {
@@ -137,19 +113,19 @@
                                 comment: generateComment(reply)
                             }
                             console.log("Sending... ", newReply)
-                            send(newReply.comment.time, sendAutoReply, newReply)
+                            autoSend(newReply.comment.time, addReply, newReply)
                         }
                     }
                     if(autoComment.likes) {
                         for(let like of autoComment.likes) {
                             const newLike = botLikeToLike(like, autoComment.id)
-                            send(newLike.time, sendAutoLike, newLike)
+                            autoSend(newLike.time, addLike, newLike, autoComment.id)
                         }
                     }
                     if(autoComment.dislikes) {
                         for(let dislike of autoComment.dislikes) {
                             const newDislike = botLikeToLike(dislike, autoComment.id)
-                            send(newDislike.time, sendAutoDislike, newDislike)
+                            autoSend(newDislike.time, addDislike, newDislike)
                         }
                     }
                 })

@@ -1,6 +1,6 @@
 'use strict';
 import type { UserAssignment, AccessInfo, User, UserExtended } from "../types/user.type"
-import type { Comment, Like, ProposedComment, ProposedReply, RevokeLike} from "../types/comment.type"
+import type { ActionsUpdate, Comment, Like, ProposedComment, ProposedReply} from "../types/comment.type"
 import { Rooms } from "./util/room.js";
 import { Users } from "./util/users.js";
 import { Chats } from "./util/chat.js";
@@ -94,29 +94,11 @@ io.on("connection", socket => {
     
     Chats.broadcastReply(proposedReply, sendingUser, io)
   })
-  socket.on("broadcastLike", (proposedLike: Like) => {
-    console.log(proposedLike)
-    const sendingUser: UserExtended = Users.getUserFromID(proposedLike.userID)
+  socket.on("broadcastActionsUpdate", (proposedActionsUpdate: ActionsUpdate) => {
+    console.log(proposedActionsUpdate)
+    const sendingUser: UserExtended = Users.getUserFromID(proposedActionsUpdate.senderID)
     
-    Chats.broadcastLike(proposedLike, sendingUser, io)
-  })
-  socket.on("broadcastDislike", (proposedDislike: Like) => {
-    console.log(proposedDislike)
-    const sendingUser: UserExtended = Users.getUserFromID(proposedDislike.userID)
-    
-    Chats.broadcastDislike(proposedDislike, sendingUser, io)
-  })
-  socket.on("broadcastRevoceLike", (proposedRevokation: RevokeLike) => {
-    console.log(proposedRevokation)
-    const sendingUser: UserExtended = Users.getUserFromID(proposedRevokation.userID)
-    
-    Chats.broadcastRevokeLike(proposedRevokation, sendingUser, io)
-  })
-  socket.on("broadcastRevoceDislike", (proposedRevokation: RevokeLike) => {
-    console.log(proposedRevokation)
-    const sendingUser: UserExtended = Users.getUserFromID(proposedRevokation.userID)
-    
-    Chats.broadcastRevokeDislike(proposedRevokation, sendingUser, io)
+    Chats.broadcastActionsUpdate(proposedActionsUpdate, sendingUser, io)
   })
   
   socket.on("disconnect", () => {
@@ -130,5 +112,4 @@ io.on("connection", socket => {
 // }
 // test()
 //startCron()
-
 

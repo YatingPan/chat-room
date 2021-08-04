@@ -85,102 +85,106 @@ export var Chats;
         io.to(sendingUser.accessCode).emit('comment', newComment);
         console.log(newComment);
     };
-    const containsUserAction = (newAction, actionsObj) => {
-        console.log(actionsObj);
-        if (actionsObj.hasOwnProperty(newAction.parentCommentID)) {
-            const actionsOnComment = actionsObj[newAction.parentCommentID];
-            const userActionIndex = actionsOnComment.findIndex((like) => like.userID === newAction.userID);
-            console.log("userAction", actionsOnComment[userActionIndex]);
-            if (-1 < userActionIndex) {
-                console.log("Already liked");
-                return true;
-            }
-        }
-        return false;
-    };
-    const addAction = (newLike, actionsObj) => {
-        if (actionsObj.hasOwnProperty(newLike.parentCommentID)) {
-            [...actionsObj[newLike.parentCommentID], newLike];
-        }
-        else {
-            actionsObj[newLike.parentCommentID] = [newLike];
-        }
-    };
-    const removeDislike = (parentCommentID, userID) => {
-        if (dislikes.hasOwnProperty(parentCommentID)) {
-            const actionsOnComment = dislikes[parentCommentID];
-            const userActionIndex = actionsOnComment.findIndex((like) => like.userID === userID);
-            if (userActionIndex > -1) {
-                actionsOnComment.splice(userActionIndex, 1);
-                dislikes = actionsOnComment;
-            }
-        }
-    };
-    const removeLike = (parentCommentID, userID) => {
-        if (likes.hasOwnProperty(parentCommentID)) {
-            const actionsOnComment = likes[parentCommentID];
-            const userActionIndex = actionsOnComment.findIndex((like) => like.userID === userID);
-            if (userActionIndex > -1) {
-                actionsOnComment.splice(userActionIndex, 1);
-                likes = actionsOnComment;
-            }
-        }
-    };
-    Chats.broadcastLike = (proposedLike, sendingUser, io) => {
-        const newLike = proposedLike;
-        const likeValid = !containsUserAction(newLike, likes);
-        if (likeValid) {
-            addAction(newLike, likes);
-            removeDislike(newLike.parentCommentID, sendingUser.user.id);
-            const actionsUpdate = {
-                parentCommentID: newLike.parentCommentID,
-                likes: likes[newLike.parentCommentID],
-                dislikes: dislikes[newLike.parentCommentID]
-            };
-            io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate);
-            console.log("actionsUpdate", actionsUpdate);
-            console.log("likes", likes);
-            console.log("dislikes", dislikes);
-        }
-    };
-    Chats.broadcastDislike = (proposedDislike, sendingUser, io) => {
-        const newDislike = proposedDislike;
-        const dislikeValid = !containsUserAction(newDislike, dislikes);
-        if (dislikeValid) {
-            addAction(newDislike, dislikes);
-            console.log("dislikes", dislikes);
-            removeLike(newDislike.parentCommentID, sendingUser.user.id);
-            const actionsUpdate = {
-                parentCommentID: newDislike.parentCommentID,
-                likes: likes[newDislike.parentCommentID],
-                dislikes: dislikes[newDislike.parentCommentID]
-            };
-            io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate);
-        }
-        console.log("newDislike", newDislike);
-        console.log("likes", likes);
-        console.log("dislikes", dislikes);
-    };
-    Chats.broadcastRevokeLike = (proposedRevokation, sendingUser, io) => {
-        const parentID = proposedRevokation.parentCommentID;
-        removeLike(parentID, sendingUser.user.id);
-        const actionsUpdate = {
-            parentCommentID: parentID,
-            likes: likes[parentID],
-            dislikes: dislikes[parentID]
-        };
+    // const containsUserAction = (newAction: Like, actionsObj): Boolean => {
+    //     console.log(actionsObj)
+    //     if (actionsObj.hasOwnProperty(newAction.parentCommentID)){
+    //         const actionsOnComment: Like[] = actionsObj[newAction.parentCommentID]
+    //         const userActionIndex = actionsOnComment.findIndex((like: Like) => like.userID === newAction.userID)
+    //         console.log("userAction", actionsOnComment[userActionIndex])
+    //         if(-1 < userActionIndex) {
+    //             console.log("Already liked")
+    //             return true
+    //         }
+    //     } 
+    //     return false
+    // }
+    // const addAction = (newLike: Like, actionsObj) => {
+    //     if (actionsObj.hasOwnProperty(newLike.parentCommentID)){
+    //         [... actionsObj[newLike.parentCommentID], newLike]
+    //     } else{
+    //         actionsObj[newLike.parentCommentID] = [newLike]
+    //     }
+    // }
+    // const removeDislike = (parentCommentID: number, userID: string) => { 
+    //     if (dislikes.hasOwnProperty(parentCommentID)){
+    //         const actionsOnComment: Like[] = dislikes[parentCommentID]
+    //         const userActionIndex = actionsOnComment.findIndex((like: Like) => like.userID === userID)
+    //         if (userActionIndex > -1) {
+    //             actionsOnComment.splice(userActionIndex, 1);
+    //             dislikes = actionsOnComment
+    //         }
+    //     }
+    // }
+    // const removeLike = (parentCommentID: number, userID: string) => { 
+    //     if (likes.hasOwnProperty(parentCommentID)){
+    //         const actionsOnComment: Like[] = likes[parentCommentID]
+    //         const userActionIndex = actionsOnComment.findIndex((like: Like) => like.userID === userID)
+    //         if (userActionIndex > -1) {
+    //             actionsOnComment.splice(userActionIndex, 1);
+    //             likes = actionsOnComment
+    //         }
+    //     }
+    // }
+    function broadcastActionsUpdate(actionsUpdate, sendingUser, io) {
         io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate);
-    };
-    Chats.broadcastRevokeDislike = (proposedRevokation, sendingUser, io) => {
-        const parentID = proposedRevokation.parentCommentID;
-        removeDislike(parentID, sendingUser.user.id);
-        const actionsUpdate = {
-            parentCommentID: parentID,
-            likes: likes[parentID],
-            dislikes: dislikes[parentID]
-        };
-        io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate);
-    };
+        console.log(actionsUpdate);
+    }
+    Chats.broadcastActionsUpdate = broadcastActionsUpdate;
+    // export const broadcastLike = (proposedLike: Like, sendingUser: UserExtended, io): void => {
+    //     const newLike: Like = proposedLike
+    //     const likeValid: Boolean = !containsUserAction(newLike, likes)
+    //     if(likeValid) {
+    //         addAction(newLike, likes)
+    //         removeDislike(newLike.parentCommentID, sendingUser.user.id)
+    //         const actionsUpdate: ActionsUpdate = {
+    //             parentCommentID: newLike.parentCommentID,
+    //             likes: likes[newLike.parentCommentID],
+    //             dislikes: dislikes[newLike.parentCommentID]
+    //         }
+    //         io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate)
+    //         console.log("actionsUpdate", actionsUpdate)
+    //         console.log("likes", likes)
+    //         console.log("dislikes", dislikes)
+    //     }
+    // }
+    // export const broadcastDislike = (proposedDislike: Like, sendingUser: UserExtended, io): void => {
+    //     const newDislike: Like = proposedDislike
+    //     const dislikeValid: Boolean = !containsUserAction(newDislike, dislikes)
+    //     if(dislikeValid) {
+    //         addAction(newDislike, dislikes)
+    //         console.log("dislikes", dislikes)
+    //         removeLike(newDislike.parentCommentID, sendingUser.user.id)
+    //         const actionsUpdate: ActionsUpdate = {
+    //             parentCommentID: newDislike.parentCommentID,
+    //             likes: likes[newDislike.parentCommentID],
+    //             dislikes: dislikes[newDislike.parentCommentID]
+    //         }
+    //         io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate)
+    //     }
+    //     console.log("newDislike", newDislike)
+    //     console.log("likes", likes)
+    //     console.log("dislikes", dislikes)
+    // }
+    // export const broadcastRevokeLike = (proposedRevokation: RevokeLike, sendingUser: UserExtended, io) => {
+    //     const parentID = proposedRevokation.parentCommentID
+    //     removeLike(parentID, sendingUser.user.id)
+    //     const actionsUpdate: ActionsUpdate = {
+    //         parentCommentID: parentID,
+    //         likes: likes[parentID],
+    //         dislikes: dislikes[parentID]
+    //     }
+    //     io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate)
+    // }
+    // export const broadcastRevokeDislike = (proposedRevokation: RevokeLike, sendingUser: UserExtended, io) => {
+    //     const parentID = proposedRevokation.parentCommentID
+    //     removeDislike(parentID, sendingUser.user.id)
+    //     const actionsUpdate: ActionsUpdate = {
+    //         parentCommentID: parentID,
+    //         likes: likes[parentID],
+    //         dislikes: dislikes[parentID]
+    //     }
+    //     io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate)
+    // }
     Chats.broadcastReply = (proposedReply, sendingUser, io) => {
         const newReply = {
             comment: {

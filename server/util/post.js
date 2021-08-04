@@ -23,15 +23,13 @@ export var Posts;
         const likes = [...Array(unparsedPostData.likes)].map(() => {
             return {
                 userID: "NoOne",
-                time: new Date(),
-                parentCommentID: 0
+                time: new Date()
             };
         });
         const dislikes = [...Array(unparsedPostData.dislikes).keys()].map(() => {
             return {
                 userID: "NoOne",
-                time: new Date(),
-                parentCommentID: 0
+                time: new Date()
             };
         });
         console.log(likes, dislikes);

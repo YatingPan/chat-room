@@ -1,48 +1,69 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import type { Like, RevokeLike } from "../../types/comment.type";
+    import type { ActionsUpdate, Like } from "../../types/comment.type";
     import type { User, UserExtended } from "../../types/user.type";
     import store from "../stores/store";
 
     export let likes : Like[]
     export let dislikes : Like[]
-    export let parentIsComment = true
-    export let parentCommentID: number = null
+    export let parentCommentID: number
     let user: User
     $: likeNr = likes ? likes.length : 0
     $: dislikeNr = dislikes ? dislikes.length : 0
-    $: iLiked = false
-    $: iDisliked = false
+    $: iLiked = likeNr > 0 && -1 < likes.findIndex((like: Like) => like?.userID === user?.id) 
+    $: iDisliked = dislikeNr > 0 && -1 < dislikes.findIndex((dislike: Like) => dislike?.userID === user?.id) 
 
-    const generateLike = (parentCommentID: number): Like=> {
+    const generateLike = (): Like => {
+        return {
+            userID: user.id,
+            time: new Date()
+        }
+    }    
+    const removeActionByUserID = (actionsList: Like[], userID): Like[] => {
+        const userActionIndex = actionsList.findIndex((like: Like) => like.userID === userID)
+        if (userActionIndex > -1) {
+            actionsList.splice(userActionIndex, 1);
+        }
+        return actionsList
+    }
 
-        const newLike: Like = {
-            userID: user.id,
-            time: new Date(),
-            parentCommentID
-        }
-        return newLike
-    }
-    const generateRevokeLike = (parentCommentID: number): RevokeLike => {
-        const newLike: RevokeLike = {
-            userID: user.id,
-            parentCommentID
-        }
-        return newLike
-    }
-    
     const like = () => {
-        iLiked = !iLiked
-        iDisliked = false
-
-        if(iLiked) store.sendLike(generateLike(parentCommentID))
-        else store.sendRevokeLike(generateRevokeLike(parentCommentID))
+        if(!iLiked) {
+            const newActionsUpdate: ActionsUpdate = {
+                senderID: user.id,
+                parentCommentID: parentCommentID,
+                likes: [... likes, generateLike()],
+                dislikes: removeActionByUserID(dislikes, user.id)
+            }
+            store.sendActionsUpdate(newActionsUpdate)
+        } else {
+            const newActionsUpdate: ActionsUpdate = {
+                senderID: user.id,
+                parentCommentID: parentCommentID,
+                likes: removeActionByUserID(likes, user.id),
+                dislikes
+            }
+            store.sendActionsUpdate(newActionsUpdate)
+        }
     }
     const dislike = () => {
-        iDisliked = !iDisliked
-        iLiked = false
-        if(iDisliked) store.sendDislike(generateLike(parentCommentID))
-        else store.sendRevokeDislike(generateRevokeLike(parentCommentID))
+        if(!iDisliked) {
+            const newActionsUpdate: ActionsUpdate = {
+                senderID: user.id,
+                parentCommentID: parentCommentID,
+                likes: removeActionByUserID(likes, user.id),
+                dislikes: [... dislikes, generateLike()]
+            }
+            store.sendActionsUpdate(newActionsUpdate)
+        } else {
+            const newActionsUpdate: ActionsUpdate = {
+                senderID: user.id,
+                parentCommentID: parentCommentID,
+                likes,
+                dislikes: removeActionByUserID(dislikes, user.id)
+            }
+            store.sendActionsUpdate(newActionsUpdate)
+        }
     }
 
     onMount(() => {

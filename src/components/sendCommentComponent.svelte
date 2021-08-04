@@ -2,7 +2,7 @@
 import { onMount } from "svelte";
 
     import type { ProposedComment, ProposedReply } from "../../types/comment.type"
-    import type { User, UserExtended } from "../../types/user.type";
+    import type { User } from "../../types/user.type";
 
     import  store from "../stores/store";
 
@@ -17,10 +17,6 @@ import { onMount } from "svelte";
             user = usr?.user
         })
     })
-    const focus = input => {
-        console.log(input)
-        input.focus()
-    }
     let commentText: string = "";
     
     const onSendComment = () => {
