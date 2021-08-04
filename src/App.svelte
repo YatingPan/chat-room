@@ -1,44 +1,32 @@
 <script lang="ts">
-	import { Router, Link, Route } from "svelte-routing";
-    import { onMount } from "svelte";
-    import  store from "./stores/store";
-    import type { Comment, ProposedComment } from "../types/comment.type";
-    import type { RoomData, User, UserExtended } from "../types/user.type";
-    import ChatRoom from "./components/chatRoom.svelte";
+	import { Router, Route } from "svelte-routing";
+    import ChatRoom from "./pages/chatRoom/chatRoom.svelte";
+    import WelcomePage from "./pages/welcomePage/welcomePage.svelte";
     import Post from "./components/post.svelte";
 
-	// export let url = "";
-    let user: UserExtended;
-    let room: RoomData;
-
-   
-    onMount(() => {
-
-        store.userStore.subscribe(userData => {
-            user = userData
-        })
-
-        store.roomStore.subscribe((roomData: RoomData) => {
-            room = roomData
-        })
-    })
+	export let url = "";
     
 </script>
 <main>
-    <div id="topboard">
-        Welcome to {room?.name}
-    </div>
 
 	<div class="content">
-        
-        <Post></Post>
-        <ChatRoom user={user} />
+        <Router url="{url}" >
+			<Route path="/:accessCode/room"let:params>
+                <!-- <span>access code: {params.accessCode} </span> -->
+                <Post></Post> 
+				 <ChatRoom/>
+			</Route>
+			<Route path="/:accessCode" let:params>
+                <!-- <span>access code: {params.accessCode} </span> -->
+				<WelcomePage/>
+			</Route>
+		</Router>
 
     </div>
 
-    <div id="footer">
+    <footer class="footer">
         <span>Chat Room &copy; 2021 </span>
-    </div>
+    </footer>
    
 </main>
 
@@ -54,5 +42,7 @@
         padding: 0;
     }
 
-  
+    footer {
+        margin: 1rem;
+    }
 </style>

@@ -3,7 +3,6 @@ import type { Post, UnparsedPost } from "../../types/room.type";
 import path from "path";
 import crypt from 'crypto';
 import fs  from 'fs';
-import type { URL } from "url";
 import type { Like } from "../../types/comment.type";
 
 const __dirname = path.resolve();
@@ -31,7 +30,7 @@ export module Posts {
         const title: string = unparsedPostData.title
         const lead: string = unparsedPostData.lead
         const content: string = unparsedPostData.content
-        const imageURL: string = path.join("build", "postImages", unparsedPostData.imageName)
+        const imageName: string = unparsedPostData.imageName //path.join("build", "postImages", unparsedPostData.imageName)
         const likes: Like[] = [... Array(unparsedPostData.likes)].map((): Like => { 
             return {
                 userID: "NoOne",
@@ -53,7 +52,7 @@ export module Posts {
             title,
             lead,
             content,
-            imageURL,
+            imageName,
             likes,
             dislikes
         }

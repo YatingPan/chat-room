@@ -50,7 +50,7 @@ import { onMount } from "svelte";
 <div class="newCommentField">
     <textarea type="text" bind:value={commentText} placeholder="{`Send a ${commentTypeStr}`}" cols="30" rows="5" autofocus></textarea>
     <button on:click={onSendComment}>
-        <img src="build/icons/sendIcon.svg" alt="send comment">
+        <img src="../build/icons/sendIcon.svg" alt="send comment">
     </button>
 </div>
 

@@ -18,7 +18,7 @@
             "moderation": [
                 {
                     "type": "ban",
-                    "time": 10
+                    "time": -10
                 }
             ]
         }

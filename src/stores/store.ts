@@ -13,29 +13,24 @@ const storageToRoom = (storedRoomData: string): RoomData => JSON.parse(storedRoo
 
 const socket = io();
 
+const accessCodeStore: Writable<string> = writable()
 const commentStore: Writable<Comment> = writable()
 const replyStore: Writable<Reply> = writable()
 const actionsStore: Writable<ActionsUpdate> = writable()
 const userStore: Writable<UserExtended | undefined> = writable(storageToUser(sessionStorage.getItem("userData")))
 const roomStore: Writable<RoomData | undefined> = writable()//writable(storageToRoom(sessionStorage.getItem("roomData")))
 
-// const chatRoom = readable(null, set => {
-//     set()
-// })
-
-
 // Server requests an access code from client
 socket.on("requestAccessCode", (arg) => {
 	console.log("Server requested Access code.");
 
 	// Grabbing access code from URL
-	const urlParams = new URLSearchParams(window.location.search);
-	const hasAccessCode = urlParams.has('accessCode');
-	const accessCode = hasAccessCode ? urlParams.get("accessCode") : undefined
+	const path = window.location.pathname.split("/");
+	const accessCode = 2 <= path.length ? path[1] : undefined
 	console.log(`My Access code: ${accessCode}`)
 
 	const storedUserData: UserExtended = storageToUser(sessionStorage.getItem("userData"))
-	let accessInfo: AccessInfo = { "accessCode": encodeURIComponent(accessCode) }
+	let accessInfo: AccessInfo = { "accessCode": accessCode }
 	if(storedUserData){
 		accessInfo["user"] = storedUserData.user
 	}

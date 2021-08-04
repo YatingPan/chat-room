@@ -6,7 +6,7 @@ export type Post = {
     title: string
     lead: string
     content: string
-    imageURL: string,
+    imageName: string,
     likes: Like[],
     dislikes: Like[]
 }

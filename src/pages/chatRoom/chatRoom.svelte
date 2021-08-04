@@ -1,14 +1,14 @@
 <script lang="ts">
-    import type { ActionsUpdate, BotComment, BotLike, Comment, Like, Reply } from "../../types/comment.type"
-    import type { User, UserExtended } from "../../types/user.type";
-    import type { RoomData } from "../../types/room.type";
+    import type { ActionsUpdate, BotComment, BotLike, Comment, Like, Reply } from "../../../types/comment.type"
+    import type { User, UserExtended } from "../../../types/user.type";
+    import type { RoomData } from "../../../types/room.type";
 
-    import CommentComponent from "./comment.svelte"
-    import SendCommentComponent from "./sendCommentComponent.svelte"
+    import CommentComponent from "../../components/comment.svelte"
+    import SendCommentComponent from "../../components/sendCommentComponent.svelte"
     import { onMount } from "svelte";
-    import  store from "../stores/store";
+    import  store from "../../stores/store";
 
-    export let user: UserExtended;
+    let user: UserExtended;
 
     let comments: Array<Comment> = [];
     let replies = {};
@@ -43,8 +43,6 @@
             replies[newReply.parentID] = [... replies[newReply.parentID], newReply.comment]
         else 
             replies[newReply.parentID] = [newReply.comment]
-        console.log("xxxadding Reply", newReply)
-        console.log("xxxreplies", replies)
     }
     const botLikeToLike = (botDislike: BotLike, parentCommentID: number): Like => {
         return {
@@ -103,6 +101,9 @@
     }
 
     onMount(() => {
+        store.userStore.subscribe((currentUser: UserExtended) => {
+            if(currentUser) user = currentUser
+        })
         store.commentStore.subscribe((currentComment: Comment) => {
             if(currentComment) comments = [... comments, currentComment]
         })
@@ -158,7 +159,6 @@
 </script>
 
 <div class="container">
-
     <div class="center">
         <SendCommentComponent showReplyInput={false}/>
         <div class="commentDisplay">

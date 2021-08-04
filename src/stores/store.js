@@ -5,24 +5,21 @@ const roomToStorage = (room) => JSON.stringify(room);
 const storageToUser = (storedUserData) => JSON.parse(storedUserData);
 const storageToRoom = (storedRoomData) => JSON.parse(storedRoomData);
 const socket = io();
+const accessCodeStore = writable();
 const commentStore = writable();
 const replyStore = writable();
 const actionsStore = writable();
 const userStore = writable(storageToUser(sessionStorage.getItem("userData")));
 const roomStore = writable(); //writable(storageToRoom(sessionStorage.getItem("roomData")))
-// const chatRoom = readable(null, set => {
-//     set()
-// })
 // Server requests an access code from client
 socket.on("requestAccessCode", (arg) => {
     console.log("Server requested Access code.");
     // Grabbing access code from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const hasAccessCode = urlParams.has('accessCode');
-    const accessCode = hasAccessCode ? urlParams.get("accessCode") : undefined;
+    const path = window.location.pathname.split("/");
+    const accessCode = 2 <= path.length ? path[1] : undefined;
     console.log(`My Access code: ${accessCode}`);
     const storedUserData = storageToUser(sessionStorage.getItem("userData"));
-    let accessInfo = { "accessCode": encodeURIComponent(accessCode) };
+    let accessInfo = { "accessCode": accessCode };
     if (storedUserData) {
         accessInfo["user"] = storedUserData.user;
     }

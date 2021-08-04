@@ -19,7 +19,7 @@ export var Posts;
         const title = unparsedPostData.title;
         const lead = unparsedPostData.lead;
         const content = unparsedPostData.content;
-        const imageURL = path.join("build", "postImages", unparsedPostData.imageName);
+        const imageName = unparsedPostData.imageName; //path.join("build", "postImages", unparsedPostData.imageName)
         const likes = [...Array(unparsedPostData.likes)].map(() => {
             return {
                 userID: "NoOne",
@@ -41,7 +41,7 @@ export var Posts;
             title,
             lead,
             content,
-            imageURL,
+            imageName,
             likes,
             dislikes
         };

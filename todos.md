@@ -1,0 +1,18 @@
+# TODOS 
+- [ ] Checkin/Checkout logic                            B
+    - [ ] Entry page design                             B
+    - [ ] Checkout page design                          B
+- [ ] Local _like_ processing                           N
+- [ ] Compile log file per server and write             
+- [ ] Server Administration                             B
+    - [ ] Rent VPS or something, does UZH offer? need full sudo rights...
+    - [ ] dependencies? node, npm, ...; socket ports? services? SSL?
+    - [ ] buy domain? ... .uzh.ch? 
+    - [ ] do we have a credit card?
+    - [ ] Load Testing, how many total ppl?
+- [ ] Readme for researchers and future devs            N/B
+    - [ ] Procedure Information                         N/B
+    - [ ] for participants?                             N/B
+- [ ] Automated Room Moderation features                N
+    - [ ] Ban Users, Flag Comments, Remove Comments     N
+    - [ ] Frontend                                      N

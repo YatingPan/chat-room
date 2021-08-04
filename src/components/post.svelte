@@ -7,6 +7,7 @@
 
     //const bgImage = "build/Material/images/testImage.jpg"
     let post: Post = null
+    $: headerImageURL = `../build/postImages/${post?.imageName}`
 
     onMount(() => {
         store.roomStore.subscribe((assignedRoom: RoomData) => {
@@ -21,7 +22,7 @@
 
 <div class="container">
     <div class="center">
-        <div class="imageContainer" style="background-image: url({post?.imageURL});">
+        <div class="imageContainer" style="background-image: url({headerImageURL});">
             <!-- <img src="build/Material/images/testImage.jpg"/> -->
         </div>
         <div class="header">
