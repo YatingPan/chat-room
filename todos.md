@@ -1,14 +1,17 @@
 # TODOS 
 - [ ] Checkin/Checkout logic                            B
+    - [ ] Waiting room
     - [ ] Entry page design                             B
     - [ ] Checkout page design                          B
 - [x] Local _like_ processing                           N
-- [ ] Compile log file per server and write             
+- [ ] Give out usernames in order and verify?
+- [ ] Compile log file per server and write
+  - [ ] Overview of userIds - usernames into logfile
+  - [ ] rework server as pure rest API
 - [ ] Server Administration                             B
-    - [ ] Rent VPS or something, does UZH offer? need full sudo rights...
+    - [x] Rent VPS or something, does UZH offer? need full sudo rights...   Mael
     - [ ] dependencies? node, npm, ...; socket ports? services? SSL?
-    - [ ] buy domain? ... .uzh.ch? 
-    - [ ] do we have a credit card?
+    - [x] buy domain? ... .uzh.ch?                                          Mael
     - [ ] Load Testing, how many total ppl?
 - [ ] Readme for researchers and future devs            N/B
     - [ ] Procedure Information                         N/B
