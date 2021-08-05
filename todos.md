@@ -2,7 +2,7 @@
 - [ ] Checkin/Checkout logic                            B
     - [ ] Entry page design                             B
     - [ ] Checkout page design                          B
-- [ ] Local _like_ processing                           N
+- [x] Local _like_ processing                           N
 - [ ] Compile log file per server and write             
 - [ ] Server Administration                             B
     - [ ] Rent VPS or something, does UZH offer? need full sudo rights...

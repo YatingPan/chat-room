@@ -16,10 +16,7 @@
     $: thisCommentLikes = likes[comment.id] ? likes[comment.id] : []
     $: thisCommentDislikes = dislikes[comment.id] ? dislikes[comment.id] : []
 
-    const formatTime = (date: Date): string => {
-        return moment(date).format("D.MM.YYYY, HH:mm")
-        //date.toLocaleString('de-DE', {weekday: "long", year: "numeric", month:"numeric", day: "numeric"});
-    }
+    const formatTime = (date: Date): string => moment(date).format("D.MM.YYYY, HH:mm")
 </script>
 
 <article class="commentCard" class:myComment={myComment}>

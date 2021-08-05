@@ -32,7 +32,6 @@ export var Posts;
                 time: new Date()
             };
         });
-        console.log(likes, dislikes);
         return {
             id,
             time,

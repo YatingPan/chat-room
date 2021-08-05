@@ -1,4 +1,4 @@
 // svelte.config.js
-importpreprocess = require('svelte-preprocess');
+import importpreprocess from 'svelte-preprocess';
 
 export const preprocess = preprocess();
