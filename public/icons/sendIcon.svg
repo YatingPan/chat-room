@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created using Krita: https://krita.org -->
+
+<svg
+   width="600pt"
+   height="500pt"
+   viewBox="0 0 600 500"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="sendIcon.svg"
+   inkscape:version="1.1 (c4e8f9ed74, 2021-05-24)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="pt"
+     showgrid="false"
+     inkscape:zoom="1.0905"
+     inkscape:cx="399.8166"
+     inkscape:cy="332.87483"
+     inkscape:window-width="1920"
+     inkscape:window-height="1015"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg5" />
+  <defs
+     id="defs2" />
+  <path
+     id="shape0"
+     transform="rotate(0.58153058,-1138.2939,1027.6329)"
+     fill="#000000"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.14"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="M 584.804,235.295 C 585.26537,228.72278 6.89441,0 6.89441,0 4.42975,0.319926 2.7984,1.45529 1.33381,2.75384 0.66853,4.71784 0.07492,6.68106 0.880278,8.62911 L 105.787,202.361 302.035,231.297 v 0 L 105.961,265.474 0.91307,461.044 c -1.699466,6.024 -1.339155,8.196 3.78038,9.32 0,0 579.64918,-228.49678 580.11055,-235.069 z"
+     sodipodi:nodetypes="zcccccccccz" />
+</svg>
