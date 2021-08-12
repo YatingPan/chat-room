@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { ActionsUpdate, BotComment, BotLike, Comment, Like, Reply } from "../../../types/comment.type"
     import type { User, UserExtended } from "../../../types/user.type";
-    import type { RoomData } from "../../../types/room.type";
+    import type { Moderation, RoomData, Notification } from "../../../types/room.type";
 
     import CommentComponent from "../../components/comment.svelte"
     import SendCommentComponent from "../../components/sendCommentComponent.svelte"
@@ -14,7 +14,17 @@
     let replies = {};
     let likes = {};
     let dislikes = {};
-        
+    let notifications: Notification[] = [];
+    
+    const addNotification = (notification: Notification) => {
+        notifications = [... notifications, notification]
+    }
+    const removeNotification = (index: number) => {
+        notifications = [
+			...notifications.slice(0, index),
+			...notifications.slice(index + 1, notifications.length)
+        ]
+    }
     const addLike = (newLike: Like, parentCommentID: number) => {
         if(likes[parentCommentID]) {
             likes[parentCommentID] = [... likes[parentCommentID], newLike]
@@ -98,6 +108,12 @@
         store.roomStore.subscribe((assignedRoom: RoomData) => {
             comments = []
             console.log("incommingRoom", assignedRoom)
+            if(assignedRoom?.userModerationEvents) {
+                assignedRoom.userModerationEvents.map((moderation: Moderation) => {
+                    
+                    autoSend(new Date(moderation.time), addNotification, moderation)
+                })
+            }
             if(assignedRoom?.automaticComments) {
                 const comms = assignedRoom?.automaticComments.sort((a: BotComment, b: BotComment) => a.time > b.time ? 1 : -1)
                 console.log("automaticComments", comms)
@@ -136,6 +152,13 @@
 
 <div class="container">
     <div class="center">
+        <div class="notificationArea">
+            {#each notifications as notification, i}
+                <div class="notification" on:click={(e) => removeNotification(i)}>
+                    <h3>{notification?.text}</h3>
+                </div>
+            {/each}
+        </div>
         <SendCommentComponent showReplyInput={false}/>
         <div class="commentDisplay">
             {#if comments.length == 0}
@@ -166,6 +189,24 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
+        }
+
+        .notificationArea {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            right: 0;
+
+            .notification {
+                border-top: .1rem solid rgba(0,0,0,.15);
+                background: #dddc;
+                padding: 1.2rem;
+                width: 50vw;
+                max-width: 18rem;
+                transition: cubic-bezier(1, 0, 0, 1) 0.5s;
+                animation: ease-in 2s;
+            }
         }
 
         .center {

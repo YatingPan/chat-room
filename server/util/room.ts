@@ -1,8 +1,9 @@
 import path from "path";
-import fs  from 'fs';
+import fs from 'fs';
 import crypt from 'crypto';
 import { Posts } from "./post.js";
-import type { Post, RoomData, UnparsedRoomData } from "../../types/room.type";
+import type { Moderation, Post, RoomData, UnparsedBot, UnparsedModeration, UnparsedRoomData } from "../../types/room.type";
+import { ModerationType } from "../../types/room.type.js";
 import type { BotComment, Comment, UnparsedBotComment } from "../../types/comment.type.js";
 import { Chats } from "./chat.js";
 
@@ -54,10 +55,22 @@ export module Rooms {
         return undefined
     }
 
-    const  fileNameToHash = (fileName: string) => 
+    const fileNameToHash = (fileName: string) => 
     encodeURIComponent(crypt.createHash('sha256')
             .update(fileName)
             .digest('base64'))
+
+    const parseUserModeration = (unparsedModeration: UnparsedModeration, botId: string, startTime: number): Moderation => {
+        const time: Date = new Date(startTime + unparsedModeration.time * 1000)
+        console.log("parseUserModeration", time, unparsedModeration)
+        const moderation: Moderation = {
+            type: ModerationType.Ban,
+            time,
+            target: botId,
+            text: unparsedModeration.text,
+        }
+        return moderation
+    }
 
     const parseRoomData = async (roomData: UnparsedRoomData, fileName: string): Promise<RoomData> => {
         
@@ -73,14 +86,21 @@ export module Rooms {
         const id: string = fileNameToHash(fileName)
         const name: string = roomData.roomName
         const post: Post = await Posts.getPostData(roomData.postName)
-        console.log(post)
+
+        const userModerationEvents: Moderation[] = roomData.bots
+            .filter((bot: UnparsedBot) => bot.moderation ? true : false)
+            .map((bot: UnparsedBot): Moderation => {
+                    return parseUserModeration(bot.moderation, bot.name, startTimeTimeStamp)
+            })
+        console.log("userModerationEvents", userModerationEvents)
         const parsedRoomData: RoomData = {
             id,
             name,
             startTime,
             duration,
             post,
-            automaticComments
+            automaticComments,
+            userModerationEvents
         }
         return parsedRoomData
     }

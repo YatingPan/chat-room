@@ -2,6 +2,7 @@ import path from "path";
 import fs from 'fs';
 import crypt from 'crypto';
 import { Posts } from "./post.js";
+import { ModerationType } from "../../types/room.type.js";
 import { Chats } from "./chat.js";
 const __dirname = path.resolve();
 const privateDir = path.join(__dirname, "server", "private");
@@ -50,6 +51,17 @@ export var Rooms;
     const fileNameToHash = (fileName) => encodeURIComponent(crypt.createHash('sha256')
         .update(fileName)
         .digest('base64'));
+    const parseUserModeration = (unparsedModeration, botId, startTime) => {
+        const time = new Date(startTime + unparsedModeration.time * 1000);
+        console.log("parseUserModeration", time, unparsedModeration);
+        const moderation = {
+            type: ModerationType.Ban,
+            time,
+            target: botId,
+            text: unparsedModeration.text,
+        };
+        return moderation;
+    };
     const parseRoomData = async (roomData, fileName) => {
         // Just for debugging always start room on server start
         const startTimeTimeStamp = Date.now(); // Date.parse(roomData["startTime"])
@@ -62,14 +74,20 @@ export var Rooms;
         const id = fileNameToHash(fileName);
         const name = roomData.roomName;
         const post = await Posts.getPostData(roomData.postName);
-        console.log(post);
+        const userModerationEvents = roomData.bots
+            .filter((bot) => bot.moderation ? true : false)
+            .map((bot) => {
+            return parseUserModeration(bot.moderation, bot.name, startTimeTimeStamp);
+        });
+        console.log("userModerationEvents", userModerationEvents);
         const parsedRoomData = {
             id,
             name,
             startTime,
             duration,
             post,
-            automaticComments
+            automaticComments,
+            userModerationEvents
         };
         return parsedRoomData;
     };

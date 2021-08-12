@@ -61,9 +61,9 @@
         to   { background: white}
     }
 
-    .commentCard:last-of-type {
-        border-bottom: .0625rem solid rgba(0,0,0,.15);
-    }
+    // .commentCard:last-of-type {
+    //     border-bottom: .0625rem solid rgba(0,0,0,.15);
+    // }
     .commentCard {
         border-top: .0625rem solid rgba(0,0,0,.15);
         color: #1a1a1a;

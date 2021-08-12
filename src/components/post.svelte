@@ -10,7 +10,7 @@
     let post: Post = null
     let likes: Like[] 
     let dislikes: Like[]
-    $: headerImageURL = `../build/postImages/${post?.imageName}`
+    $: headerImageURL = `../postImages/${post?.imageName}`
 
     onMount(() => {
         store.roomStore.subscribe((assignedRoom: RoomData) => {

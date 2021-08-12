@@ -1,3 +1,4 @@
+import { ModerationType } from "../../types/room.type.js";
 export var Chats;
 (function (Chats) {
     let comments = [];
@@ -15,24 +16,40 @@ export var Chats;
         };
         return botLike;
     };
-    function parseComment(unparsedComment, startTime) {
+    const parseModerationType = (type) => {
+        switch (type) {
+            case "remove":
+                return ModerationType.Remove;
+            case "flag":
+                return ModerationType.Flag;
+            case "ban":
+                return ModerationType.Ban;
+        }
+    };
+    Chats.parseComment = (unparsedComment, startTime) => {
         const id = botCommentID--;
         const time = new Date(startTime + unparsedComment.time * 1000);
-        const replies = unparsedComment.replies?.map((reply) => parseComment(reply, startTime));
+        const replies = unparsedComment.replies?.map((reply) => Chats.parseComment(reply, startTime));
         const likes = unparsedComment.likes?.map((like) => parseLike(like, startTime));
         const dislikes = unparsedComment.dislikes?.map((dislike) => parseLike(dislike, startTime));
+        const moderation = unparsedComment.moderation ? {
+            type: parseModerationType(unparsedComment.moderation.type),
+            time: new Date(startTime + unparsedComment.moderation.time * 1000),
+            target: id,
+            text: unparsedComment.moderation.text
+        } : undefined;
         const comment = {
             id,
             time,
             botName: unparsedComment.botName,
             content: unparsedComment.content,
             replies,
+            moderation,
             likes,
             dislikes
         };
         return comment;
-    }
-    Chats.parseComment = parseComment;
+    };
     Chats.broadcastComment = (proposedComment, sendingUser, io) => {
         const newComment = {
             id: commentID++,
