@@ -7,6 +7,7 @@
     import SendCommentComponent from "../../components/sendCommentComponent.svelte"
     import { onMount } from "svelte";
     import  store from "../../stores/store";
+import Comment from "../../components/comment.svelte";
 
     let user: UserExtended;
 
@@ -75,6 +76,13 @@
     const addComment = (newComment: Comment) => {
         comments = [... comments, newComment]
     }
+    const removeComment = (commentID: number) => {
+        const index = comments.findIndex((comment: Comment) => comment.id === commentID)
+        comments = [
+			...comments.slice(0, index),
+			...comments.slice(index + 1, notifications.length)
+        ]
+    }
 
     const autoSend = (time: Date, callback, ...args) => {
         const timetarget = time.getTime();
@@ -121,6 +129,14 @@
                     
                     const newComment = generateComment(autoComment)
                     autoSend(newComment.time, addComment, newComment)
+
+                    // register top level comment moderation messages
+                    if(autoComment?.moderation) {
+                        const moderationEvent = autoComment.moderation
+                            autoSend(new Date(moderationEvent.time), addNotification, moderationEvent)
+                            if(moderationEvent?.type === 1)
+                                autoSend(new Date(moderationEvent.time), removeComment, moderationEvent.target)
+                    }
                     
                     if(autoComment.replies) {
                         for(let reply of autoComment.replies) {
@@ -128,8 +144,13 @@
                                 parentID: autoComment.id,
                                 comment: generateComment(reply)
                             }
-                            console.log("Sending... ", newReply)
                             autoSend(newReply.comment.time, addReply, newReply)
+                            
+                            // register reply level comment moderation messages
+                            if(reply?.moderation) {
+                                const moderationEvent = autoComment.moderation
+                                autoSend(new Date(moderationEvent.time), addNotification, moderationEvent)
+                            }
                         }
                     }
                     if(autoComment.likes) {

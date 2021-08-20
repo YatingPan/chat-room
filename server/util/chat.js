@@ -1,11 +1,7 @@
 import { ModerationType } from "../../types/room.type.js";
+import { Logs } from "./logs.js";
 export var Chats;
 (function (Chats) {
-    let comments = [];
-    // replies maps comment ids to an array of its replies
-    let replies = {};
-    let likes = {};
-    let dislikes = {};
     let commentID = 1;
     let botCommentID = -1;
     const parseLike = (unparsedLike, startTime) => {
@@ -57,11 +53,13 @@ export var Chats;
             user: proposedComment.user,
             time: new Date()
         };
-        comments = [...comments, newComment];
+        //comments = [... comments, newComment]
+        Logs.appendTopLevelComment(sendingUser.accessCode, newComment);
         io.to(sendingUser.accessCode).emit('comment', newComment);
         console.log(newComment);
     };
     function broadcastActionsUpdate(actionsUpdate, sendingUser, io) {
+        Logs.replaceActions(actionsUpdate);
         io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate);
         console.log(actionsUpdate);
     }
@@ -76,10 +74,7 @@ export var Chats;
             },
             parentID: proposedReply.parentID
         };
-        if (replies[proposedReply.parentID])
-            [...replies[proposedReply.parentID], newReply];
-        else
-            replies[proposedReply.parentID] = [newReply];
+        Logs.appendReply(newReply);
         io.to(sendingUser.accessCode).emit('reply', newReply);
         console.log(newReply);
     };

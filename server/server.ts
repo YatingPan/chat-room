@@ -27,9 +27,9 @@ app.use(express.static(publicDir));
 
 // page to display the available chatroom access links
 app.get('/secret', async function (req, res, next) {
-  console.log('Accessing the secret section ...')
+  // console.log('Accessing the secret section ...')
   const availableRooms = await Rooms.getAvailableRooms()
-  console.log(availableRooms)
+  // console.log(availableRooms)
 
   const html = availableRooms.map(function(hashAndFileName) {
     const [hash, fileName] = hashAndFileName;
@@ -75,8 +75,8 @@ io.on("connection", socket => {
       }
 
       socket.join(accessInfo.accessCode)
-      console.log(userAssignment)
-      console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`)
+      // console.log(userAssignment)
+      // console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`)
       io.to(socket.id).emit("userAssignment", userAssignment)
     } else {
       socket.emit("accessDenied", "accessDenied")
@@ -89,13 +89,13 @@ io.on("connection", socket => {
     Chats.broadcastComment(proposedComment, sendingUser, io)
   })
   socket.on("broadcastReply", (proposedReply: ProposedReply) => {
-    console.log(proposedReply)
+    // console.log(proposedReply)
     const sendingUser: UserExtended = Users.getUserFromID(proposedReply.comment.user.id)
     
     Chats.broadcastReply(proposedReply, sendingUser, io)
   })
   socket.on("broadcastActionsUpdate", (proposedActionsUpdate: ActionsUpdate) => {
-    console.log(proposedActionsUpdate)
+    // console.log(proposedActionsUpdate)
     const sendingUser: UserExtended = Users.getUserFromID(proposedActionsUpdate.senderID)
     
     Chats.broadcastActionsUpdate(proposedActionsUpdate, sendingUser, io)
@@ -105,11 +105,4 @@ io.on("connection", socket => {
     io.emit('userDisconnect', "A user has left the chat")
   })
 })
-
-// const test = async () => {
-//   Rooms.registerAutomaticMessages(io)
-//   //console.log(await loadChatrooms())
-// }
-// test()
-//startCron()
 
