@@ -2,12 +2,12 @@
     import type { ActionsUpdate, BotComment, BotLike, Comment, Like, Reply } from "../../../types/comment.type"
     import type { User, UserExtended } from "../../../types/user.type";
     import type { Moderation, RoomData, Notification } from "../../../types/room.type";
+    import { navigate } from 'svelte-routing';
 
     import CommentComponent from "../../components/comment.svelte"
     import SendCommentComponent from "../../components/sendCommentComponent.svelte"
     import { onMount } from "svelte";
     import  store from "../../stores/store";
-import Comment from "../../components/comment.svelte";
 
     let user: UserExtended;
 
@@ -93,6 +93,9 @@ import Comment from "../../components/comment.svelte";
         if (offsetmilliseconds > 0) setTimeout(() => callback.apply(this, args), offsetmilliseconds)
         else callback.apply(this, args)
     }
+    const closeChatRoom = () => {
+        navigate("/checkout", { replace: true });
+    }
 
     onMount(() => {
         store.userStore.subscribe((currentUser: UserExtended) => {
@@ -122,6 +125,12 @@ import Comment from "../../components/comment.svelte";
                     autoSend(new Date(moderation.time), addNotification, moderation)
                 })
             }
+            
+
+            // calculate end Time from start time and duration given in minutes
+            const endTime = new Date(assignedRoom?.startTime?.getTime() + assignedRoom?.duration * 60 * 1000)
+            autoSend(endTime, closeChatRoom)
+            
             if(assignedRoom?.automaticComments) {
                 const comms = assignedRoom?.automaticComments.sort((a: BotComment, b: BotComment) => a.time > b.time ? 1 : -1)
                 console.log("automaticComments", comms)
