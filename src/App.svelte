@@ -2,6 +2,7 @@
 	import { Router, Route } from "svelte-routing";
     import ChatRoom from "./pages/chatRoom/chatRoom.svelte";
     import WelcomePage from "./pages/welcomePage/welcomePage.svelte";
+    import CheckOut from "./pages/checkOut/checkOut.svelte";
     import Post from "./components/post.svelte";
 
 	export let url = "";
@@ -20,7 +21,11 @@
                 <!-- <span>access code: {params.accessCode} </span> -->
 				<WelcomePage/>
 			</Route>
-		</Router>
+			<Route path="/checkout" let:params>
+                <!-- <span>access code: {params.accessCode} </span> -->
+				<CheckOut/>
+			</Route>
+        </Router>
 
     </div>
 
