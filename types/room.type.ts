@@ -1,4 +1,4 @@
-import type { BotComment, Comment, Like, UnparsedBotComment } from "./comment.type"
+import type { BotComment, Comment, Like, LoggedComment, UnparsedBotComment } from "./comment.type"
 
 export type Post = {
     id: string
@@ -11,6 +11,19 @@ export type Post = {
     dislikes: Like[]
 }
 
+export type Log = {
+    id: string
+    specFileName: string
+    name: string
+    startTime: Date
+    duration: number
+    postTitle: string
+    comments: LoggedComment[]
+    userModerationEvents: Moderation[]
+}
+
+export enum ModerationType { Ban, Flag, Remove }
+
 export type RoomData = {
     id: string
     name: string
@@ -21,7 +34,6 @@ export type RoomData = {
     userModerationEvents: Moderation[]
 }
 
-export enum ModerationType { Ban, Flag, Remove }
 
 export type Moderation = {
     type: ModerationType

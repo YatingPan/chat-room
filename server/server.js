@@ -17,9 +17,9 @@ const privateDir = path.join(__dirname, "private");
 app.use(express.static(publicDir));
 // page to display the available chatroom access links
 app.get('/secret', async function (req, res, next) {
-    console.log('Accessing the secret section ...');
+    // console.log('Accessing the secret section ...')
     const availableRooms = await Rooms.getAvailableRooms();
-    console.log(availableRooms);
+    // console.log(availableRooms)
     const html = availableRooms.map(function (hashAndFileName) {
         const [hash, fileName] = hashAndFileName;
         return `<li>${fileName} -> ${hash}</li>`;
@@ -56,8 +56,8 @@ io.on("connection", socket => {
                 "user": newUser
             };
             socket.join(accessInfo.accessCode);
-            console.log(userAssignment);
-            console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`);
+            // console.log(userAssignment)
+            // console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`)
             io.to(socket.id).emit("userAssignment", userAssignment);
         }
         else {
@@ -69,12 +69,12 @@ io.on("connection", socket => {
         Chats.broadcastComment(proposedComment, sendingUser, io);
     });
     socket.on("broadcastReply", (proposedReply) => {
-        console.log(proposedReply);
+        // console.log(proposedReply)
         const sendingUser = Users.getUserFromID(proposedReply.comment.user.id);
         Chats.broadcastReply(proposedReply, sendingUser, io);
     });
     socket.on("broadcastActionsUpdate", (proposedActionsUpdate) => {
-        console.log(proposedActionsUpdate);
+        // console.log(proposedActionsUpdate)
         const sendingUser = Users.getUserFromID(proposedActionsUpdate.senderID);
         Chats.broadcastActionsUpdate(proposedActionsUpdate, sendingUser, io);
     });

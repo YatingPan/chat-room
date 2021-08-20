@@ -2,6 +2,7 @@
     import type { ActionsUpdate, BotComment, BotLike, Comment, Like, Reply } from "../../../types/comment.type"
     import type { User, UserExtended } from "../../../types/user.type";
     import type { Moderation, RoomData, Notification } from "../../../types/room.type";
+    import { navigate } from 'svelte-routing';
 
     import CommentComponent from "../../components/comment.svelte"
     import SendCommentComponent from "../../components/sendCommentComponent.svelte"
@@ -75,6 +76,13 @@
     const addComment = (newComment: Comment) => {
         comments = [... comments, newComment]
     }
+    const removeComment = (commentID: number) => {
+        const index = comments.findIndex((comment: Comment) => comment.id === commentID)
+        comments = [
+			...comments.slice(0, index),
+			...comments.slice(index + 1, notifications.length)
+        ]
+    }
 
     const autoSend = (time: Date, callback, ...args) => {
         const timetarget = time.getTime();
@@ -84,6 +92,9 @@
         
         if (offsetmilliseconds > 0) setTimeout(() => callback.apply(this, args), offsetmilliseconds)
         else callback.apply(this, args)
+    }
+    const closeChatRoom = () => {
+        navigate("/checkout", { replace: true });
     }
 
     onMount(() => {
@@ -114,6 +125,12 @@
                     autoSend(new Date(moderation.time), addNotification, moderation)
                 })
             }
+            
+
+            // calculate end Time from start time and duration given in minutes
+            const endTime = new Date(assignedRoom?.startTime?.getTime() + assignedRoom?.duration * 60 * 1000)
+            autoSend(endTime, closeChatRoom)
+            
             if(assignedRoom?.automaticComments) {
                 const comms = assignedRoom?.automaticComments.sort((a: BotComment, b: BotComment) => a.time > b.time ? 1 : -1)
                 console.log("automaticComments", comms)
@@ -121,6 +138,14 @@
                     
                     const newComment = generateComment(autoComment)
                     autoSend(newComment.time, addComment, newComment)
+
+                    // register top level comment moderation messages
+                    if(autoComment?.moderation) {
+                        const moderationEvent = autoComment.moderation
+                            autoSend(new Date(moderationEvent.time), addNotification, moderationEvent)
+                            if(moderationEvent?.type === 1)
+                                autoSend(new Date(moderationEvent.time), removeComment, moderationEvent.target)
+                    }
                     
                     if(autoComment.replies) {
                         for(let reply of autoComment.replies) {
@@ -128,8 +153,13 @@
                                 parentID: autoComment.id,
                                 comment: generateComment(reply)
                             }
-                            console.log("Sending... ", newReply)
                             autoSend(newReply.comment.time, addReply, newReply)
+                            
+                            // register reply level comment moderation messages
+                            if(reply?.moderation) {
+                                const moderationEvent = autoComment.moderation
+                                autoSend(new Date(moderationEvent.time), addNotification, moderationEvent)
+                            }
                         }
                     }
                     if(autoComment.likes) {

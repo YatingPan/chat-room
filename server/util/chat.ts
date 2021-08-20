@@ -3,14 +3,10 @@ import type { ProposedComment, Comment } from "../../types/comment.type"
 import type { Moderation } from "../../types/room.type"
 import { ModerationType } from "../../types/room.type.js"
 import type { UserExtended } from "../../types/user.type"
+import { Logs } from "./logs.js"
 
 export module Chats {
 
-    let comments: Comment[] = []
-    // replies maps comment ids to an array of its replies
-    let replies = {}
-    let likes = {}
-    let dislikes = {}
     let commentID = 1
     let botCommentID = -1
 
@@ -67,13 +63,15 @@ export module Chats {
             user: proposedComment.user,
             time: new Date()
         }
-        comments = [... comments, newComment]
+        //comments = [... comments, newComment]
+        Logs.appendTopLevelComment(sendingUser.accessCode, newComment)
 
         io.to(sendingUser.accessCode).emit('comment', newComment)
         console.log(newComment)
     }
 
     export function broadcastActionsUpdate(actionsUpdate: ActionsUpdate, sendingUser: UserExtended, io) {
+        Logs.replaceActions(actionsUpdate)
         io.to(sendingUser.accessCode).emit('actionsUpdate', actionsUpdate)
         console.log(actionsUpdate)
     }
@@ -88,10 +86,7 @@ export module Chats {
             },
             parentID: proposedReply.parentID
         }
-        if (replies[proposedReply.parentID])
-            [... replies[proposedReply.parentID], newReply]
-        else
-            replies[proposedReply.parentID] = [newReply]
+        Logs.appendReply(newReply)
 
         io.to(sendingUser.accessCode).emit('reply', newReply)
         console.log(newReply)

@@ -1,4 +1,4 @@
-import type { Moderation, UnparsedModeration } from "./room.type"
+import type { Moderation, ModerationType, UnparsedModeration } from "./room.type"
 import type { User } from "./user.type"
 
 // Type of likes for comments
@@ -23,6 +23,7 @@ export type Comment = {
     time: Date
     user: User
     content: string
+    moderation?: Moderation
 }
 
 export type BotComment = {
@@ -34,6 +35,18 @@ export type BotComment = {
     moderation: Moderation
     likes: BotLike[]
     dislikes: BotLike[]
+}
+
+export type LoggedComment = {
+    id: number
+    bot: Boolean
+    time: Date
+    userName: string
+    content: string
+    replies?: LoggedComment[]
+    moderation?: Moderation
+    likes?: Like[]
+    dislikes?: Like[]
 }
 
 export type Reply = {

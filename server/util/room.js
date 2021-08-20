@@ -4,20 +4,35 @@ import crypt from 'crypto';
 import { Posts } from "./post.js";
 import { ModerationType } from "../../types/room.type.js";
 import { Chats } from "./chat.js";
+import { Logs } from "./logs.js";
 const __dirname = path.resolve();
 const privateDir = path.join(__dirname, "server", "private");
 const roomDir = path.join(privateDir, "chatPrograms");
 export var Rooms;
 (function (Rooms) {
     let rooms = {};
+    const registerRoomDataCollection = (roomID, time) => {
+        const timetarget = time.getTime();
+        const timenow = new Date().getTime();
+        const offsetmilliseconds = timetarget - timenow;
+        if (offsetmilliseconds > 0)
+            setTimeout(() => Logs.writeLog(roomID), offsetmilliseconds);
+        else
+            Logs.writeLog(roomID);
+    };
     const loadChatrooms = async () => {
         const availableRooms = await getAvailableRooms();
         for (let availableRoom of availableRooms) {
             const [_, fileName] = availableRoom;
             const roomData = await getRoomData(fileName);
             rooms[roomData.id] = roomData;
+            Logs.initLog(roomData.id, roomData, fileName);
+            // calculate end Time from start time and duration given in minutes
+            const endTime = new Date(roomData.startTime.getTime() + roomData.duration * 60 * 1000);
+            console.log("endTime", endTime);
+            registerRoomDataCollection(roomData.id, endTime);
         }
-        console.log(rooms);
+        //console.log(rooms)
     };
     // Access is granted if the access Code is equal to the sha265 hash of a file in the chatPrograms directory
     // TODO: not every time fs read
@@ -53,7 +68,7 @@ export var Rooms;
         .digest('base64'));
     const parseUserModeration = (unparsedModeration, botId, startTime) => {
         const time = new Date(startTime + unparsedModeration.time * 1000);
-        console.log("parseUserModeration", time, unparsedModeration);
+        //console.log("parseUserModeration", time, unparsedModeration)
         const moderation = {
             type: ModerationType.Ban,
             time,
@@ -79,7 +94,7 @@ export var Rooms;
             .map((bot) => {
             return parseUserModeration(bot.moderation, bot.name, startTimeTimeStamp);
         });
-        console.log("userModerationEvents", userModerationEvents);
+        //console.log("userModerationEvents", userModerationEvents)
         const parsedRoomData = {
             id,
             name,
