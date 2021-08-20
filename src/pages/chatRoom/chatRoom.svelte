@@ -128,8 +128,8 @@
             
 
             // calculate end Time from start time and duration given in minutes
-            const endTime = new Date(assignedRoom?.startTime?.getTime() + assignedRoom?.duration * 60 * 1000)
-            autoSend(endTime, closeChatRoom)
+            // const endTime = new Date(assignedRoom?.startTime?.getTime() + assignedRoom?.duration * 60 * 1000)
+            // autoSend(endTime, closeChatRoom)
             
             if(assignedRoom?.automaticComments) {
                 const comms = assignedRoom?.automaticComments.sort((a: BotComment, b: BotComment) => a.time > b.time ? 1 : -1)

@@ -4,7 +4,7 @@
 	import { Router, Link, Route } from "svelte-routing";
     import { onMount } from "svelte";
     import store from "../../stores/store";
-import moment from "moment";
+    import moment from "moment";
 
     export let url = "";
     let user: UserExtended;

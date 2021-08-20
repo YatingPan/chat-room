@@ -87,7 +87,7 @@ export var Logs;
         const src_spec = logData.specFileName.split(".")[0];
         const logJSON = JSON.stringify(logData, null, 2);
         // ${(new Date()).toTimeString()}
-        fs.writeFile(`${logDir}/${src_spec}_log.json`, logJSON, (err) => {
+        fs.writeFile(`${logDir}/${src_spec}.log.json`, logJSON, (err) => {
             if (err)
                 throw err;
         });

@@ -4,7 +4,7 @@
     - [ ] Entry page design                             B
     - [ ] Checkout page design                          B
 - [x] Local _like_ processing                           N
-- [ ] Give out usernames in order and verify?           N
+- [ ] Give out usernames in order and verify?           B
 - [ ] Compile log file per server and write             N
   - [ ] Overview of userIds - usernames into logfile    N      
 - [ ] Server Administration                             B
