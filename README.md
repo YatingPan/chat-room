@@ -130,11 +130,12 @@ the usernames must not, but can match the file above.
 ```
 
 4. After uploading the files to the server using FTP, distribute the links to the chatrooms to the Mturklers. The links can be retrieved when visiting the `discussionroom.org/secret` endpoint. 
+   
 ## Experiment procedure
-1. When a participant clicks the link, he gets sent to a 'waiting room', in which a button to `Start Chatting` is visible, and only clickable if the chatroom `startTime` is past. 
-    Here, their username is displayed to them.
-2. Once the `Start Chatting` button is pressed, the participants are let into the chatroom and see the post and all automated posts, as well as the comments and likes of other participants, and they themselves can comment and like/dislike. 
-3. After the study is over, the participants are automatically forwarded to the checkout page. On the checkout page, they receive a unique `Exitcode`, as well as a link to the following Qualtrics survey.
-4.  These codes and the respective usernames are logged in the logfile. The exitcode can be supplied to the qualtrics survey to track users. _(EITHER BY PARTICIPANTS OR PROGRAMMATICALLY?)_ In the qualtrics survey, another exitcode can be generated or the old one reused for the participants to provide on completing the HIT for the researchers to verify the full study was done for payment.
-5.  The participant submits the HIT with her unique exit code.
-6.  The logfile of the chatroom and all actions of the participants within can be retrieved as a JSON file on the following endpoint: _LOGFILE_
+1. When a participant clicks the customized link in the previous Qualtrics study, he gets sent to a 'waiting room', in which a button to `Start Chatting` is visible, and only clickable if the chatroom `startTime` is past. There, the unique id of the participant is saved alongside the assigned username in the logfile.
+    Their username is displayed to them.
+2. Once the `Start Chatting` button is pressed, the participants are let into the chatroom and see the post and all automated comments, as well as the comments and likes of other participants, and they themselves can comment and like/dislike. 
+3. After the study is over, the participants are automatically forwarded to the followup study using a customized link, so that the uniqueid is again traceable throughout the course of the study.
+4. The ids and the respective usernames are logged in the logfile. In the qualtrics survey, another exitcode can be generated or the unique id reused for the participants to provide on completing the HIT for the researchers to verify the full study was done for payment.
+5. The participant submits the HIT with her unique exit code.
+6. The logfile of the chatroom and all actions of the participants within can be retrieved as a JSON file on the following endpoint: _LOGFILE_
