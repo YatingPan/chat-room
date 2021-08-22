@@ -2,21 +2,24 @@ import path from 'path';
 import fs from 'fs';
 const __dirname = path.join(path.resolve(), "server");
 const privateDir = path.join(__dirname, "private");
+const rawdata = await fs.promises.readFile(path.resolve(privateDir, "nickNames.json"));
+const nickNames = JSON.parse(rawdata.toString());
+let counter = 0;
 export var Users;
 (function (Users) {
     const users = [];
     async function assignUserName() {
-        const rawdata = await fs.promises.readFile(path.resolve(privateDir, "nickNames.json"));
-        const nickNames = JSON.parse(rawdata.toString());
         // choose a random user name fromt the samples given
-        const chosenNickName = nickNames[Math.floor(Math.random() * nickNames.length)];
+        const chosenNickName = nickNames[counter % nickNames.length];
+        counter += 1;
         return chosenNickName;
     }
-    const createUser = async (accessCode, id) => {
+    const createUser = async (accessCode, mTurkId, id) => {
         const userName = await assignUserName();
         return {
             "user": {
                 "name": userName,
+                "mTurkId": mTurkId,
                 "id": id,
             },
             "accessCode": accessCode
@@ -29,7 +32,7 @@ export var Users;
             console.log("Logging in user", user);
             return user;
         }
-        let newUser = await createUser(accessInfo?.accessCode, id);
+        let newUser = await createUser(accessInfo?.accessCode, accessInfo?.mTurkId, id);
         console.log("New user created", newUser);
         users.push(newUser);
         //console.log("Users:", users)

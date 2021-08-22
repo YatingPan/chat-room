@@ -1,5 +1,6 @@
 import { io } from "socket.io-client";
 import { writable } from "svelte/store";
+import QueryString from "qs";
 const userToStorage = (user) => JSON.stringify(user);
 const roomToStorage = (room) => JSON.stringify(room);
 const storageToUser = (storedUserData) => JSON.parse(storedUserData);
@@ -17,9 +18,13 @@ socket.on("requestAccessCode", (arg) => {
     // Grabbing access code from URL
     const path = window.location.pathname.split("/");
     const accessCode = 2 <= path.length ? path[1] : undefined;
-    console.log(`My Access code: ${accessCode}`);
+    let url_params = QueryString.parse(location.search);
+    const mTurkId = String(url_params['mTurkId']);
+    // console.log(url_params)
+    // console.log(url_params.mTurkId)
+    console.log(`My Access code: ${accessCode}, my mTurkId: ${mTurkId}`);
     const storedUserData = storageToUser(sessionStorage.getItem("userData"));
-    let accessInfo = { "accessCode": accessCode };
+    let accessInfo = { "accessCode": accessCode, "mTurkId": mTurkId };
     if (storedUserData) {
         accessInfo["user"] = storedUserData.user;
     }

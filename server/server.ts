@@ -75,8 +75,8 @@ io.on("connection", socket => {
       }
 
       socket.join(accessInfo.accessCode)
-      // console.log(userAssignment)
-      // console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`)
+      console.log(userAssignment)
+      console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`)
       io.to(socket.id).emit("userAssignment", userAssignment)
     } else {
       socket.emit("accessDenied", "accessDenied")
