@@ -9,6 +9,9 @@
     import { onMount } from "svelte";
     import  store from "../../stores/store";
     import * as animateScroll from "svelte-scrollto";
+    import IntersectionObserver from "svelte-intersection-observer";
+
+    let element;
 
     let user: UserExtended;
 
@@ -17,6 +20,7 @@
     let likes = {};
     let dislikes = {};
     let notifications: Notification[] = [];
+    let n_new_comments = 0;
 
     const addNotification = (notification: Notification) => {
         notifications = [... notifications, notification]
@@ -82,6 +86,8 @@
         comments = [... comments, newComment]
         if(newComment.user.id === user.user.id)
             animateScroll.scrollToBottom()
+        else
+            n_new_comments++
     }
     const removeComment = (commentID: number) => {
         const index = comments.findIndex((comment: Comment) => comment.id === commentID)
@@ -248,8 +254,17 @@
                     dislikes={dislikes}
                     myComment={comment?.user?.id === user?.user?.id}/>
             {/each}
+            {#if n_new_comments > 0}
+                <div class="newCommentIndicator" on:click="{() => animateScroll.scrollToBottom()}">
+                    <img src="../../icons/new-message.svg" alt="new comment">
+                    <span>{n_new_comments}</span>
+                </div>
+            {/if}
+            <IntersectionObserver {element} on:observe="{(e) => n_new_comments = 0}">
+                <div bind:this={element} class="bottomCommentDisplay"></div>
+                
+            </IntersectionObserver>
         </div>
-
     </div>
 </div>
 
@@ -306,6 +321,35 @@
             .commentDisplay {
                 min-height: 20em;
                 margin: 0.5rem 1rem;
+
+                .newCommentIndicator {
+                    position: fixed;
+                    bottom: 4rem;
+                    right: 3rem;
+                    width: 3rem;
+                    height: 3rem;
+                    img {
+                        width: 3rem;
+                        height: 3rem;
+                    }
+                    span {
+                        position: absolute;
+                        text-align: center;
+                        right: -1px;
+                        top: 2px;
+                        background: black;
+                        color: white;
+                        font-size: 15px;
+                        font-weight: bold;
+                        width: 21px;
+                        height: 21px;
+                        border-radius: 50%;
+                    }
+                }
+                .bottomCommentDisplay {
+                    height: 1rem;
+                    width: 100%;
+                }
             }
             
         }
