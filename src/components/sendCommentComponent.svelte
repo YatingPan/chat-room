@@ -34,7 +34,11 @@ import { onMount } from "svelte";
                 }
                 store.sendReply(replyObj)
             }
-            else store.sendComment(comObj)
+            else {
+                store.sendComment(comObj)
+                //animateScroll.scrollTo({element: '.commentCard :last-of-type'})
+            }
+
         } else {
             console.log("Not sending comment")
         }

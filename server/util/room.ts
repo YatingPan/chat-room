@@ -86,6 +86,11 @@ export module Rooms {
             time,
             target: botId,
             text: unparsedModeration.text,
+            textColor: unparsedModeration?.textColor,
+            textSize: unparsedModeration?.textSize,
+            bgColor: unparsedModeration?.bgColor,
+            signature: unparsedModeration?.signature
+
         }
         return moderation
     }

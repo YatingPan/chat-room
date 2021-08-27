@@ -1,0 +1,153 @@
+{   
+    "roomName": "Chat Room 1",
+    "startTime": "2021-07-13 20:00",
+    "postName": "post1.json",
+    "duration": 1,
+    "bots": [
+        {
+            "name": "user3",
+            "moderation": {
+                    "type": "ban",
+                    "time": 1,
+                    "text": "1",
+                    "bgColor": "red",
+                    "textSize": "4px"
+            }
+        },
+        {
+            "name": "bot2",
+            "moderation": {
+                    "type": "ban",
+                    "time": 2,
+                    "text": "2",
+                    "bgColor": "#009900",
+                    "textColor": "#fff",
+                    "textSize": "16px"
+            }
+        },
+        {
+            "name": "bot2",
+            "moderation": {
+                    "type": "ban",
+                    "time": 3,
+                    "text": "3",
+                    "signature": "the admins",
+                    "textColor": "#fff"
+            }
+        },
+        {
+            "name": "bot2",
+            "moderation": {
+                    "type": "ban",
+                    "time": 4,
+                    "text": "4"
+            }
+        },
+        {
+            "name": "bot2",
+            "moderation": {
+                    "type": "ban",
+                    "time": 5,
+                    "text": "5"
+            }
+        },
+        {
+            "name": "bot2",
+            "moderation": {
+                    "type": "ban",
+                    "time": 6,
+                    "text": "6"
+            }
+        },
+        {
+            "name": "bot2",
+            "moderation": {
+                    "type": "ban",
+                    "time": 7,
+                    "text": "7"
+            }
+        }
+    ],
+    "comments": [
+        {
+            "botName": "bot1",
+            "time":     0,
+            "content": "Ciao, wenn Fangts ah?"
+        },
+        {   
+            "botName": "bot3",
+            "time":     2,
+            "content": "Hoi!",
+            "replies": [
+                {
+                    "botName": "user3",
+                    "time":     -90,
+                    "content": "reply 1"
+                }
+            ]
+        },
+        {
+            "botName": "bot1",
+            "time":     -6000,
+            "content": "Hallo mitenand.",
+            "replies": [
+                {
+                    "botName": "user3",
+                    "time":     0,
+                    "content": "reply 2"
+                },
+                {
+                    "botName": "user5",
+                    "time":     0,
+                    "content": "reply 3"
+                }
+            ]
+        },
+        {
+            "botName": "bot2",
+            "time":     5,
+            "content": "Hey, ich bin auch da!",
+            "replies": [
+                {
+                    "botName": "user3",
+                    "time":     6,
+                    "content": "reply 4"
+                }
+            ],
+            "likes": [
+                {
+                    "botName": "user4",
+                    "time":     1000
+                }
+            ],
+            "dislikes": [
+                {
+                    "botName": "user4",
+                    "time":     -900
+                },
+                {
+                    "botName": "user2",
+                    "time":     -200
+                }
+            ]
+        },
+        {
+            "botName": "Irgendöpper",
+            "time":     14,
+            "content": "hooi!",
+            "replies": [
+                {
+                    "botName": "user3",
+                    "time":     16,
+                    "content": "reply 7"
+                }
+            ],
+            "likes": [
+                {
+                    "botName": "user4",
+                    "time":     -900
+                }
+            ]
+        }
+    ]
+}

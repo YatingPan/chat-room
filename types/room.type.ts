@@ -40,10 +40,18 @@ export type Moderation = {
     time: Date
     target: string | number // either user id or comment id
     text: string
+    textColor?: string
+    textSize?: string
+    bgColor?: string
+    signature?: string
 }
 
 export type Notification = {
     text: string
+    textColor: string
+    bgColor: string
+    signature: string
+    textSize: string
 }
 
 /**
@@ -83,4 +91,8 @@ export type UnparsedModeration = {
     type: string
     time: number
     text: string
+    textColor?: string
+    textSize?: string
+    bgColor?: string
+    signature?: string
 }

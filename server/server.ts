@@ -1,6 +1,6 @@
 'use strict';
 import type { UserAssignment, AccessInfo, User, UserExtended } from "../types/user.type"
-import type { ActionsUpdate, Comment, Like, ProposedComment, ProposedReply} from "../types/comment.type"
+import type { ActionsUpdate, ProposedComment, ProposedReply} from "../types/comment.type"
 import { Rooms } from "./util/room.js";
 import { Users } from "./util/users.js";
 import { Chats } from "./util/chat.js";

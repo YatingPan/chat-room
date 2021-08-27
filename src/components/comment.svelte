@@ -19,7 +19,7 @@
     const formatTime = (date: Date): string => moment(date).format("D.MM.YYYY, HH:mm")
 </script>
 
-<article class="commentCard" class:myComment={myComment}>
+<article class="commentCard id{comment?.id}" class:myComment={myComment}>
     
     <header class="CommentCard_header">
         <div class="userInfo">
