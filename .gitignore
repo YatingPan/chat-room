@@ -4,3 +4,4 @@
 *.map
 *.type.js
 *.log.json
+.ssh
