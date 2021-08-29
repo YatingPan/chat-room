@@ -98,7 +98,7 @@ export module Rooms {
     const parseRoomData = async (roomData: UnparsedRoomData, fileName: string): Promise<RoomData> => {
         
         // Just for debugging always start room on server start
-        const startTimeTimeStamp = Date.now() // Date.parse(roomData["startTime"])
+        const startTimeTimeStamp = Date.now() + 1000 // Date.parse(roomData["startTime"])
         const startTime = new Date(startTimeTimeStamp)
 
         // The duration of the room experiment in minutes

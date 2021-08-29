@@ -66,8 +66,8 @@ io.on("connection", socket => {
 
     if (assignedChatRoom) {
 
-      const newUser: UserExtended = await Users.userJoin(accessInfo, socket.id)
       const room: RoomData = await Rooms.getStaticRoomData(accessInfo.accessCode)
+      const newUser: UserExtended = await Users.userJoin(accessInfo, socket.id)
       
       const userAssignment: UserAssignment = {
         "room": room,

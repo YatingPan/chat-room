@@ -122,7 +122,8 @@
         else callback.apply(this, args)
     }
     const closeChatRoom = () => {
-        navigate("/checkout", { replace: true });
+        navigate(`checkout`, { replace: false });
+        console.log("Experiment ends")
     }
 
     onMount(() => {
@@ -159,8 +160,8 @@
             
 
             // calculate end Time from start time and duration given in minutes
-            // const endTime = new Date(assignedRoom?.startTime?.getTime() + assignedRoom?.duration * 60 * 1000)
-            // autoSend(endTime, closeChatRoom)
+            const endTime = new Date(new Date(assignedRoom?.startTime).getTime() + assignedRoom?.duration * 60 * 1000)
+            autoSend(endTime, closeChatRoom)
             
             if(assignedRoom?.automaticComments) {
                 const comms = assignedRoom?.automaticComments.sort((a: BotComment, b: BotComment) => a.time > b.time ? 1 : -1)
@@ -323,6 +324,7 @@
                 margin: 0.5rem 1rem;
 
                 .newCommentIndicator {
+                    background: white;
                     position: fixed;
                     bottom: 4rem;
                     right: 3rem;

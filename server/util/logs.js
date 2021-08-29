@@ -50,6 +50,7 @@ export var Logs;
             startTime: roomData.startTime,
             duration: roomData.duration,
             postTitle: roomData.post.title,
+            users: [],
             comments: autoComments,
             userModerationEvents: roomData.userModerationEvents
         };
@@ -57,6 +58,9 @@ export var Logs;
     };
     Logs.appendTopLevelComment = (roomID, comment) => {
         logs[roomID].comments.push(commentToLoggedCommnet(comment));
+    };
+    Logs.appendUser = (roomID, user) => {
+        logs[roomID].users.push(user.user);
     };
     Logs.appendReply = (reply) => {
         if (replies[reply.parentID])
@@ -72,6 +76,7 @@ export var Logs;
     };
     const assembleLog = (roomID) => {
         let fullLog = logs[roomID];
+        fullLog.comments.sort((a, b) => a.time < b.time ? -1 : 1);
         fullLog.comments.map((comment) => {
             const reps = replies[comment.id];
             comment["replies"] = reps?.sort((a, b) => a.time < b.time ? -1 : 1);

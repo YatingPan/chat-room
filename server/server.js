@@ -49,8 +49,8 @@ io.on("connection", socket => {
     socket.on("accessInfo", async (accessInfo) => {
         const assignedChatRoom = await Rooms.getAssignedChatRoom(accessInfo.accessCode);
         if (assignedChatRoom) {
-            const newUser = await Users.userJoin(accessInfo, socket.id);
             const room = await Rooms.getStaticRoomData(accessInfo.accessCode);
+            const newUser = await Users.userJoin(accessInfo, socket.id);
             const userAssignment = {
                 "room": room,
                 "user": newUser

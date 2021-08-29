@@ -2,6 +2,7 @@ import path from "path";
 import fs from 'fs';
 import type { Log, RoomData } from "../../types/room.type";
 import type { BotComment, BotLike, Like, LoggedComment, Comment, Reply, ActionsUpdate} from "../../types/comment.type";
+import type { UserExtended } from "../../types/user.type";
 
 const __dirname = path.resolve();
 const privateDir = path.join(__dirname, "server", "private")
@@ -55,6 +56,7 @@ export module Logs {
             startTime: roomData.startTime,
             duration: roomData.duration,
             postTitle: roomData.post.title,
+            users: [],
             comments: autoComments,
             userModerationEvents: roomData.userModerationEvents
         }
@@ -63,6 +65,9 @@ export module Logs {
 
     export const appendTopLevelComment = (roomID: string, comment: Comment) => {
         logs[roomID].comments.push(commentToLoggedCommnet(comment))
+    }
+    export const appendUser = (roomID: string, user: UserExtended) => {
+        logs[roomID].users.push(user.user)
     }
     export const appendReply = (reply: Reply) => {
         if (replies[reply.parentID])
@@ -80,6 +85,7 @@ export module Logs {
     const assembleLog = (roomID: string): Log => {
         let fullLog: Log = logs[roomID]
 
+        fullLog.comments.sort((a: LoggedComment, b: LoggedComment) => a.time < b.time ? -1 : 1)
         fullLog.comments.map((comment: LoggedComment) => {
             const reps: LoggedComment[] = replies[comment.id]
             comment["replies"] = reps?.sort((a: LoggedComment, b: LoggedComment) => a.time < b.time ? -1 : 1)

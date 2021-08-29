@@ -1,9 +1,11 @@
 import path from 'path';
 import fs from 'fs';
+import { Logs } from './logs.js';
 const __dirname = path.join(path.resolve(), "server");
 const privateDir = path.join(__dirname, "private");
 const rawdata = await fs.promises.readFile(path.resolve(privateDir, "nickNames.json"));
 const nickNames = JSON.parse(rawdata.toString());
+const nNickNames = nickNames.length;
 let counter = 0;
 export var Users;
 (function (Users) {
@@ -12,11 +14,14 @@ export var Users;
         // choose a random user name fromt the samples given
         const chosenNickName = nickNames[counter % nickNames.length];
         counter += 1;
-        return chosenNickName;
+        if (counter < nNickNames)
+            return chosenNickName;
+        else
+            return `chosenNickName${Math.floor(counter / nNickNames)}`;
     }
     const createUser = async (accessCode, mTurkId, id) => {
         const userName = await assignUserName();
-        return {
+        const newUser = {
             "user": {
                 "name": userName,
                 "mTurkId": mTurkId,
@@ -24,6 +29,8 @@ export var Users;
             },
             "accessCode": accessCode
         };
+        Logs.appendUser(accessCode, newUser);
+        return newUser;
     };
     Users.userJoin = async (accessInfo, id) => {
         // Check if the user is already logged in with its details

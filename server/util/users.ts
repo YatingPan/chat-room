@@ -1,26 +1,31 @@
 import path from 'path';
 import fs from 'fs';
 import type { AccessInfo, User, UserExtended } from '../../types/user.type';
+import { Logs } from './logs.js';
 
 const __dirname =  path.join(path.resolve(), "server");
 const privateDir = path.join(__dirname, "private");
 
 const rawdata = await fs.promises.readFile(path.resolve(privateDir, "nickNames.json"));
-const nickNames = JSON.parse(rawdata.toString())
+const nickNames: string[] = JSON.parse(rawdata.toString())
+const nNickNames: number = nickNames.length
 let counter = 0
 export module Users {
     const users: UserExtended[] = []
 
-    async function assignUserName(){
+    async function assignUserName() {
         // choose a random user name fromt the samples given
-        const chosenNickName = nickNames[counter % nickNames.length];
-        counter += 1;
-        return chosenNickName;
+        const chosenNickName = nickNames[counter % nickNames.length]
+        counter += 1
+        if(counter < nNickNames)
+           return chosenNickName
+        else 
+            return `chosenNickName${Math.floor(counter/nNickNames)}`
     }
     
     const createUser = async (accessCode: string, mTurkId: string, id: string): Promise<UserExtended> => {
         const userName = await assignUserName()
-        return {
+        const newUser: UserExtended = {
             "user": {
                 "name": userName,
                 "mTurkId": mTurkId,
@@ -28,6 +33,8 @@ export module Users {
             },
             "accessCode": accessCode
         }
+        Logs.appendUser(accessCode, newUser)
+        return newUser 
     }
 
     export const userJoin = async (accessInfo: AccessInfo, id: string) => {
@@ -41,7 +48,7 @@ export module Users {
         }
 
         let newUser: UserExtended = await createUser(accessInfo?.accessCode, accessInfo?.mTurkId, id);
-        console.log("New user created",newUser)
+        console.log("New user created", newUser)
         users.push(newUser)
         //console.log("Users:", users)
         return newUser    

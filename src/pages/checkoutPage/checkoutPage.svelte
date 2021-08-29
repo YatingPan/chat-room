@@ -7,15 +7,14 @@
     import moment from "moment";
 
     export let url = "";
+    let surveyLink = "survey";
     let user: UserExtended;
     let room: RoomData;
-    let startTime;
-    let endTime;
-    $: now = Date.now()
-    $: roomAccessible = startTime?.getTime() < now //&& now < endTime?.getTime()
-
-    $: console.log(room, endTime)
+    let startTime, endTime
+    
     onMount(() => {
+
+        //navigate(surveyLink, {replace: true})
         store.userStore.subscribe((userData: UserExtended) => {
             user = userData
         })
@@ -31,13 +30,6 @@
         })
 
     })
-    const condRedirect = () => {
-        console.log("trying redirect", startTime, Date.now())
-        if(startTime.getTime() < Date.now()) {
-            console.log("redirecting to room")
-            navigate(`/${user.accessCode}/room`, { replace: true})
-        }
-    }
     const formatTime = (date: Date): string => {
         return moment(date).format("D.MM.YYYY, HH:mm")
         //date.toLocaleString('de-DE', {weekday: "long", year: "numeric", month:"numeric", day: "numeric"});
@@ -46,26 +38,13 @@
 </script>
 
 <div class="container">
-    <h1>Welcome to chat room {room?.name}</h1>
+    <h1>Experiment ended from chat room {room?.name}</h1>
     <h2>Your user Name is {user?.user?.name}</h2>
     <p>Room starts at: {formatTime(room?.startTime)}</p>
     <p>Room ends at: {formatTime(endTime)}</p>
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla dicta quibusdam, numquam eaque blanditiis nemo ipsa, iste provident qui quisquam sint, aut fugiat molestiae minima reiciendis cupiditate neque facilis repudiandae.</p>
-
-    
-    <button on:click="{(e) => condRedirect()}">Start Chatting</button>
-    <!-- <Router url="{url}">
-        {#if !roomAccessible}
-            Button Not pressable
-            <button>Start Chatting</button>
-        {/if}
-        {#if roomAccessible}
-            Button pressable
-            <Link to="room">
-                <button>Start Chatting</button>
-            </Link>
-        {/if}
-    </Router> -->
+    <p>
+        Continue with the survey by clicking <a href={surveyLink}>here</a>
+    </p>
 </div>
 
 <style lang="scss">

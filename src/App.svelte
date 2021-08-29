@@ -3,6 +3,7 @@
     import ChatRoom from "./pages/chatRoom/chatRoom.svelte";
     import WelcomePage from "./pages/welcomePage/welcomePage.svelte";
     import Post from "./components/post.svelte";
+    import CheckoutPage from "./pages/checkoutPage/checkoutPage.svelte";
 
 	export let url = "";
     
@@ -19,6 +20,10 @@
 			<Route path="/:accessCode" let:params>
                 <!-- <span>access code: {params.accessCode} </span> -->
 				<WelcomePage/>
+			</Route>
+			<Route path="/:accessCode/checkout" let:params>
+                <!-- <span>access code: {params.accessCode} </span> -->
+				<CheckoutPage/>
 			</Route>
         </Router>
 

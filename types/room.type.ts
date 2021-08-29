@@ -1,4 +1,5 @@
 import type { BotComment, Comment, Like, LoggedComment, UnparsedBotComment } from "./comment.type"
+import type { User, UserExtended } from "./user.type"
 
 export type Post = {
     id: string
@@ -20,6 +21,7 @@ export type Log = {
     postTitle: string
     comments: LoggedComment[]
     userModerationEvents: Moderation[]
+    users: User[]
 }
 
 export enum ModerationType { Ban, Flag, Remove }
