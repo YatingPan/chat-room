@@ -83,7 +83,7 @@ export var Rooms;
     };
     const parseRoomData = async (roomData, fileName) => {
         // Just for debugging always start room on server start
-        const startTimeTimeStamp = Date.now() + 1000; // Date.parse(roomData["startTime"])
+        const startTimeTimeStamp = Date.now() + 60 * 1000; // Date.parse(roomData["startTime"])
         const startTime = new Date(startTimeTimeStamp);
         // The duration of the room experiment in minutes
         const duration = roomData.duration;

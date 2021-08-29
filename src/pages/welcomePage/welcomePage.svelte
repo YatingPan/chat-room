@@ -5,16 +5,21 @@
     import { onMount } from "svelte";
     import store from "../../stores/store";
     import moment from "moment";
+    import { writable } from "svelte/store";
 
     export let url = "";
     let user: UserExtended;
     let room: RoomData;
     let startTime;
     let endTime;
-    $: now = Date.now()
-    $: roomAccessible = startTime?.getTime() < now //&& now < endTime?.getTime()
+    const countdown = writable(0);
 
-    $: console.log(room, endTime)
+    setInterval(() => {
+        countdown.set(Math.floor((startTime - Date.now()) / 1000));
+    }, 1000);
+
+    $: roomAccessible = $countdown < 0
+
     onMount(() => {
         store.userStore.subscribe((userData: UserExtended) => {
             user = userData
@@ -47,25 +52,18 @@
 
 <div class="container">
     <h1>Welcome to chat room {room?.name}</h1>
-    <h2>Your user Name is {user?.user?.name}</h2>
+    <h2>Your user name is: <bold>{user?.user?.name}</bold></h2>
     <p>Room starts at: {formatTime(room?.startTime)}</p>
     <p>Room ends at: {formatTime(endTime)}</p>
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla dicta quibusdam, numquam eaque blanditiis nemo ipsa, iste provident qui quisquam sint, aut fugiat molestiae minima reiciendis cupiditate neque facilis repudiandae.</p>
 
-    
-    <button on:click="{(e) => condRedirect()}">Start Chatting</button>
-    <!-- <Router url="{url}">
-        {#if !roomAccessible}
-            Button Not pressable
-            <button>Start Chatting</button>
-        {/if}
-        {#if roomAccessible}
-            Button pressable
-            <Link to="room">
-                <button>Start Chatting</button>
-            </Link>
-        {/if}
-    </Router> -->
+    {#if !roomAccessible}
+        <p>You can enter in {$countdown}.</p> 
+    {/if}
+
+    {#if roomAccessible}
+        <button on:click="{(e) => condRedirect()}">Start Chatting</button>
+    {/if}
+
 </div>
 
 <style lang="scss">
@@ -73,5 +71,6 @@
 
     .container {
         margin: 1em;
+        min-height: 90vh;
     }
 </style>

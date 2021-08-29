@@ -7,10 +7,9 @@
     import moment from "moment";
 
     export let url = "";
-    let surveyLink = "survey";
     let user: UserExtended;
     let room: RoomData;
-    let startTime, endTime
+    let startTime, endTime, surveyLink
     
     onMount(() => {
 
@@ -29,6 +28,7 @@
             }
         })
 
+        surveyLink = `http://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0?roomId=${user.accessCode}&mTurkId=${user?.user?.mTurkId}`;
     })
     const formatTime = (date: Date): string => {
         return moment(date).format("D.MM.YYYY, HH:mm")
@@ -38,10 +38,7 @@
 </script>
 
 <div class="container">
-    <h1>Experiment ended from chat room {room?.name}</h1>
-    <h2>Your user Name is {user?.user?.name}</h2>
-    <p>Room starts at: {formatTime(room?.startTime)}</p>
-    <p>Room ends at: {formatTime(endTime)}</p>
+    <h1>Experiment ended at: {formatTime(endTime)}</h1>
     <p>
         Continue with the survey by clicking <a href={surveyLink}>here</a>
     </p>
@@ -52,5 +49,6 @@
 
     .container {
         margin: 1em;
+        min-height: 90vh;
     }
 </style>
