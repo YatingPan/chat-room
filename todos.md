@@ -21,10 +21,11 @@
 
 - [x] change from text from chat room to discussion room
 - [ ] be able to flag comments
+- [ ] removing a comment should just replace it's contents
+- [ ] enter to send
+- [ ] back to top button
+- [ ] Resend log once user loggs in again?
 
-
-
-
-
-- [ ] rework server as pure rest API    
-- [] Resend log once user loggs in again?        
+later on:
+- [ ] blur comments
+- [ ] sensitive material flag
