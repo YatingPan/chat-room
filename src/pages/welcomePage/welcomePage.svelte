@@ -51,7 +51,7 @@
 </script>
 
 <div class="container">
-    <h1>Welcome to chat room {room?.name}</h1>
+    <h1>Welcome to discussion room {room?.name}</h1>
     <h2>Your user name is: <bold>{user?.user?.name}</bold></h2>
     <p>Room starts at: {formatTime(room?.startTime)}</p>
     <p>Room ends at: {formatTime(endTime)}</p>

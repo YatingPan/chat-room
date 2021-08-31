@@ -30,7 +30,7 @@
     </div>
 
     <footer class="footer">
-        <span>Chat Room &copy; 2021 </span>
+        <span>Discussion Room 2021; &copy; University of Zürich </span>
     </footer>
    
 </main>

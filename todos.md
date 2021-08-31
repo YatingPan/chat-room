@@ -19,7 +19,8 @@
     - [x] Ban Users, Flag Comments, Remove Comments     N
     - [x] Frontend                                      N
 
-
+- [x] change from text from chat room to discussion room
+- [ ] be able to flag comments
 
 
 
