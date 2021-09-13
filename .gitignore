@@ -5,3 +5,4 @@
 *.type.js
 *.log.json
 .ssh
+*.js
