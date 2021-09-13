@@ -33,7 +33,8 @@ app.get('/secret', async function (req, res, next) {
 
   const html = availableRooms.map(function(hashAndFileName) {
     const [hash, fileName] = hashAndFileName;
-    return `<li>${fileName} -> ${hash}</li>`
+    const fullUrl = req.protocol + '://' + req.get('host');
+    return `<li>${fileName}: <a href="${fullUrl}/${hash}" target="_blank"> ${hash} </a></li>`
   }).join("");
   
   res.write(`
