@@ -16,10 +16,14 @@
 
     setInterval(() => {
         countdown.set(Math.floor((startTime - Date.now()) / 1000));
+
+        if($countdown < -3) {
+            condRedirect()
+        }
     }, 1000);
-
+    
     $: roomAccessible = $countdown < 0
-
+    
     onMount(() => {
         store.userStore.subscribe((userData: UserExtended) => {
             user = userData
