@@ -77,7 +77,8 @@
                 id: autoComment.botName,
                 name: autoComment.botName
             },
-            content: autoComment.content
+            content: autoComment.content,
+            moderation: autoComment.moderation
         }
         return newComment
     }
@@ -89,10 +90,26 @@
         else
             n_new_comments++
     }
-    const removeComment = (commentID: number) => {
+    const flagComment = (commentID: number) => {
+        const comment = comments.find((comment: Comment) => comment.id === commentID)
         const index = comments.findIndex((comment: Comment) => comment.id === commentID)
+        const newComment = comment
+        newComment.flagged = true
         comments = [
 			...comments.slice(0, index),
+            newComment,
+			...comments.slice(index + 1, comments.length-1)
+        ]
+    }
+
+    const removeComment = (commentID: number) => {
+        const comment = comments.find((comment: Comment) => comment.id === commentID)
+        const index = comments.findIndex((comment: Comment) => comment.id === commentID)
+        const newComment = comment;
+        newComment.content = "This comment got removed by the administrators."
+        comments = [
+			...comments.slice(0, index),
+            newComment,
 			...comments.slice(index + 1, comments.length-1)
         ]
     }
@@ -175,8 +192,10 @@
                     if(autoComment?.moderation) {
                         const moderationEvent = autoComment.moderation
                             autoSend(new Date(moderationEvent.time), addNotification, moderationEvent)
-                            // If comment got removed, remove it from the comments list
                             if(moderationEvent?.type === 1)
+                                autoSend(new Date(moderationEvent.time), flagComment, moderationEvent.target)
+                            // If comment got removed, mark it's content as removed
+                            if(moderationEvent?.type === 2)
                                 autoSend(new Date(moderationEvent.time), removeComment, moderationEvent.target)
                     }
                     

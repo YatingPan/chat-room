@@ -13,22 +13,25 @@
     export let dislikes: {}
     export let isTopLevelComment: Boolean = true
     let showReplyInput: Boolean = false
+    //export let flagged: Boolean = false
     $: thisCommentLikes = likes[comment.id] ? likes[comment.id] : []
     $: thisCommentDislikes = dislikes[comment.id] ? dislikes[comment.id] : []
 
     const formatTime = (date: Date): string => moment(date).format("D.MM.YYYY, HH:mm")
+    console.log(JSON.stringify(comment, null, 4));
 </script>
 
 <article class="commentCard id{comment?.id}" class:myComment={myComment}>
-    
-    <header class="CommentCard_header">
-        <div class="userInfo">
-            <h2 class="userName">{comment?.user?.name}</h2>
-            <h3 class="time">{formatTime(comment?.time)}</h3>
-        </div>
-    </header>
-    <p class="text">{comment?.content}</p>
-    
+
+    <div class="commentContainer {comment?.flagged === true ? 'flagged' : ''}">
+        <header class="CommentCard_header">
+            <div class="userInfo">
+                <h2 class="userName">{comment?.user?.name}</h2>
+                <h3 class="time">{formatTime(comment?.time)}</h3>
+            </div>
+        </header>
+        <p class="text">{comment?.content}</p>
+    </div>
     <div class="actionsContainer">
        <LikesDislikes likes={thisCommentLikes} dislikes={thisCommentDislikes} parentCommentID={comment.id}/>
         <div class="reply-button" class:showReplyButton={isTopLevelComment}>
@@ -43,7 +46,7 @@
         </div>
     {/if}
     {#if replies}  
-        <div class="repliesContrainer" class:showReplies={replies}> 
+        <div class="repliesContainer" class:showReplies={replies}> 
             {#each replies as reply, i}
                 <CommentComponent comment={reply} replies={[]} isTopLevelComment={false} likes={likes} dislikes={dislikes}/>
             {/each}
@@ -64,6 +67,15 @@
     // .commentCard:last-of-type {
     //     border-bottom: .0625rem solid rgba(0,0,0,.15);
     // }
+    
+    .flagged {
+            background: #ff9966;
+    }
+    .flagged::after {
+        content: "This comment got flagged by the administrators.";
+        font-style: italic;
+    }
+
     .commentCard {
         border-top: .0625rem solid rgba(0,0,0,.15);
         color: #1a1a1a;
@@ -128,8 +140,9 @@
             width: 100%;
         }
 
-        .repliesContrainer {
+        .repliesContainer {
             margin-left: 2rem;
         }
+
     }
 </style>

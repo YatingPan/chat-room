@@ -20,8 +20,8 @@
     - [x] Frontend                                      N
 
 - [x] change from text from chat room to discussion room
-- [ ] be able to flag comments
-- [ ] removing a comment should just replace it's contents
+- [x] be able to flag comments
+- [x] removing a comment should just replace its contents
 - [ ] enter to send
 - [ ] back to top button
 - [x] specify outbound URL in room spec file
