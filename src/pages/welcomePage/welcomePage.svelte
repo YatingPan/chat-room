@@ -17,7 +17,7 @@
     setInterval(() => {
         countdown.set(Math.floor((startTime - Date.now()) / 1000));
 
-        if($countdown < -3 && $countdown > 100) {
+        if($countdown < -3 && $countdown > -100) {
             condRedirect()
         }
     }, 1000);
