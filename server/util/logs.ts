@@ -58,7 +58,8 @@ export module Logs {
             postTitle: roomData.post.title,
             users: [],
             comments: autoComments,
-            userModerationEvents: roomData.userModerationEvents
+            userModerationEvents: roomData.userModerationEvents,
+            outgoingLink: roomData.outgoingLink
         }
         logs[roomID] = newLog
     }

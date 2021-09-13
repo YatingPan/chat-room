@@ -116,6 +116,9 @@ export module Rooms {
                     return parseUserModeration(bot.moderation, bot.name, startTimeTimeStamp)
             })
         //console.log("userModerationEvents", userModerationEvents)
+
+        const outgoingLink = roomData.outgoingLink
+
         const parsedRoomData: RoomData = {
             id,
             name,
@@ -123,7 +126,8 @@ export module Rooms {
             duration,
             post,
             automaticComments,
-            userModerationEvents
+            userModerationEvents,
+            outgoingLink
         }
         return parsedRoomData
     }

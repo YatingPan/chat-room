@@ -28,7 +28,7 @@
             }
         })
 
-        surveyLink = `http://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0?roomId=${user.accessCode}&mTurkId=${user?.user?.mTurkId}`;
+        surveyLink = `${room.outgoingLink}?roomId=${user.accessCode}&mTurkId=${user?.user?.mTurkId}`;
     })
     const formatTime = (date: Date): string => {
         return moment(date).format("D.MM.YYYY, HH:mm")

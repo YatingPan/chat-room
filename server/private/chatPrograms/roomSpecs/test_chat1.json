@@ -3,6 +3,7 @@
     "startTime": "2021-07-13 20:00",
     "postName": "post1.json",
     "duration": 1,
+    "outgoingLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
     "bots": [
         {
             "name": "bot1",
@@ -40,8 +41,8 @@
             ],
             "moderation": {
                 "type": "flag",
-                "time":     15,
-                "text": "Comment got removed"
+                "time":     10,
+                "text": "Comment with content 'Hoi!', by user HalloIchBinEinBot got flagged"
             },
             "likes": [
                 {

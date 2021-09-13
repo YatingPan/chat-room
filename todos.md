@@ -24,7 +24,7 @@
 - [ ] removing a comment should just replace it's contents
 - [ ] enter to send
 - [ ] back to top button
-- [ ] specify outbound URL in room spec file
+- [x] specify outbound URL in room spec file
 
 later on:
 - [ ] Resend log once user loggs in again
