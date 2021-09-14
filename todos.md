@@ -22,7 +22,7 @@
 - [x] change from text from chat room to discussion room
 - [x] be able to flag comments
 - [x] removing a comment should just replace its contents
-- [ ] enter to send
+- [x] enter to send
 - [ ] back to top button
 - [x] specify outbound URL in room spec file
 

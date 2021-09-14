@@ -45,10 +45,14 @@ import { onMount } from "svelte";
         // Toggle off input field
         showReplyInput = false
     }
+
+    const onKeyPress = e => {
+        if (e.charCode === 13) onSendComment();
+    };
 </script>
 
 <div class="newCommentField">
-    <textarea type="text" bind:value={commentText} placeholder="{`Send a ${commentTypeStr}`}" cols="30" rows="5" autofocus></textarea>
+    <textarea type="text" bind:value={commentText} on:keypress={onKeyPress} placeholder="{`Send a ${commentTypeStr}`}" cols="30" rows="5" autofocus></textarea>
     <button on:click={onSendComment}>
         <img src="../icons/sendIcon.svg" alt="send comment">
     </button>
