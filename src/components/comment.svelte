@@ -69,10 +69,10 @@
     // }
     
     .flagged {
-            background: #ff9966;
+            background: rgba(81, 212, 233, 0.5);
     }
     .flagged::after {
-        content: "This comment got flagged by the administrators.";
+        content: "❗ This comment got flagged by the administrators.";
         font-style: italic;
     }
 

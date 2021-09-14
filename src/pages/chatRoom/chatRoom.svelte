@@ -106,7 +106,7 @@
         const comment = comments.find((comment: Comment) => comment.id === commentID)
         const index = comments.findIndex((comment: Comment) => comment.id === commentID)
         const newComment = comment;
-        newComment.content = "This comment got removed by the administrators."
+        newComment.content = "‼️ This comment got removed by the administrators."
         comments = [
 			...comments.slice(0, index),
             newComment,
@@ -286,6 +286,11 @@
             </IntersectionObserver>
         </div>
     </div>
+
+<div class="scrollToTop">
+    <a on:click={() => animateScroll.scrollToTop()}> Scroll to top </a>
+</div>
+
 </div>
 
 <style lang="scss">
@@ -373,6 +378,47 @@
                 }
             }
             
+        }
+    }
+    .scrollToTop {
+        background: white;
+        position: fixed;
+        bottom: 4rem;
+        right: 3rem;
+        width: 3rem;
+        height: 3rem;
+        // reinstate clicks
+        pointer-events: all;
+        // achieves desired positioning within the viewport
+        // relative to the top of the viewport once `sticky` takes over, or always if `fixed` fallback is used
+        top: calc(100vh - 5rem);
+
+        // basic styling
+        display: inline-block;
+        text-decoration: none;
+        font-size: 2rem;
+        line-height: 3rem;
+        text-align: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        padding: 0.25rem;
+
+        $color: #c6538c;
+
+        // "pretty" styles, including states
+        border: 1px solid $color;
+        background-color: scale-color($color, $lightness: 85%);
+        transition: transform 80ms ease-in;
+
+        &:hover,
+        &:focus {
+            transform: scale(1.1);
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px scale-color($color, $lightness: 35%);
         }
     }
 </style>
