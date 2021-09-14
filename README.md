@@ -4,7 +4,7 @@ A chat room application for researching chat moderation
 
 ## For researchers:
 All filenames (`examplePost.json`, `exampleImg.jpg`, `exampleChat.json`) 
-can be freely chosen but need to be consistent with the references to said names. Please make sure to be in the UZH network when attempting to upload the files to the respective folders via FTP.
+can be freely chosen but need to be consistent with the references to said names. Please make sure to be in the UZH network when attempting to upload the files to the respective folders via FTP or Github access.
 
 
 1. Add posts
@@ -45,7 +45,10 @@ of the list for each room, modify/replace the file `nickNames.json` in the
 In order to add a chatroom, create a `exampleChat.json` in the `server/private/chatPrograms/roomSpecs/` folder.
 
 The format is as follows in the example of all possible moderation features,
-the usernames must not, but can match the file above.
+the usernames must not, but can match the file above. For more examples on 
+the moderation features, browse through the different example room spec files 
+in the `server/private/chatPrograms/roomSpecs/` folder.
+
 ```json
 {   
     "roomName": "Example Chat Room",
@@ -129,13 +132,13 @@ the usernames must not, but can match the file above.
 }
 ```
 
-4. After uploading the files to the server using FTP, distribute the links to the chatrooms to the Mturklers. The links can be retrieved when visiting the `discussionroom.org/secret` endpoint. 
+4. After uploading the files to the server using FTP or Github, distribute the links to the chatrooms to the Mturklers. The links can be retrieved when visiting the `discussionroom.org/secret` endpoint. Make sure to add the Qualtrics options for stylized links.
    
 ## Experiment procedure
-1. When a participant clicks the customized link in the previous Qualtrics study, he gets sent to a 'waiting room', in which a button to `Start Chatting` is visible, and only clickable if the chatroom `startTime` is past. There, the unique id of the participant is saved alongside the assigned username in the logfile.
+1. When a participant clicks the customized link in the previous Qualtrics study, he gets sent to a 'waiting room', in which a button to `Start Chatting` is visible, and only clickable if the chatroom `startTime` is past. There, the mTurkId of the participant is saved alongside the assigned username in the logfile.
     Their username is displayed to them.
 2. Once the `Start Chatting` button is pressed, the participants are let into the chatroom and see the post and all automated comments, as well as the comments and likes of other participants, and they themselves can comment and like/dislike. 
-3. After the study is over, the participants are automatically forwarded to the followup study using a customized link, so that the uniqueid is again traceable throughout the course of the study.
-4. The ids and the respective usernames are logged in the logfile. In the qualtrics survey, another exitcode can be generated or the unique id reused for the participants to provide on completing the HIT for the researchers to verify the full study was done for payment.
-5. The participant submits the HIT with her unique exit code.
-6. The logfile of the chatroom and all actions of the participants within can be retrieved as a JSON file on the following endpoint: _LOGFILE_
+3. After the study is over, the participants are presented the followup study using a customized link, so that the mTurkId is again traceable throughout the course of the study.
+4. The ids and the respective usernames are logged in the logfile. In the qualtrics survey, another exitcode can be generated or the mTurkId reused for the participants to provide on completing the HIT for the researchers to verify the full study was done for payment.
+5. The participant submits the HIT with her mTurkId.
+6. The logfile of the chatroom and all actions of the participants within can be retrieved as a JSON file on the server, using FTP or SSH access.
