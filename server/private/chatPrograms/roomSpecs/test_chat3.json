@@ -3,7 +3,7 @@
     "startTime": "2021-07-13 20:00",
     "postName": "post1.json",
     "duration": 1,
-    "outgoingLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
+    "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
     "bots": [
         {
             "name": "bot1",

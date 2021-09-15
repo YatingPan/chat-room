@@ -117,7 +117,7 @@ export module Rooms {
             })
         //console.log("userModerationEvents", userModerationEvents)
 
-        const outgoingLink = roomData.outgoingLink
+        const outboundLink = roomData.outboundLink
 
         const parsedRoomData: RoomData = {
             id,
@@ -127,7 +127,7 @@ export module Rooms {
             post,
             automaticComments,
             userModerationEvents,
-            outgoingLink
+            outboundLink
         }
         return parsedRoomData
     }

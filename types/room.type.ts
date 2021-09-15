@@ -22,7 +22,7 @@ export type Log = {
     comments: LoggedComment[]
     userModerationEvents: Moderation[]
     users: User[]
-    outgoingLink: string
+    outboundLink: string
 }
 
 export enum ModerationType { Ban, Flag, Remove }
@@ -35,7 +35,7 @@ export type RoomData = {
     post: Post
     automaticComments: BotComment[]
     userModerationEvents: Moderation[]
-    outgoingLink: string
+    outboundLink: string
 }
 
 
@@ -82,7 +82,7 @@ export type UnparsedRoomData = {
     postName: string
     bots: UnparsedBot[]
     comments: UnparsedBotComment[]
-    outgoingLink: string
+    outboundLink: string
 }
 
 // Type of Bot specification JSON

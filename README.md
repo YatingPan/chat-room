@@ -55,6 +55,7 @@ in the `server/private/chatPrograms/roomSpecs/` folder.
     "startTime": "2021-07-13 20:00",
     "postName": "examplePost.json", // needs to be consistent with above
     "duration": 15, // in minutes
+    "outboundLink": "https://example.com/survey",
     "bots": [
         {
             "name": "bot1",
@@ -110,7 +111,11 @@ in the `server/private/chatPrograms/roomSpecs/` folder.
             "content": "Hmmm...",
             "moderation": {
                 "type": "remove",
-                "time": 15
+                "time": 30,
+                "text": "😃 notifications can be customized! this is the notification of removing the comment by bot2 with content 'Hmmm...'",
+                "bgColor": "#009900",
+                "textColor": "#fff",
+                "textSize": "16px"
             },
             "replies": [
             ],
@@ -132,7 +137,19 @@ in the `server/private/chatPrograms/roomSpecs/` folder.
 }
 ```
 
-4. After uploading the files to the server using FTP or Github, distribute the links to the chatrooms to the Mturklers. The links can be retrieved when visiting the `discussionroom.org/secret` endpoint. Make sure to add the Qualtrics options for stylized links.
+4. Upload the files to the server, preferably using FTP or Github. Then rebuild  and restart the server:
+    ```bash
+    cd /srv/www/chat-room # get the newest version of all files and server
+    git pull
+    npm run build
+    pm2 restart server
+    ```
+
+5. After uploading the files to the server using FTP or Github, distribute the links to the chatrooms to the Mturklers. The toom inks can be retrieved when visiting the `discussionroom.org/secret` endpoint. Make sure to add the Qualtrics options for stylized links, for room with the hash `abcde` like so:
+   ```bash
+        http://www.discussonroom.org/abcde?&mTurkId=123456 # note that the mTurkId is added after the questionmark, with a leading ampersand. 
+        # outbound link (including roomId and mTurkId): https://survey.com/example?&roomId=abcde&mTurkId=123456
+   ```
    
 ## Experiment procedure
 1. When a participant clicks the customized link in the previous Qualtrics study, he gets sent to a 'waiting room', in which a button to `Start Chatting` is visible, and only clickable if the chatroom `startTime` is past. There, the mTurkId of the participant is saved alongside the assigned username in the logfile.
