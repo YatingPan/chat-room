@@ -139,7 +139,7 @@ in the `server/private/chatPrograms/roomSpecs/` folder.
 
 4. Upload the files to the server, preferably using FTP or Github. Then rebuild  and restart the server:
     ```bash
-    cd /srv/www/chat-room # get the newest version of all files and server
+    cd /srv/chat-room # get the newest version of all files and server
     git pull
     npm run build
     pm2 restart server
