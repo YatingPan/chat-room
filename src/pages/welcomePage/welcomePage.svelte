@@ -7,7 +7,7 @@
     import moment from "moment";
     import { writable } from "svelte/store";
 
-    export let url = "";
+    // export let url = "";
     let user: UserExtended;
     let room: RoomData;
     let startTime;

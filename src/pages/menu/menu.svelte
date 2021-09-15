@@ -1,7 +1,7 @@
 <script>
 	import { Router, Link, Route } from "svelte-routing";
 
-    export let url = "";
+    // xport let url = "";
     export let seiten;
     const items = Object.keys(seiten).map(key => [seiten[key]["slug"], seiten[key]["hauptTitel"], seiten[key]["unterTitel"]])
 

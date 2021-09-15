@@ -6,7 +6,7 @@
     import store from "../../stores/store";
     import moment from "moment";
 
-    export let url = "";
+    // export let url = "";
     let user: UserExtended;
     let room: RoomData;
     let startTime, endTime, surveyLink
