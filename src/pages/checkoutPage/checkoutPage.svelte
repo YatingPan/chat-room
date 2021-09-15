@@ -37,6 +37,11 @@
 
 </script>
 
+<svelte:head>
+    <title>Checkout</title>
+</svelte:head>
+
+
 <div class="container">
     <h1>Experiment ended at: {formatTime(endTime)}</h1>
     <p>

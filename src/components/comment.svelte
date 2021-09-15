@@ -69,7 +69,8 @@
     // }
     
     .flagged {
-            background: rgba(81, 212, 233, 0.5);
+            background: rgba(112, 228, 239, 0.5);
+            corner-radius: 15%;
     }
     .flagged::after {
         content: "❗ This comment got flagged by the administrators.";

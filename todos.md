@@ -23,7 +23,7 @@
 - [x] be able to flag comments
 - [x] removing a comment should just replace its contents
 - [x] enter to send
-- [ ] back to top button
+- [x] back to top button
 - [x] specify outbound URL in room spec file
 
 later on:

@@ -14,10 +14,10 @@
     let endTime;
     const countdown = writable(0);
 
-    setInterval(() => {
+    var countdownfunc = setInterval(() => {
         countdown.set(Math.floor((startTime - Date.now()) / 1000));
 
-        if($countdown < -3 && $countdown > -100) {
+        if($countdown < -3) {
             condRedirect()
         }
     }, 1000);
@@ -45,6 +45,7 @@
         if(startTime.getTime() < Date.now()) {
             console.log("redirecting to room")
             navigate(`/${user.accessCode}/room`, { replace: true})
+            clearInterval(countdownfunc)
         }
     }
     const formatTime = (date: Date): string => {
@@ -53,6 +54,10 @@
     }
 
 </script>
+
+<svelte:head>
+    <title>Welcome</title>
+</svelte:head>
 
 <div class="container">
     <h1>Welcome to discussion room {room?.name}</h1>
