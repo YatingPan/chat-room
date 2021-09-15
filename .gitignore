@@ -6,3 +6,4 @@
 *.log.json
 .ssh
 *.js
+*.js.map
