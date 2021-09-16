@@ -68,7 +68,7 @@
         }
     }
     const generateComment = (autoComment: BotComment) => {
-
+        console.log(`received bot Comment: ${JSON.stringify(autoComment, null, 4)}`)
         const newComment: Comment = {
             id: autoComment.id,
             time: new Date(autoComment.time),
@@ -80,6 +80,7 @@
             content: autoComment.content,
             moderation: autoComment.moderation
         }
+        console.log(`generated new comment: ${JSON.stringify(newComment, null, 4)}`)
         return newComment
     }
 
@@ -95,6 +96,7 @@
         const index = comments.findIndex((comment: Comment) => comment.id === commentID)
         const newComment = comment
         newComment.flagged = true
+        console.log("Flagged moderation: " + console.log(JSON.stringify(newComment, null, 4)));
         comments = [
 			...comments.slice(0, index),
             newComment,
@@ -106,7 +108,9 @@
         const comment = comments.find((comment: Comment) => comment.id === commentID)
         const index = comments.findIndex((comment: Comment) => comment.id === commentID)
         const newComment = comment;
-        newComment.content = "‼️ This comment got removed by the administrators."
+        newComment.content = comment.moderation.textComment;
+        newComment.removed = true;
+        console.log("Removed moderation: " + console.log(JSON.stringify(newComment, null, 4)));
         comments = [
 			...comments.slice(0, index),
             newComment,
@@ -259,7 +263,7 @@
                             </g>
                         </svg>
 
-                        <h3>{notification?.text}</h3>
+                        <h3>{notification?.textNotification}</h3>
                     {#if notification?.signature }
                         <span class="signature">{notification?.signature}</span>
                     {/if}

@@ -40,7 +40,8 @@ export module Chats {
             type: parseModerationType(unparsedComment.moderation.type),
             time: new Date(startTime + unparsedComment.moderation.time * 1000),
             target: id,
-            text: unparsedComment.moderation.text
+            textNotification: unparsedComment.moderation.textNotification,
+            textComment: unparsedComment.moderation.textComment
         } : undefined
         
         const comment: BotComment = {

@@ -26,7 +26,7 @@
 - [x] back to top button
 - [x] specify outbound URL in room spec file
 - [x] remove "discussion room" from welcome page
-- [ ] customize flagging and removing comments
+- [x] customize flagging and removing comments
 
 later on:
 - [ ] Resend log once user loggs in again

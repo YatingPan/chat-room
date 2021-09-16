@@ -24,7 +24,7 @@ const roomStore: Writable<RoomData | undefined> = writable()//writable(storageTo
 
 // Server requests an access code from client
 socket.on("requestAccessCode", (arg) => {
-	console.log("Server requested Access code.");
+	// console.log("Server requested Access code.");
 
 	// Grabbing access code from URL
 	const path = window.location.pathname.split("/");
@@ -33,29 +33,29 @@ socket.on("requestAccessCode", (arg) => {
 	let url_params = QueryString.parse(location.search)
 	const mTurkId = String(url_params['mTurkId'])
 	
-	// console.log(url_params)
-	// console.log(url_params.mTurkId)
+	// // console.log(url_params)
+	// // console.log(url_params.mTurkId)
 	
-	console.log(`My Access code: ${accessCode}, my mTurkId: ${mTurkId}`)
+	// // console.log(`My Access code: ${accessCode}, my mTurkId: ${mTurkId}`)
 
 	const storedUserData: UserExtended = storageToUser(sessionStorage.getItem("userData"))
 	let accessInfo: AccessInfo = { "accessCode": accessCode, "mTurkId": mTurkId }
 	if(storedUserData){
 		accessInfo["user"] = storedUserData.user
 	}
-	console.log(accessInfo, storedUserData)
+	// console.log(accessInfo, storedUserData)
 	socket.emit("accessInfo", accessInfo)
 });
 
 socket.on("userAssignment", (userAssignment: UserAssignment) => {
-	console.log(userAssignment)
-	console.log("Access granted for Room: " + userAssignment.room.name)
-	console.log("userAssignment", userAssignment)
+	// console.log(userAssignment)
+	// console.log("Access granted for Room: " + userAssignment.room.name)
+	// console.log("userAssignment", userAssignment)
 
 	const user: UserExtended = userAssignment.user
 	const room: RoomData = userAssignment.room
 	
-	console.log("Assigned User:", user)
+	// console.log("Assigned User:", user)
 	// TODO better login check?
 	if (user) {
 		sessionStorage.setItem("userData", userToStorage(user))
@@ -63,25 +63,25 @@ socket.on("userAssignment", (userAssignment: UserAssignment) => {
 	}
 	if(room) {
 		sessionStorage.setItem("roomData", roomToStorage(room))
-		console.log("recieved roomData")
+		// console.log("recieved roomData")
 		roomStore.set(room)
 	}
 })
 
 socket.on("accessDenied", (data) => {
-	console.log("Access denied. Propably wrong access code.")
+	// console.log("Access denied. Propably wrong access code.")
 })
 
 socket.on("comment", (newComment: Comment) => {
-	console.log("recieved comment", newComment)
+	// console.log("recieved comment", newComment)
 	commentStore.set(newComment)
 })
 socket.on("reply", (newReply: Reply) => {
-	console.log("recieved reply", newReply)
+	// console.log("recieved reply", newReply)
 	replyStore.set(newReply)
 })
 socket.on("actionsUpdate", (newActions: ActionsUpdate) => {
-	console.log("recieved actions", newActions)
+	// console.log("recieved actions", newActions)
 	actionsStore.set(newActions)
 })
 
@@ -98,7 +98,7 @@ const sendReply = (newReply: ProposedReply) => {
 }
 
 const sendActionsUpdate= (newActionsUpdate: ActionsUpdate) => {
-	console.log("newActionsUpdate: ", newActionsUpdate)
+	// console.log("newActionsUpdate: ", newActionsUpdate)
 	socket.emit("broadcastActionsUpdate", newActionsUpdate)
 }
 

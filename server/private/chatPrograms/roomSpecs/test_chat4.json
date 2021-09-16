@@ -10,7 +10,7 @@
             "moderation": {
                     "type": "ban",
                     "time": 1,
-                    "text": "1😀",
+                    "textNotification": "1😀",
                     "bgColor": "red",
                     "textSize": "2em"
             }
@@ -20,7 +20,7 @@
             "moderation": {
                     "type": "ban",
                     "time": 2,
-                    "text": "2😃",
+                    "textNotification": "2😃",
                     "bgColor": "#009900",
                     "textColor": "#fff",
                     "textSize": "16px"
@@ -31,7 +31,7 @@
             "moderation": {
                     "type": "ban",
                     "time": 3,
-                    "text": "3",
+                    "textNotification": "3",
                     "signature": "the admins",
                     "textColor": "#fff"
             }
@@ -41,7 +41,7 @@
             "moderation": {
                     "type": "ban",
                     "time": 4,
-                    "text": "4"
+                    "textNotification": "4"
             }
         },
         {
@@ -49,7 +49,7 @@
             "moderation": {
                     "type": "ban",
                     "time": 5,
-                    "text": "5"
+                    "textNotification": "5"
             }
         },
         {
@@ -57,7 +57,7 @@
             "moderation": {
                     "type": "ban",
                     "time": 6,
-                    "text": "6"
+                    "textNotification": "6"
             }
         },
         {
@@ -65,7 +65,7 @@
             "moderation": {
                     "type": "ban",
                     "time": 7,
-                    "text": "7"
+                    "textNotification": "7"
             }
         }
     ],

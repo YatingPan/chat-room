@@ -21,9 +21,59 @@
     console.log(JSON.stringify(comment, null, 4));
 </script>
 
+{#if comment.removed || comment.flagged}
 <article class="commentCard id{comment?.id}" class:myComment={myComment}>
+    <div class="commentContainer {comment?.flagged === true ? 'flagged' : ''} {comment?.removed === true ? 'removed' : ''}"
+    style="
+    background-color: {comment?.moderation?.bgColor ? comment?.moderation.bgColor : "#dddc"}; 
+    color: {comment?.moderation?.textColor ? comment?.moderation?.textColor : "#000"};
+    font-size: {comment?.moderation?.textSize ? comment?.moderation?.textSize : "1em"};
+    "
+    >
+        <header class="CommentCard_header">
+            <div class="userInfo">
+                <h2 class="userName">{comment?.user?.name}</h2>
+                <h3 class="time">{formatTime(comment?.time)}</h3>
+            </div>
+        </header>
+        {#if !comment?.removed}
+            <p class="text">{comment?.content}</p>
+        {/if}
 
-    <div class="commentContainer {comment?.flagged === true ? 'flagged' : ''}">
+        {#if comment?.flagged || comment?.removed}
+            <div class="moderationText {comment?.flagged === true ? 'flagged' : ''} {comment?.removed === true ? 'removed' : ''}"
+            >
+                {comment?.moderation?.textComment}
+                {#if comment?.moderation?.signature }
+                    <span class="signature">{comment?.moderation?.signature}</span>
+                {/if} 
+            </div>
+        {/if}
+    </div>
+    <div class="actionsContainer">
+       <LikesDislikes likes={thisCommentLikes} dislikes={thisCommentDislikes} parentCommentID={comment.id}/>
+        <div class="reply-button" class:showReplyButton={isTopLevelComment}>
+            <button on:click="{() => showReplyInput = !showReplyInput}">
+                <span>Reply</span>
+            </button>
+        </div>
+    </div>
+    {#if showReplyInput}
+        <div class="reply-input">
+            <SendCommentComponent parentID={comment.id} isReply={true} bind:showReplyInput={showReplyInput}/>
+        </div>
+    {/if}
+    {#if replies}  
+        <div class="repliesContainer" class:showReplies={replies}> 
+            {#each replies as reply, i}
+                <CommentComponent comment={reply} replies={[]} isTopLevelComment={false} likes={likes} dislikes={dislikes}/>
+            {/each}
+        </div>
+    {/if}
+</article>
+{:else}
+<article class="commentCard id{comment?.id}" class:myComment={myComment}>
+    <div class="commentContainer">
         <header class="CommentCard_header">
             <div class="userInfo">
                 <h2 class="userName">{comment?.user?.name}</h2>
@@ -52,9 +102,8 @@
             {/each}
         </div>
     {/if}
-
-
 </article>
+{/if}
 
 <style lang="scss">
     @import "src/vars";
@@ -68,11 +117,7 @@
     //     border-bottom: .0625rem solid rgba(0,0,0,.15);
     // }
     
-    .flagged {
-            background: rgba(112, 228, 239, 0.5);
-    }
-    .flagged::after {
-        content: "❗ This comment got flagged by the administrators.";
+    .moderationText {
         font-style: italic;
     }
 

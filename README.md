@@ -112,10 +112,13 @@ in the `server/private/chatPrograms/roomSpecs/` folder.
             "moderation": {
                 "type": "remove",
                 "time": 30,
-                "text": "😃 notifications can be customized! this is the notification of removing the comment by bot2 with content 'Hmmm...'",
+                "textNotification": "😃 notifications can be customized! this is the notification of removing the comment by bot2 with content 'Hmmm...'",
+                "textComment": "and what happens when flagging and removing too. the same styling is used as for notifications.",
+                "signature": "the moderators signed this action!",
                 "bgColor": "#009900",
                 "textColor": "#fff",
-                "textSize": "16px"
+                "textSize": "2em"
+
             },
             "replies": [
             ],

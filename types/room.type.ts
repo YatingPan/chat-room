@@ -43,7 +43,8 @@ export type Moderation = {
     type: ModerationType
     time: Date
     target: string | number // either user id or comment id
-    text: string
+    textNotification: string
+    textComment: string
     textColor?: string
     textSize?: string
     bgColor?: string
@@ -51,7 +52,7 @@ export type Moderation = {
 }
 
 export type Notification = {
-    text: string
+    textNotification: string
     textColor: string
     bgColor: string
     signature: string
@@ -95,7 +96,8 @@ export type UnparsedBot = {
 export type UnparsedModeration = {
     type: string
     time: number
-    text: string
+    textNotification: string
+    textComment: string
     textColor?: string
     textSize?: string
     bgColor?: string

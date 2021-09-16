@@ -2,7 +2,7 @@
     "roomName": "Discussion Room 1",
     "startTime": "2021-07-13 20:00",
     "postName": "post1.json",
-    "duration": 5,
+    "duration": 10,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
     "bots": [
         {
@@ -10,7 +10,7 @@
             "moderation": {
                     "type": "ban",
                     "time": 100,
-                    "text": "Bot1 got banned!"
+                    "textNotification": "Bot1 got banned!"
             }
         },
         {
@@ -18,7 +18,7 @@
             "moderation": {
                     "type": "ban",
                     "time": -10,
-                    "text": "Bot2 got banned!"
+                    "textNotification": "Bot2 got banned!"
             }
         }
     ],
@@ -42,7 +42,11 @@
             "moderation": {
                 "type": "flag",
                 "time":     10,
-                "text": "Comment with content 'Hoi!', by user HalloIchBinEinBot got flagged"
+                "textNotification": "Comment with content 'Hoi!', by user HalloIchBinEinBot got flagged",
+                "textComment": "This comment was flagged",
+                "signature": "by the mooooooooooods",
+                "bgColor": "#ABCCFF",
+                "textSize": "2rem"
             },
             "likes": [
                 {
@@ -84,7 +88,9 @@
             "moderation": {
                 "type": "remove",
                 "time": 15,
-                "text": "Comment got removed"
+                "textNotification": "Comment got removed",
+                "textComment": "this comment was deleted deleted deleted deleted",
+                "bgColor": "red"
             },
             "likes": [
                 {
