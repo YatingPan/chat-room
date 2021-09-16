@@ -41,13 +41,13 @@
         {/if}
 
         {#if comment?.flagged || comment?.removed}
-            <div class="moderationText {comment?.flagged === true ? 'flagged' : ''} {comment?.removed === true ? 'removed' : ''}"
+            <p class="moderationText {comment?.flagged === true ? 'flagged' : ''} {comment?.removed === true ? 'removed' : ''}"
             >
                 {comment?.moderation?.textComment}
                 {#if comment?.moderation?.signature }
-                    <span class="signature">{comment?.moderation?.signature}</span>
+                    <p class="signature">{comment?.moderation?.signature}</p>
                 {/if} 
-            </div>
+            </p>
         {/if}
     </div>
     <div class="actionsContainer">
@@ -119,6 +119,9 @@
     
     .moderationText {
         font-style: italic;
+    }
+    .signature {
+        font-size-adjust: 0.3;
     }
 
     .commentCard {

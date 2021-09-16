@@ -73,7 +73,14 @@
         {
             "botName": "bot1",
             "time":     0,
-            "content": "Ciao, wenn Fangts ah?"
+            "content": "Ciao, wenn Fangts ah?",
+            "moderation": {
+                "type": "ban",
+                "time": 1,
+                "textNotification": "1😀",
+                "bgColor": "red",
+                "textSize": "2em"
+        }
         },
         {   
             "botName": "bot3",

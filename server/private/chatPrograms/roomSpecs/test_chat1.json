@@ -44,7 +44,7 @@
                 "time":     10,
                 "textNotification": "Comment with content 'Hoi!', by user HalloIchBinEinBot got flagged",
                 "textComment": "This comment was flagged",
-                "signature": "by the mooooooooooods",
+                "signature": "- by the mooooooooooods",
                 "bgColor": "#ABCCFF",
                 "textSize": "2rem"
             },

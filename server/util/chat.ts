@@ -41,7 +41,11 @@ export module Chats {
             time: new Date(startTime + unparsedComment.moderation.time * 1000),
             target: id,
             textNotification: unparsedComment.moderation.textNotification,
-            textComment: unparsedComment.moderation.textComment
+            textComment: unparsedComment.moderation.textComment,
+            bgColor: unparsedComment.moderation.bgColor,
+            textColor: unparsedComment.moderation.textColor,
+            textSize: unparsedComment.moderation.textSize,
+            signature: unparsedComment.moderation.signature,
         } : undefined
         
         const comment: BotComment = {
