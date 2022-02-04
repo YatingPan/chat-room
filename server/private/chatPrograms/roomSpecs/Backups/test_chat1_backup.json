@@ -1,0 +1,165 @@
+{   
+    "roomName": "the online discussion room",
+    "startTime": "2022-02-04 15:00",
+    "postName": "post1.json",
+    "duration": 720,
+    "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
+    "bots": [
+
+  
+        {
+            "name": "Harrington",
+            "moderation": {
+                    "type": "ban",
+                    "time": 100,
+                    "textNotification": "Bot1 got banned!"
+            }
+        },
+        {
+            "name": "Valentin",
+            "moderation": {
+                    "type": "ban",
+                    "time": -10,
+                    "textNotification": "Bot2 got banned!"
+            }
+        }
+    ],
+    "comments": [
+        {
+            "botName": "Miner",
+            "time":     0,
+            "content": "Ciao, wenn Fangts ah?"
+        },
+        {   
+            "botName": "Khan",
+            "time":     -100,
+            "content": "Hoi!",
+            "replies": [
+                {
+                    "botName": "Cooke",
+                    "time":     -90,
+                    "content": "reply 1"
+                }
+            ],
+            "moderation": {
+                "type": "flag",
+                "time":     10,
+                "textNotification": "Comment with content 'Hoi!', by user HalloIchBinEinBot got flagged",
+                "textComment": "This comment was flagged",
+                "signature": "- by the mooooooooooods",
+                "bgColor": "#ABCCFF",
+                "textSize": "2rem"
+            },
+            "likes": [
+                {
+                    "botName": "user4",
+                    "time":     5
+                },
+                {
+                    "botName": "user2",
+                    "time":     -200
+                }
+            ],
+            "dislikes": [
+                {
+                    "botName": "user4",
+                    "time":     -900
+                },
+                {
+                    "botName": "user2",
+                    "time":     -200
+                }
+            ]
+        },
+        {
+            "botName": "bot1",
+            "time":     -6000,
+            "content": "Hallo mitenand.",
+            "replies": [
+                {
+                    "botName": "user3",
+                    "time":     0,
+                    "content": "reply 2"
+                },
+                {
+                    "botName": "user5",
+                    "time":     0,
+                    "content": "reply 3"
+                }
+            ],
+            "moderation": {
+                "type": "remove",
+                "time": 15,
+                "textNotification": "Comment got removed",
+                "textComment": "this comment was deleted deleted deleted deleted",
+                "bgColor": "red"
+            },
+            "likes": [
+                {
+                    "botName": "user4",
+                    "time":     -900
+                },
+                {
+                    "botName": "user2",
+                    "time":     -200
+                }
+            ],
+            "dislikes": [
+                {
+                    "botName": "user4",
+                    "time":     -900
+                },
+                {
+                    "botName": "user2",
+                    "time":     -200
+                }
+            ]
+        },
+        {
+            "botName": "bot2",
+            "time":     5,
+            "content": "Hey, ich bin auch da!",
+            "replies": [
+                {
+                    "botName": "user3",
+                    "time":     6,
+                    "content": "reply 4"
+                }
+            ],
+            "likes": [
+                {
+                    "botName": "user4",
+                    "time":     1000
+                }
+            ],
+            "dislikes": [
+                {
+                    "botName": "user4",
+                    "time":     -900
+                },
+                {
+                    "botName": "user2",
+                    "time":     -200
+                }
+            ]
+        },
+        {
+            "botName": "Irgendöpper",
+            "time":     14,
+            "content": "hooi!",
+            "replies": [
+                {
+                    "botName": "user3",
+                    "time":     5,
+                    "content": "reply 7"
+                }
+            ],
+            "likes": [
+                {
+                    "botName": "user4",
+                    "time":     -900
+                }
+            ]
+        }
+    ]
+}
