@@ -8,77 +8,48 @@
         {   
         "botName": "Nolan",
         "time":     120,
-        "content": "The Chinese have been secretly cloning humans for years. That's why there's so many of them",
-
-        "moderation": {
-           
-        }
+        "content": "The Chinese have been secretly cloning humans for years. That's why there's so many of them"
     },
     {   
         "userName": "Harrington",
         "time":     180,
-        "content": "The first humans to be cloned were Russian twins called Irana and Targa",
-
-        "moderation": {
-           
-        }
+        "content": "The first humans to be cloned were Russian twins called Irana and Targa"
     },
+
     {   
         "userName": "Valentin",
         "time":     240,
-        "content": "Public officials use human clones to help them with tasks they don't want to do themselves",
-
-        "moderation": {
-           
-        }
+        "content": "Public officials use human clones to help them with tasks they don't want to do themselves"
     },
+
     {   
         "userName": "Miner",
         "time":     300,
-        "content": "Centres for human cloning around the world secretly work to replace the entire current human race",
-
-        "moderation": {
-        }
+        "content": "Centres for human cloning around the world secretly work to replace the entire current human race"
     },
 
     {   
         "userName": "McFarland",
         "time":     360,
-        "content": "The US government has an ultra-secret human cloning program",
-
-        "moderation": {
-           
-        }
+        "content": "The US government has an ultra-secret human cloning program"
     },
 
     {   
         "userName": "Adkins",
         "time":     420,
-        "content": "Human cloning is legal in Qatar",
-
-        "moderation": {
-           
-        }
+        "content": "Human cloning is legal in Qatar"
     },
 
     {   
         "userName": "Lacey",
         "time":     480,
-        "content": "Twints don't actully exist - they are just the outcomes of medical cloning experiments",
-
-        "moderation": {
-           
-        }
+        "content": "Twints don't actully exist - they are just the outcomes of medical cloning experiments"
     },
 
     {   
         "userName": "Ballard",
         "time":     540,
-        "content": "Ever since JFK, all US presdients got clones who replace them during public appearances. The real ones are kept safe in the White House",
-
-        "moderation": {
-           
-        }
+        "content": "Ever since JFK, all US presdients got clones who replace them during public appearances. The real ones are kept safe in the White House"
     }
 ]
 }
