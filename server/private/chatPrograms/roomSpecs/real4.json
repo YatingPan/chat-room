@@ -1,0 +1,187 @@
+{   
+    "roomName": "the online discussion room",
+    "startTime": "2022-02-04 14:40",
+    "postName": "post1.json",
+    "duration": 7200,
+    "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
+    "bots": [
+        {   
+        "botName": "Nolan",
+        "time":     120,
+        "content": "The Chinese have been secretly cloning humans for years. That's why there's so many of them",
+
+        "moderation": {
+            "type": "flag",
+            "time":     130,
+            "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
+            "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "signature": "",
+            "bgColor": "#FFAC9A",
+            "textSize": "2rem"
+        },
+        "likes": [
+             
+            
+        ],
+        "dislikes": [
+      
+            
+        ]
+    },
+    {   
+        "botName": "Harrington",
+        "time":     180,
+        "content": "The first humans to be cloned were Russian twins called Irana and Targa",
+
+        "moderation": {
+            "type": "flag",
+            "time":     190,
+            "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
+            "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "signature": "",
+            "bgColor": "#FFAC9A",
+            "textSize": "2rem"
+        },
+        "likes": [
+
+        ],
+        "dislikes": [
+           
+        ]
+    },
+    {   
+        "botName": "Valentin",
+        "time":     240,
+        "content": "Public officials use human clones to help them with tasks they don't want to do themselves",
+
+        "moderation": {
+            "type": "flag",
+            "time":     250,
+            "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
+            "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "signature": "",
+            "bgColor": "#FFAC9A",
+            "textSize": "2rem"
+        },
+        "likes": [
+        
+        ],
+        "dislikes": [
+            
+        ]
+    },
+    {   
+        "botName": "Miner",
+        "time":     300,
+        "content": "Centres for human cloning around the world secretly work to replace the entire current human race",
+
+        "moderation": {
+            "type": "flag",
+            "time":     310,
+            "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
+            "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "signature": "",
+            "bgColor": "#FFAC9A",
+            "textSize": "2rem"
+        },
+        "likes": [
+            
+        ],
+        "dislikes": [
+            
+        ]
+    },
+
+    {   
+        "botName": "McFarland",
+        "time":     360,
+        "content": "The US government has an ultra-secret human cloning program",
+
+        "moderation": {
+            "type": "flag",
+            "time":     370,
+            "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
+            "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "signature": "",
+            "bgColor": "#FFAC9A",
+            "textSize": "2rem"
+        },
+        "likes": [
+        
+        ],
+        "dislikes": [
+            
+        ]
+    },
+
+    {   
+        "botName": "Adkins",
+        "time":     420,
+        "content": "Human cloning is legal in Qatar",
+
+        "moderation": {
+            "type": "flag",
+            "time":     430,
+            "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
+            "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "signature": "",
+            "bgColor": "#FFAC9A",
+            "textSize": "2rem"
+        },
+        "likes": [
+        
+        ],
+        "dislikes": [
+            
+        ]
+    },
+
+    {   
+        "botName": "Lacey",
+        "time":     480,
+        "content": "Twints don't actully exist - they are just the outcomes of medical cloning experiments",
+
+        "moderation": {
+            "type": "flag",
+            "time":     490,
+            "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
+            "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "signature": "",
+            "bgColor": "#FFAC9A",
+            "textSize": "2rem"
+        },
+        "likes": [
+        
+        ],
+        "dislikes": [
+            
+        ]
+    },
+
+    {   
+        "botName": "Ballard",
+        "time":     540,
+        "content": "Ever since JFK, all US presdients got clones who replace them during public appearances. The real ones are kept safe in the White House",
+
+        "moderation": {
+            "type": "flag",
+            "time":     550,
+            "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
+            "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "signature": "",
+            "bgColor": "#FFAC9A",
+            "textSize": "2rem"
+        },
+        "likes": [
+        
+        ],
+        "dislikes": [
+            
+        ]
+    }
+]
+}
+
+
+
+                
