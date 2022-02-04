@@ -1,12 +1,12 @@
 {   
     "roomName": "the online discussion room",
-    "startTime": "2022-02-04 16:29",
+    "startTime": "2022-02-04 16:43",
     "postName": "post_human_cloning.json",
     "duration": 7200,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
     "comments": [
         {   
-        "userName": "Nolan",
+        "botName": "Nolan",
         "time":     120,
         "content": "The Chinese have been secretly cloning humans for years. That's why there's so many of them",
 
@@ -21,7 +21,7 @@
         }
     },
     {   
-        "userName": "Harrington",
+        "botName": "Harrington",
         "time":     180,
         "content": "The first humans to be cloned were Russian twins called Irana and Targa",
 
@@ -36,7 +36,7 @@
         }
     },
     {   
-        "userName": "Valentin",
+        "botName": "Valentin",
         "time":     240,
         "content": "Public officials use human clones to help them with tasks they don't want to do themselves",
 
@@ -51,7 +51,7 @@
         }
     },
     {   
-        "userName": "Miner",
+        "botName": "Miner",
         "time":     300,
         "content": "Centres for human cloning around the world secretly work to replace the entire current human race",
 
@@ -67,7 +67,7 @@
     },
 
     {   
-        "userName": "McFarland",
+        "botName": "McFarland",
         "time":     360,
         "content": "The US government has an ultra-secret human cloning program",
 
@@ -83,7 +83,7 @@
     },
 
     {   
-        "userName": "Adkins",
+        "botName": "Adkins",
         "time":     420,
         "content": "Human cloning is legal in Qatar",
 
@@ -99,7 +99,7 @@
     },
 
     {   
-        "userName": "Lacey",
+        "botName": "Lacey",
         "time":     480,
         "content": "Twints don't actully exist - they are just the outcomes of medical cloning experiments",
 
@@ -115,7 +115,7 @@
     },
 
     {   
-        "userName": "Ballard",
+        "botName": "Ballard",
         "time":     540,
         "content": "Ever since JFK, all US presdients got clones who replace them during public appearances. The real ones are kept safe in the White House",
 
