@@ -1,6 +1,6 @@
 {   
     "roomName": "the online discussion room",
-    "startTime": "2022-02-04 16:16",
+    "startTime": "2022-02-04 16:29",
     "postName": "post_human_cloning.json",
     "duration": 10080,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
@@ -16,7 +16,7 @@
     ],
     "comments": [
         {   
-        "userName": "Nolan",
+        "name": "Nolan",
         "time":     120,
         "content": "The Chinese have been secretly cloning humans for years. That's why there's so many of them",
 
@@ -31,27 +31,27 @@
         },
         "likes": [
             {
-                "botName": "Avila",
+                "name": "Avila",
                 "time":     125
             },
             {
-                "botName": "Darden",
+                "name": "Darden",
                 "time":     135
             }
         ],
         "dislikes": [
             {
-                "botName": "Butcher",
+                "name": "Butcher",
                 "time":     122
             },
             {
-                "botName": "Philips",
+                "name": "Philips",
                 "time":     145
             }
         ]
     },
     {   
-        "userName": "Harrington",
+        "name": "Harrington",
         "time":     240,
         "content": "The first humans to be cloned were Russian twins called Irana and Targa",
 
@@ -66,7 +66,7 @@
         }
     },
     {   
-        "userName": "Valentin",
+        "name": "Valentin",
         "time":     360,
         "content": "Public officials use human clones to help them with tasks they don't want to do themselves",
 
@@ -81,7 +81,7 @@
         }
     },
     {   
-        "userName": "Miner",
+        "name": "Miner",
         "time":     480,
         "content": "Centres for human cloning around the world secretly work to replace the entire current human race",
 

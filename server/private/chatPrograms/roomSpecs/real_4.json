@@ -1,6 +1,6 @@
 {   
     "roomName": "the online discussion room",
-    "startTime": "2022-02-04 16:16",
+    "startTime": "2022-02-04 16:29",
     "postName": "post_human_cloning.json",
     "duration": 7200,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
@@ -18,15 +18,7 @@
             "signature": "",
             "bgColor": "#FFAC9A",
             "textSize": "2rem"
-        },
-        "likes": [
-             
-            
-        ],
-        "dislikes": [
-      
-            
-        ]
+        }
     },
     {   
         "userName": "Harrington",
@@ -41,13 +33,7 @@
             "signature": "",
             "bgColor": "#FFAC9A",
             "textSize": "2rem"
-        },
-        "likes": [
-
-        ],
-        "dislikes": [
-           
-        ]
+        }
     },
     {   
         "userName": "Valentin",
@@ -62,13 +48,7 @@
             "signature": "",
             "bgColor": "#FFAC9A",
             "textSize": "2rem"
-        },
-        "likes": [
-        
-        ],
-        "dislikes": [
-            
-        ]
+        }
     },
     {   
         "userName": "Miner",
@@ -83,13 +63,7 @@
             "signature": "",
             "bgColor": "#FFAC9A",
             "textSize": "2rem"
-        },
-        "likes": [
-            
-        ],
-        "dislikes": [
-            
-        ]
+        }
     },
 
     {   
@@ -105,13 +79,7 @@
             "signature": "",
             "bgColor": "#FFAC9A",
             "textSize": "2rem"
-        },
-        "likes": [
-        
-        ],
-        "dislikes": [
-            
-        ]
+        }
     },
 
     {   
@@ -127,13 +95,7 @@
             "signature": "",
             "bgColor": "#FFAC9A",
             "textSize": "2rem"
-        },
-        "likes": [
-        
-        ],
-        "dislikes": [
-            
-        ]
+        }
     },
 
     {   
@@ -149,13 +111,7 @@
             "signature": "",
             "bgColor": "#FFAC9A",
             "textSize": "2rem"
-        },
-        "likes": [
-        
-        ],
-        "dislikes": [
-            
-        ]
+        }
     },
 
     {   
@@ -171,13 +127,7 @@
             "signature": "",
             "bgColor": "#FFAC9A",
             "textSize": "2rem"
-        },
-        "likes": [
-        
-        ],
-        "dislikes": [
-            
-        ]
+        }
     }
 ]
 }
