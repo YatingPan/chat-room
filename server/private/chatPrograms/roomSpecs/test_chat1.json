@@ -1,14 +1,12 @@
 {   
-    "roomName": "the online discussion room",
-    "startTime": "2022-02-04 14:40",
+    "roomName": "Discussion Room 1",
+    "startTime": "2021-10-1 11:25",
     "postName": "post1.json",
-    "duration": 7200,
+    "duration": 10080,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
     "bots": [
-
-  
         {
-            "name": "Harrington",
+            "name": "bot1",
             "moderation": {
                     "type": "ban",
                     "time": 100,
@@ -16,7 +14,7 @@
             }
         },
         {
-            "name": "Valentin",
+            "name": "bot2",
             "moderation": {
                     "type": "ban",
                     "time": -10,
@@ -26,17 +24,17 @@
     ],
     "comments": [
         {
-            "botName": "Miner",
+            "botName": "AnotherBot",
             "time":     0,
             "content": "Ciao, wenn Fangts ah?"
         },
         {   
-            "botName": "Khan",
+            "botName": "HalloIchBinEinBot",
             "time":     -100,
             "content": "Hoi!",
             "replies": [
                 {
-                    "botName": "Cooke",
+                    "botName": "user3",
                     "time":     -90,
                     "content": "reply 1"
                 }
