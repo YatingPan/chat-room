@@ -1,8 +1,8 @@
 {   
     "roomName": "the online discussion room",
-    "startTime": "2022-02-04 14:22",
+    "startTime": "2022-02-04 14:30",
     "postName": "post1.json",
-    "duration": 720,
+    "duration": 7200,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
     "bots": [
         {   
