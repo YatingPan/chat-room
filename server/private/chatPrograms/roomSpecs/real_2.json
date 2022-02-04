@@ -4,6 +4,7 @@
     "postName": "post_human_cloning.json",
     "duration": 7200,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
+    "bots": [],
     "comments": [
         {   
         "botName": "Nolan",
