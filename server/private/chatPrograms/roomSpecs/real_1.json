@@ -1,12 +1,12 @@
 {   
     "roomName": "the online discussion room",
-    "startTime": "2022-02-04 15:50",
+    "startTime": "2022-02-04 16:16",
     "postName": "post_human_cloning.json",
     "duration": 10080,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
     "bots": [
         {
-            "name": "bot1",
+            "name": "Nolan",
             "moderation": {
                     "type": "ban",
                     "time": 100,
