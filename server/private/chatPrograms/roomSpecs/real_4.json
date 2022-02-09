@@ -17,8 +17,8 @@
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
             "signature": "",
-            "bgColor": "#FFAC9A",
-            "textSize": "2rem"
+            "bgColor": "#FFF3F0",
+            "textSize": "16px"
         }
     },
     {   
@@ -32,7 +32,7 @@
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
             "signature": "",
-            "bgColor": "#FFAC9A",
+            "bgColor": "#FFF3F0",
             "textSize": "2rem"
         }
     },
@@ -47,8 +47,8 @@
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
             "signature": "",
-            "bgColor": "#FFAC9A",
-            "textSize": "2rem"
+            "bgColor": "#FFF3F0",
+            "textSize": "16px"
         }
     },
     {   
@@ -62,8 +62,8 @@
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
             "signature": "",
-            "bgColor": "#FFAC9A",
-            "textSize": "2rem"
+            "bgColor": "#FFF3F0",
+            "textSize": "16px"
         }
     },
 
@@ -78,8 +78,8 @@
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
             "signature": "",
-            "bgColor": "#FFAC9A",
-            "textSize": "2rem"
+            "bgColor": "#FFF3F0",
+            "textSize": "16px"
         }
     },
 
@@ -94,8 +94,8 @@
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
             "signature": "",
-            "bgColor": "#FFAC9A",
-            "textSize": "2rem"
+            "bgColor": "#FFF3F0",
+            "textSize": "16px"
         }
     },
 
@@ -110,8 +110,8 @@
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
             "signature": "",
-            "bgColor": "#FFAC9A",
-            "textSize": "2rem"
+            "bgColor": "#FFF3F0",
+            "textSize": "16px"
         }
     },
 
@@ -126,8 +126,8 @@
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
             "signature": "",
-            "bgColor": "#FFAC9A",
-            "textSize": "2rem"
+            "bgColor": "#FFF3F0",
+            "textSize": "16px"
         }
     }
 ]
