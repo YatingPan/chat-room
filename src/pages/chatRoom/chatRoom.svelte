@@ -100,7 +100,7 @@
         comments = [
 			...comments.slice(0, index),
             newComment,
-			...comments.slice(index + 1, comments.length-1)
+			...comments.slice(index + 1, comments.length)
         ]
     }
 
@@ -227,7 +227,7 @@
                     if(autoComment.dislikes) {
                         for(let dislike of autoComment.dislikes) {
                             const newDislike = botLikeToLike(dislike, autoComment.id)
-                            autoSend(newDislike.time, addDislike, newDislike)
+                            autoSend(newDislike.time, addDislike, newDislike, autoComment.id)
                         }
                     }
                 })
@@ -249,7 +249,7 @@
             {#each notifications as notification, i}
                 {#if notifications.length - 4 < i}
                     <div class="notification" on:click={(e) => removeNotification(i)} 
-                        style="background-color: {notification?.bgColor ? notification.bgColor : "#dddc"}; 
+                        style="background-color: {notification?.bgColor ? notification.bgColor : "#dddc"};
                                 color: {notification?.textColor ? notification?.textColor : "#000"};
                                 font-size: {notification?.textSize ? notification?.textSize : "1em"};">
                         <svg class="close-icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 
