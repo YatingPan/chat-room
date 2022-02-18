@@ -42,6 +42,12 @@
 
         {#if comment?.flagged || comment?.removed}
             <p class="moderationText {comment?.flagged === true ? 'flagged' : ''} {comment?.removed === true ? 'removed' : ''}"
+            style="
+            font-style: {comment?.moderation?.commentStyle ? comment?.moderation?.commentStyle : "italic"};
+            color: {comment?.moderation?.commentColor ? comment?.moderation?.commentColor : "magenta"};
+            font-size: {comment?.moderation?.commentSize ? comment?.moderation?.commentSize : "large"};
+            font-weight: {comment?.moderation?.commentWeight ? comment?.moderation?.commentWeight : 100 };
+            "
             >
                 {comment?.moderation?.textComment}
                 {#if comment?.moderation?.signature }
@@ -117,11 +123,9 @@
     //     border-bottom: .0625rem solid rgba(0,0,0,.15);
     // }
     
-    .moderationText {
-        font-style: italic;
-    }
+    
     .signature {
-        font-size-adjust: 0.3;
+        font-size-adjust: 0.1;
     }
 
     .commentCard {
