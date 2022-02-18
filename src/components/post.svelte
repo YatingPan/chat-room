@@ -39,10 +39,6 @@
         <div class="imageContainer" style="background-image: url({headerImageURL});">
             <!-- <img src="build/Material/images/testImage.jpg"/> -->
         </div>
-        <div class="header">
-            <h2 class="title">{post?.title}</h2>
-            <h3 class="lead">{post?.lead}</h3>
-        </div>
         <div class="metaDataContainer">
             <div class="time">
                 <span>{formatTime(post?.time)}</span>
@@ -51,6 +47,10 @@
                 <!-- TODO fix likes and dislikes -->
                 <LikesDislikes likes={likes} dislikes={dislikes} parentCommentID={0}/>
             </div>
+        </div>
+        <div class="header">
+            <h2 class="title">{post?.title}</h2>
+            <h3 class="lead">{post?.lead}</h3>
         </div>
         <div class="text">{post?.content}</div>
     </div>

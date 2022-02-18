@@ -100,7 +100,7 @@
         comments = [
 			...comments.slice(0, index),
             newComment,
-			...comments.slice(index + 1, comments.length-1)
+			...comments.slice(index + 1, comments.length)
         ]
     }
 
@@ -227,7 +227,7 @@
                     if(autoComment.dislikes) {
                         for(let dislike of autoComment.dislikes) {
                             const newDislike = botLikeToLike(dislike, autoComment.id)
-                            autoSend(newDislike.time, addDislike, newDislike)
+                            autoSend(newDislike.time, addDislike, newDislike, autoComment.id)
                         }
                     }
                 })

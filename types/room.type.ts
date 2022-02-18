@@ -49,6 +49,10 @@ export type Moderation = {
     textSize?: string
     bgColor?: string
     signature?: string
+    commentColor?: string //comment properties are for changing the moderation text in comment
+    commentSize?: string
+    commentStyle?: string //Bold or Italics
+    commentWeight?: number //font-weight
 }
 
 export type Notification = {
@@ -102,4 +106,8 @@ export type UnparsedModeration = {
     textSize?: string
     bgColor?: string
     signature?: string
+    commentColor?: string //comment properties are for changing the moderation text in comment
+    commentSize?: string
+    commentStyle?: string //Bold or Italics
+    commentWeight?: number //font-weight
 }
