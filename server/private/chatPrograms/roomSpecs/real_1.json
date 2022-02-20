@@ -64,6 +64,10 @@
             "time":     250,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#B62000" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
             "bgColor": "#FFE2DC",
             "textSize": "16px"
@@ -79,6 +83,10 @@
             "time":     370,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#B62000" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
             "bgColor": "#FFE2DC",
             "textSize": "16px"
@@ -94,6 +102,10 @@
             "time":     490,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#B62000" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
             "bgColor": "#FFE2DC",
             "textSize": "16px"
