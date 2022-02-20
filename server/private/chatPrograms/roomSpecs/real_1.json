@@ -4,16 +4,7 @@
     "postName": "post_human_cloning.json",
     "duration": 150000,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_3pV3eX1SqMSjxX0",
-    "bots": [
-        {
-            "botName": "Nolan",
-            "moderation": {
-                    "type": "ban",
-                    "time": 100,
-                    "textNotification": "Bot1 got banned!"
-            }
-        }
-    ],
+    "bots": [],
     "comments": [
         {   
         "botName": "Nolan",
@@ -32,27 +23,8 @@
             "signature": "",
             "bgColor": "#FFE2DC",
             "textSize": "16px"
-        },
-        "likes": [
-            {
-                "botName": "Avila",
-                "time":     125
-            },
-            {
-                "botName": "Darden",
-                "time":     135
-            }
-        ],
-        "dislikes": [
-            {
-                "botName": "Butcher",
-                "time":     122
-            },
-            {
-                "botName": "Philips",
-                "time":     145
-            }
-        ]
+        }
+        
     },
     {   
         "botName": "Harrington",
@@ -64,7 +36,7 @@
             "time":     250,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
-            "commentColor": "#B62000" , 
+            "commentColor": "#FF2D00" , 
             "commentStyle": "bold" ,
             "commentSize": "large",
             "commentWeight": 900,
@@ -83,7 +55,7 @@
             "time":     370,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
-            "commentColor": "#B62000" , 
+            "commentColor": "" , 
             "commentStyle": "bold" ,
             "commentSize": "large",
             "commentWeight": 900,
@@ -102,7 +74,7 @@
             "time":     490,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
-            "commentColor": "#B62000" , 
+            "commentColor": "#D92600" , 
             "commentStyle": "bold" ,
             "commentSize": "large",
             "commentWeight": 900,
