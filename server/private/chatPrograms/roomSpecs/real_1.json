@@ -27,6 +27,8 @@
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
             "commentColor": "#B62000" , 
             "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
             "bgColor": "#FFE2DC",
             "textSize": "16px"
