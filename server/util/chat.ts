@@ -46,6 +46,10 @@ export module Chats {
             textColor: unparsedComment.moderation.textColor,
             textSize: unparsedComment.moderation.textSize,
             signature: unparsedComment.moderation.signature,
+            commentColor : unparsedComment.moderation.commentColor,
+            commentSize : unparsedComment.moderation.commentSize,
+            commentStyle: unparsedComment.moderation.commentStyle,
+            commentWeight: unparsedComment.moderation.commentWeight
         } : undefined
         
         const comment: BotComment = {
