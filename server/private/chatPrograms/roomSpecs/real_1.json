@@ -41,7 +41,7 @@
             "commentSize": "large",
             "commentWeight": 900,
             "signature": "",
-            "bgColor": "FFE2DC",
+            "bgColor": "#FFE2DC",
             "textSize": "16px"
         }
     },
