@@ -13,9 +13,13 @@
 
         "moderation": {
             "type": "flag",
-            "time":     130,
+            "time":     135,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#E72800" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
             "bgColor": "#FFE2DC",
             "textSize": "16px"
@@ -28,9 +32,13 @@
 
         "moderation": {
             "type": "flag",
-            "time":     190,
+            "time":     195,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#E72800" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
             "bgColor": "#FFE2DC",
             "textSize": "16px"
@@ -43,9 +51,13 @@
 
         "moderation": {
             "type": "flag",
-            "time":     250,
+            "time":     255,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#E72800" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
             "bgColor": "#FFE2DC",
             "textSize": "16px"
@@ -58,9 +70,13 @@
 
         "moderation": {
             "type": "flag",
-            "time":     310,
+            "time":     315,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#E72800" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
             "bgColor": "#FFE2DC",
             "textSize": "16px"
@@ -74,9 +90,13 @@
 
         "moderation": {
             "type": "flag",
-            "time":     370,
+            "time":     375,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#E72800" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
             "bgColor": "#FFE2DC",
             "textSize": "16px"
@@ -90,9 +110,13 @@
 
         "moderation": {
             "type": "flag",
-            "time":     430,
+            "time":     435,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#E72800" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
             "bgColor": "#FFE2DC",
             "textSize": "16px"
@@ -106,9 +130,13 @@
 
         "moderation": {
             "type": "flag",
-            "time":     490,
+            "time":     495,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#E72800" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
             "bgColor": "#FFE2DC",
             "textSize": "16px"
@@ -122,9 +150,13 @@
 
         "moderation": {
             "type": "flag",
-            "time":     550,
+            "time":     555,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#E72800" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
             "bgColor": "#FFE2DC",
             "textSize": "16px"
