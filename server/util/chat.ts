@@ -11,7 +11,9 @@ export module Chats {
     let botCommentID = -1
 
     const parseLike = (unparsedLike: UnparsedBotLike, startTime: number): BotLike => {
+        
         const time = new Date(startTime + unparsedLike.time * 1000)
+        
         const botLike: BotLike = {
             botName: unparsedLike.botName,
             time
@@ -30,11 +32,12 @@ export module Chats {
     }
 
     export const parseComment = (unparsedComment: UnparsedBotComment, startTime: number): BotComment => {
+        
         const id = botCommentID--
         const time = new Date(startTime + unparsedComment.time * 1000)
-        const replies = unparsedComment.replies?.map((reply: UnparsedBotComment) => parseComment(reply, startTime))
-        const likes = unparsedComment.likes?.map((like: UnparsedBotLike) => parseLike(like, startTime))
-        const dislikes = unparsedComment.dislikes?.map((dislike: UnparsedBotLike) => parseLike(dislike, startTime))
+        const replies: BotComment[] = unparsedComment.replies?.map((reply: UnparsedBotComment) => parseComment(reply, startTime))
+        const likes: BotLike[] = unparsedComment.likes?.map((like: UnparsedBotLike) => parseLike(like, startTime))
+        const dislikes: BotLike[] = unparsedComment.dislikes?.map((dislike: UnparsedBotLike) => parseLike(dislike, startTime))
         
         const moderation: Moderation = unparsedComment.moderation ? {
             type: parseModerationType(unparsedComment.moderation.type),
@@ -52,7 +55,6 @@ export module Chats {
             commentWeight: unparsedComment.moderation.commentWeight
 
         } : undefined
-        
         const comment: BotComment = {
             id,
             time,
