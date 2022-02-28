@@ -1,8 +1,8 @@
 {   
     "roomName": "Discussion Room 1",
-    "startTime": "2022-02-14 10:54",
+    "startTime": "2022-02-16 14:43",
     "postName": "post1.json",
-    "duration": 10080,
+    "duration": 200,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
     "bots": [
         {
@@ -10,14 +10,15 @@
             "moderation": {
                     "type": "ban",
                     "time": 100,
-                    "textNotification": "Bot1 got banned!"
+                    "textNotification": "Bot1 got banned!",
+                    "bgColor": "#B9DED6"
             }
         },
         {
             "name": "bot2",
             "moderation": {
                     "type": "ban",
-                    "time": -10,
+                    "time": 100,
                     "textNotification": "Bot2 got banned!"
             }
         }
@@ -25,47 +26,52 @@
     "comments": [
         {
             "botName": "AnotherBot",
-            "time":     0,
+            "time":     10,
             "content": "Ciao, wenn Fangts ah?"
         },
         {   
             "botName": "HalloIchBinEinBot",
-            "time":     -100,
+            "time":     40,
             "content": "Hoi!",
             "replies": [
                 {
                     "botName": "user3",
-                    "time":     -90,
+                    "time":    60,
                     "content": "reply 1"
                 }
             ],
             "moderation": {
                 "type": "flag",
-                "time":     10,
+                "time":     50,
                 "textNotification": "Comment with content 'Hoi!', by user HalloIchBinEinBot got flagged",
                 "textComment": "This comment was flagged",
                 "signature": "- by the mooooooooooods",
                 "bgColor": "#ABCCFF",
-                "textSize": "2rem"
+                "textSize": "2rem",
+                "textColor": "green",
+                "commentColor": "red",
+                "commentStyle": "bold",
+                "commentSize": "large",
+                "commentWeight": 900
             },
             "likes": [
                 {
                     "botName": "user4",
-                    "time":     5
+                    "time":     20
                 },
                 {
                     "botName": "user2",
-                    "time":     -200
+                    "time":     30
                 }
             ],
             "dislikes": [
                 {
                     "botName": "user4",
-                    "time":     -900
+                    "time":     10
                 },
                 {
                     "botName": "user2",
-                    "time":     -200
+                    "time":     10
                 }
             ]
         },
@@ -105,11 +111,11 @@
             "dislikes": [
                 {
                     "botName": "user4",
-                    "time":     -900
+                    "time":     10
                 },
                 {
                     "botName": "user2",
-                    "time":     -200
+                    "time":     10
                 }
             ]
         },
@@ -133,11 +139,11 @@
             "dislikes": [
                 {
                     "botName": "user4",
-                    "time":     -900
+                    "time":     10
                 },
                 {
                     "botName": "user2",
-                    "time":     -200
+                    "time":     10
                 }
             ]
         },
