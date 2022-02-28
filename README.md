@@ -52,7 +52,6 @@ in the `server/private/chatPrograms/roomSpecs/` folder.
 ```json
 {   
     "roomName": "Example Chat Room",
-    "startTime": "2021-07-13 20:00",
     "postName": "examplePost.json", // needs to be consistent with above
     "duration": 15, // in minutes
     "outboundLink": "https://example.com/survey",
@@ -178,7 +177,7 @@ in the `server/private/chatPrograms/roomSpecs/` folder.
    ```
    
 ## Experiment procedure
-1. When a participant clicks the customized link in the previous Qualtrics study, he gets sent to a 'waiting room', in which a button to `Start Chatting` is visible, and only clickable if the chatroom `startTime` is past. There, the mTurkId of the participant is saved alongside the assigned username in the logfile.
+1. When a participant clicks the customized link in the previous Qualtrics study. As soon as the first participant enters the Room (i.e. she clicked the invite link and the page loaded), startTime is set to the current time. ~he gets sent to a 'waiting room', in which a button to `Start Chatting` is visible, and only clickable if the chatroom `startTime` is past.~ There, the mTurkId of the participant is saved alongside the assigned username in the logfile.
     Their username is displayed to them.
 2. Once the `Start Chatting` button is pressed, the participants are let into the chatroom and see the post and all automated comments, as well as the comments and likes of other participants, and they themselves can comment and like/dislike. 
 3. After the study is over, the participants are presented the followup study using a customized link, so that the mTurkId is again traceable throughout the course of the study.
