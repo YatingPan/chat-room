@@ -76,9 +76,9 @@ export module Chats {
             time: new Date()
         }
         //comments = [... comments, newComment]
-        Logs.appendTopLevelComment(sendingUser.accessCode, newComment)
+        Logs.appendTopLevelComment(sendingUser?.accessCode, newComment)
 
-        io.to(sendingUser.accessCode).emit('comment', newComment)
+        io.to(sendingUser?.accessCode).emit('comment', newComment)
         console.log(newComment)
     }
 
