@@ -1,8 +1,8 @@
 {   
     "roomName": "the online discussion room",
-    "startTime": "2022-02-04 16:49",
+    "startTime": "2022-02-21 12:30",
     "postName": "post_human_cloning.json",
-    "duration": 7200,
+    "duration": 150000,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
     "bots": [],
     "comments": [

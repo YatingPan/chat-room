@@ -1,19 +1,10 @@
 {   
     "roomName": "the online discussion room",
-    "startTime": "2022-02-04 16:49",
+    "startTime": "2022-02-20 21:10",
     "postName": "post_human_cloning.json",
-    "duration": 10080,
-    "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
-    "bots": [
-        {
-            "botName": "Nolan",
-            "moderation": {
-                    "type": "ban",
-                    "time": 100,
-                    "textNotification": "Bot1 got banned!"
-            }
-        }
-    ],
+    "duration": 150000,
+    "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_3pV3eX1SqMSjxX0",
+    "bots": [],
     "comments": [
         {   
         "botName": "Nolan",
@@ -22,33 +13,18 @@
 
         "moderation": {
             "type": "flag",
-            "time":     130,
+            "time":     135,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#E72800" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
-            "bgColor": "#FFAC9A",
-            "textSize": "2rem"
-        },
-        "likes": [
-            {
-                "botName": "Avila",
-                "time":     125
-            },
-            {
-                "botName": "Darden",
-                "time":     135
-            }
-        ],
-        "dislikes": [
-            {
-                "botName": "Butcher",
-                "time":     122
-            },
-            {
-                "botName": "Philips",
-                "time":     145
-            }
-        ]
+            "bgColor": "#FFE2DC",
+            "textSize": "16px"
+        }
+        
     },
     {   
         "botName": "Harrington",
@@ -57,11 +33,15 @@
 
         "moderation": {
             "type": "flag",
-            "time":     250,
+            "time":     255,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#E72800" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
-            "bgColor": "#FFAC9A",
+            "bgColor": "#FFE2DC",
             "textSize": "16px"
         }
     },
@@ -72,12 +52,16 @@
 
         "moderation": {
             "type": "flag",
-            "time":     370,
+            "time":     375,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#E72800" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
-            "bgColor": "#FFAC9A",
-            "textSize": "2rem"
+            "bgColor": "#FFE2DC",
+            "textSize": "16px"
         }
     },
     {   
@@ -87,12 +71,16 @@
 
         "moderation": {
             "type": "flag",
-            "time":     490,
+            "time":     495,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
+            "commentColor": "#E72800" , 
+            "commentStyle": "bold" ,
+            "commentSize": "large",
+            "commentWeight": 900,
             "signature": "",
-            "bgColor": "#FFAC9A",
-            "textSize": "2rem"
+            "bgColor": "#FFE2DC",
+            "textSize": "16px"
         }
     }
     ]

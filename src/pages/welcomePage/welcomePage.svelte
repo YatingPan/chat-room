@@ -20,7 +20,7 @@
         if($countdown < -3) {
             condRedirect()
         }
-    }, 1000);
+    }, 10000);
     
     $: roomAccessible = $countdown < 0
     
