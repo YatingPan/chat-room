@@ -82,7 +82,6 @@ export type UnparsedPost = {
 // Type of input room specification JSON file.
 export type UnparsedRoomData = {
     roomName: string
-    startTime: string
     duration: number
     postName: string
     bots: UnparsedBot[]
@@ -111,3 +110,4 @@ export type UnparsedModeration = {
     commentStyle?: string //Bold or Italics
     commentWeight?: number //font-weight
 }
+

@@ -47,8 +47,7 @@
             color: {comment?.moderation?.commentColor ? comment?.moderation?.commentColor : "magenta"};
             font-size: {comment?.moderation?.commentSize ? comment?.moderation?.commentSize : "large"};
             font-weight: {comment?.moderation?.commentWeight ? comment?.moderation?.commentWeight : 100 };
-            "
-            >
+            ">
                 {comment?.moderation?.textComment}
                 {#if comment?.moderation?.signature }
                     <p class="signature">{comment?.moderation?.signature}</p>
@@ -122,7 +121,6 @@
     // .commentCard:last-of-type {
     //     border-bottom: .0625rem solid rgba(0,0,0,.15);
     // }
-    
     
     .signature {
         font-size-adjust: 0.1;

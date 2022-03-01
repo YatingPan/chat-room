@@ -40,6 +40,7 @@
             <!-- <img src="build/Material/images/testImage.jpg"/> -->
         </div>
         <div class="metaDataContainer">
+
             <div class="time">
                 <span>{formatTime(post?.time)}</span>
             </div>
