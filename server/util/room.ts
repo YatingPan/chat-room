@@ -43,7 +43,6 @@ export module Rooms {
             const res = [...a, [hash, fileName]]
             return res
         }, [])
-        console.log(hash_filename_map)
         return hash_filename_map
     }
     
