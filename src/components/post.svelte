@@ -40,14 +40,15 @@
             <!-- <img src="build/Material/images/testImage.jpg"/> -->
         </div>
         <div class="metaDataContainer">
-                    <div class="time">
-                        <span>{formatTime(post?.time)}</span>
-                    </div>
-                    <div class="actionsContainer">
-                        <!-- TODO fix likes and dislikes -->
-                        <LikesDislikes likes={likes} dislikes={dislikes} parentCommentID={0}/>
-                    </div>
-                </div>
+
+            <div class="time">
+                <span>{formatTime(post?.time)}</span>
+            </div>
+            <div class="actionsContainer">
+                <!-- TODO fix likes and dislikes -->
+                <LikesDislikes likes={likes} dislikes={dislikes} parentCommentID={0}/>
+            </div>
+        </div>
         <div class="header">
             <h2 class="title">{post?.title}</h2>
             <h3 class="lead">{post?.lead}</h3>

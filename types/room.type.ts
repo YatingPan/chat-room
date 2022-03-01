@@ -109,5 +109,5 @@ export type UnparsedModeration = {
     commentSize?: string
     commentStyle?: string //Bold or Italics
     commentWeight?: number //font-weight
-
 }
+

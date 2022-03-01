@@ -1,24 +1,24 @@
-{   
+{
     "roomName": "Discussion Room 1",
     "postName": "post1.json",
-    "duration": 1,
+    "duration": 200,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
     "bots": [
         {
             "name": "bot1",
             "moderation": {
-                    "type": "ban",
-                    "time": 100,
-                    "textNotification": "Bot1 got banned!",
-                    "bgColor": "#B9DED6"
+                "type": "ban",
+                "time": 100,
+                "textNotification": "Bot1 got banned!",
+                "bgColor": "#B9DED6"
             }
         },
         {
             "name": "bot2",
             "moderation": {
-                    "type": "ban",
-                    "time": 100,
-                    "textNotification": "Bot2 got banned!"
+                "type": "ban",
+                "time": 100,
+                "textNotification": "Bot2 got banned!"
             }
         }
     ],
@@ -28,7 +28,7 @@
             "time":     10,
             "content": "Ciao, wenn Fangts ah?"
         },
-        {   
+        {
             "botName": "HalloIchBinEinBot",
             "time":     40,
             "content": "Hoi!",

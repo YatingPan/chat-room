@@ -41,15 +41,13 @@
         {/if}
 
         {#if comment?.flagged || comment?.removed}
-            <p class="moderationText {comment?.flagged === true ? 'flagged' : ''} {comment?.removed === true ? 'removed' : ''}" 
+            <p class="moderationText {comment?.flagged === true ? 'flagged' : ''} {comment?.removed === true ? 'removed' : ''}"
             style="
             font-style: {comment?.moderation?.commentStyle ? comment?.moderation?.commentStyle : "italic"};
             color: {comment?.moderation?.commentColor ? comment?.moderation?.commentColor : "magenta"};
             font-size: {comment?.moderation?.commentSize ? comment?.moderation?.commentSize : "large"};
             font-weight: {comment?.moderation?.commentWeight ? comment?.moderation?.commentWeight : 100 };
-            "
-    
-            >
+            ">
                 {comment?.moderation?.textComment}
                 {#if comment?.moderation?.signature }
                     <p class="signature">{comment?.moderation?.signature}</p>
