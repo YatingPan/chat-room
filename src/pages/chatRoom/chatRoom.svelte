@@ -12,6 +12,8 @@
     import IntersectionObserver from "svelte-intersection-observer";
 
     let element;
+    let remainingTimeCounter
+    let remainingTime = 0
 
     let user: UserExtended;
 
@@ -144,6 +146,7 @@
     }
     const closeChatRoom = () => {
         navigate(`checkout`, { replace: false });
+        clearInterval(remainingTimeCounter)
         console.log("Experiment ends")
     }
 
@@ -183,6 +186,12 @@
             // calculate end Time from start time and duration given in minutes
             const endTime = new Date(new Date(assignedRoom?.startTime).getTime() + assignedRoom?.duration * 60 * 1000)
             autoSend(endTime, closeChatRoom)
+
+            remainingTimeCounter = setInterval(() => {
+                const now = Date.now()
+                const remainingTimeMS = endTime - now
+                remainingTime = remainingTimeMS / 1000
+            }, 1000);
             
             if(assignedRoom?.automaticComments) {
                 const comms = assignedRoom?.automaticComments.sort((a: BotComment, b: BotComment) => a.time > b.time ? 1 : -1)
@@ -233,8 +242,29 @@
                 })
             }
         })
+
     })
     let y;
+
+    function secondsToDhms(seconds) {
+        seconds = Number(seconds);
+        const d = Math.floor(seconds / (3600*24));
+        const h = Math.floor(seconds % (3600*24) / 3600);
+        const m = Math.floor(seconds % 3600 / 60);
+        const s = Math.floor(seconds % 60);
+
+        const dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
+        const hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+        const mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+        const sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+
+        const res = (dDisplay + hDisplay + mDisplay + sDisplay).replace(/,\s*$/, "");
+        return res
+    }
+
+
+
+    $: remainingTimeFormatted = secondsToDhms(remainingTime)
 </script>
 
 <svelte:window bind:scrollY={y}/>
@@ -242,8 +272,14 @@
 <svelte:head>
     <title>Discussion Room</title>
 </svelte:head>
-
+<div class="remaining-time-container">
+    <div class="remaining-time">
+        <p>Remaining time: </p> 
+        <p>{remainingTimeFormatted}</p>
+    </div>
+</div>
 <div class="container">
+    
     <div class="center">
         <div class="notificationArea">
             {#each notifications as notification, i}
@@ -310,6 +346,17 @@
 <style lang="scss">
     @import "src/vars";
 
+    .remaining-time-container {
+        position: absolute;
+        top: 0;
+        left: 1em;
+        background: white;
+        padding: 1rem;    
+        width: 11rem;
+        p {
+            margin: 0;
+        }
+    }
     .container {
         width: 100%;
         min-height: 50vh;
