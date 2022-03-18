@@ -12,35 +12,62 @@ const __dirname = path.resolve();
 const privateDir = path.join(__dirname, "server", "private")
 const roomDir = path.join(privateDir, "chatPrograms")
 
+
 export module Rooms {
 
     let rooms = {}
+    let roomSpecFiles: string[] = []
 
-    const registerRoomDataCollection = (roomID, time: Date) => {
+    // const registerRoomDataCollection = (roomID, time: Date) => {
+    //     const timetarget = time.getTime();
+    //     const timenow =  new Date().getTime();
+    //     const offsetmilliseconds = timetarget - timenow;
+        
+        
+    //     if (offsetmilliseconds > 0) setTimeout(() => Logs.writeLog(roomID), offsetmilliseconds)
+    //     else Logs.writeLog(roomID)
+    // }
+
+    const registerEndRoom = (roomID, time: Date) => {
         const timetarget = time.getTime();
         const timenow =  new Date().getTime();
         const offsetmilliseconds = timetarget - timenow;
         
+        const end_func = () => {
+            Logs.writeLog(roomID)
+            delete rooms[roomID]
+        }
         
-        if (offsetmilliseconds > 0) setTimeout(() => Logs.writeLog(roomID), offsetmilliseconds)
-        else Logs.writeLog(roomID)
+        if (offsetmilliseconds > 0) setTimeout(end_func, offsetmilliseconds)
+        else end_func()
     }
-
+    // const registerCloseChatRoom = (roomID, time: Date) => {
+    //     const timetarget = time.getTime();
+    //     const timenow =  new Date().getTime();
+    //     const offsetmilliseconds = timetarget - timenow;
+        
+        
+    //     if (offsetmilliseconds > 0) setTimeout(() => {delete rooms[roomID]})
+    //     else Logs.writeLog(roomID)
+    // }
 
     /**
      * Used for Access checks
      * Access is granted if the access Code is equal to the sha265 hash of a filename in the chatPrograms directory
      * 
-     * TODO: not every time fs read
      * 
      * @returns Returns an array of tupples (arrays) that maps from hash to fileNames and back
      * 
      */
-    export async function getAvailableRooms() {
-        const files: string[] = await fs.promises.readdir(path.resolve(roomDir, "roomSpecs"))
-        const hash_filename_map = files.reduce((a: string[], fileName: string) => {
+    export async function getAvailableRooms(): Promise<any[]> {
+        // only read the room spec file list the first time this function gets called.
+        // if spec files added -> need to restart the chatroom
+        if(roomSpecFiles.length > 0) {
+            roomSpecFiles = await fs.promises.readdir(path.resolve(roomDir, "roomSpecs"))
+        }
+        const hash_filename_map: string[] = roomSpecFiles.map((a: string[], fileName: string):  => {
             const hash: string = fileNameToHash(fileName)
-            const res = [...a, [hash, fileName]]
+            const res: any[] = [...a, [hash, fileName]]
             return res
         }, [])
         return hash_filename_map
@@ -190,7 +217,7 @@ export module Rooms {
             const endTime = new Date(startTimeTimeStamp + roomData.duration * 60 * 1000)
             
             console.log("endTime", endTime)
-            registerRoomDataCollection(roomData.id, endTime)            
+            registerEndRoom(roomData.id, endTime)            
             //console.log(rooms)
         }
         
