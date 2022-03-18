@@ -62,14 +62,15 @@ export module Rooms {
     export async function getAvailableRooms(): Promise<any[]> {
         // only read the room spec file list the first time this function gets called.
         // if spec files added -> need to restart the chatroom
-        if(roomSpecFiles.length > 0) {
+        if(!(roomSpecFiles.length > 0)) {
             roomSpecFiles = await fs.promises.readdir(path.resolve(roomDir, "roomSpecs"))
         }
-        const hash_filename_map: string[] = roomSpecFiles.map((a: string[], fileName: string):  => {
+        const hash_filename_map: string[][] = roomSpecFiles.map((fileName: string) => {
             const hash: string = fileNameToHash(fileName)
-            const res: any[] = [...a, [hash, fileName]]
+            const res: any[] = [hash, fileName]
             return res
         }, [])
+        console.log(hash_filename_map)
         return hash_filename_map
     }
     

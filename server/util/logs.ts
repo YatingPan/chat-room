@@ -3,6 +3,7 @@ import fs from 'fs';
 import type { Log, RoomData } from "../../types/room.type";
 import type { BotComment, BotLike, Like, LoggedComment, Comment, Reply, ActionsUpdate} from "../../types/comment.type";
 import type { UserExtended } from "../../types/user.type";
+import moment from "moment";
 
 const __dirname = path.resolve();
 const privateDir = path.join(__dirname, "server", "private")
@@ -105,8 +106,12 @@ export module Logs {
         const src_spec = logData.specFileName.split(".")[0]
         const logJSON = JSON.stringify(logData, null, 2)
 
+        var currentdate = new Date(); 
+
+
+        const formatTime = moment(currentdate).format("D.MM.YYYY-HH:mm")
         // ${(new Date()).toTimeString()}
-        fs.writeFile(`${logDir}/${src_spec}.log.json`, logJSON, (err) => {
+        fs.writeFile(`${logDir}/${src_spec}_${formatTime}.log.json`, logJSON, (err) => {
             if (err) throw err;
         });
     }
