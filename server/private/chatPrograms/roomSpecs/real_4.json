@@ -146,7 +146,7 @@
     {   
         "botName": "Ballard",
         "time":     540,
-        "content": "Ever since JFK, all US presdients got clones who replace them during public appearances. The real ones are kept safe in the White House",
+        "content": "Ever since JFK, all US presidents got clones who replace them during public appearances. The real ones are kept safe in the White House",
 
         "moderation": {
             "type": "flag",
