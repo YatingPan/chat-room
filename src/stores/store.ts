@@ -30,13 +30,18 @@ socket.on("requestAccessCode", (arg) => {
 	const path = window.location.pathname.split("/");
 	const accessCode = 2 <= path.length ? path[1] : undefined
 	
-	let url_params = QueryString.parse(location.search)
-	const mTurkId = String(url_params['mTurkId'])
+	// let url_params = QueryString.parse(location.search)
+	// const mTurkId = String(url_params['mTurkId'])
+
+	const queryString = window.location.search;
+	const url_params = new URLSearchParams(queryString);
+	console.log(url_params)
+	const mTurkId = url_params.get('mTurkId')
 	
-	// // console.log(url_params)
+	console.log(url_params)
 	// // console.log(url_params.mTurkId)
 	
-	// // console.log(`My Access code: ${accessCode}, my mTurkId: ${mTurkId}`)
+	console.log(`My Access code: ${accessCode}, my mTurkId: ${mTurkId}`)
 
 	const storedUserData: UserExtended = storageToUser(sessionStorage.getItem("userData"))
 	let accessInfo: AccessInfo = { "accessCode": accessCode, "mTurkId": mTurkId }
