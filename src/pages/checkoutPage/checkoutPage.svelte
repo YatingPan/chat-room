@@ -28,7 +28,7 @@
             }
         })
 
-        surveyLink = `${room.outboundLink}?&roomId=${user.accessCode}&mTurkId=${user?.user?.mTurkId}`;
+        surveyLink = `${room.outboundLink}?&roomId=${user.accessCode}&mTurkId=${user?.user?.mTurkId}&assignmentId=${user?.user?.assignmentId}&hitId=${user?.user?.hitId}`;
     })
     const formatTime = (date: Date): string => {
         return moment(date).format("D.MM.YYYY, HH:mm")

@@ -5,6 +5,8 @@ export type User = {
     id: string
     name: string
     mTurkId: string
+    assignmentId: string
+    hitId : string
 }
 export type UserExtended = {
     user: User
@@ -13,6 +15,8 @@ export type UserExtended = {
 export type AccessInfo = {
     accessCode: string
     mTurkId: string
+    assignmentId: string
+    hitId : string
     user?: User
 }
 
