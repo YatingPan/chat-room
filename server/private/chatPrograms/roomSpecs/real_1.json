@@ -2,18 +2,18 @@
     "roomName": "the online discussion room",
     "startTime": "",
     "postName": "post_human_cloning.json",
-    "duration": 1,
+    "duration": 3,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_3pV3eX1SqMSjxX0",
     "bots": [],
     "comments": [
         {   
         "botName": "Nolan",
-        "time":     120,
+        "time":     60,
         "content": "The Chinese have been secretly cloning humans for years. That's why there's so many of them",
 
         "moderation": {
             "type": "flag",
-            "time":     135,
+            "time":     75,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
             "commentColor": "#E72800" , 
