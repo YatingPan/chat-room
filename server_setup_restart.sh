@@ -3,6 +3,16 @@ tput setaf 5
 tput bold
 
 echo "==============================================================="
+echo "STARTING SETUP; BACKING UP LOGS"
+echo "==============================================================="
+
+folder_name=backup_$(date '+%Y-%m-%d-%H-%M-%S')
+cd /var/www/logBackup
+mkdir backup_${folder_name}
+cd /srv/chat-room/server/private/chatLogs
+cp * /var/www/logBackup/${folder_name}
+
+echo "==============================================================="
 echo "STARTING SETUP; DELETING CONTENTS OF /srv/chat-room"
 echo "==============================================================="
 
