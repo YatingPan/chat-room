@@ -9,18 +9,28 @@ const privateDir = path.join(__dirname, "private");
 const rawdata = await fs.promises.readFile(path.resolve(privateDir, "nickNames.json"));
 const nickNames: string[] = JSON.parse(rawdata.toString())
 const nNickNames: number = nickNames.length
+let takenNickNamesIndex = []
 let counter = 0
 export module Users {
     const users: UserExtended[] = []
 
     async function assignUserName() {
         // choose a random user name fromt the samples given
-        const chosenNickName = nickNames[counter % nickNames.length]
-        counter += 1
-        if(counter < nNickNames)
-           return chosenNickName
-        else 
-            return `chosenNickName${Math.floor(counter/nNickNames)}`
+        let finalIndex;
+        while (true) {
+            let tempIndex = Math.random()*nNickNames;
+            finalIndex = Math.floor(tempIndex);
+            if (takenNickNamesIndex.length === nNickNames){
+                takenNickNamesIndex = []
+            }
+            if (!takenNickNamesIndex.includes(finalIndex)) {
+                takenNickNamesIndex.push(finalIndex);
+                break;
+            }
+        }
+        const chosenNickName = nickNames[finalIndex]
+        return chosenNickName
+       
     }
     
     const createUser = async (accessCode: string, mTurkId: string, assignmentId:string, hitId: string, id: string): Promise<UserExtended> => {
