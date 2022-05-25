@@ -8,7 +8,7 @@ echo "==============================================================="
 
 folder_name=backup_$(date '+%Y-%m-%d-%H-%M-%S')
 cd /var/www/logBackup
-mkdir backup_${folder_name}
+mkdir ${folder_name}
 cd /srv/chat-room/server/private/chatLogs
 cp * /var/www/logBackup/${folder_name}
 
