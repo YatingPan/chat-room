@@ -8,12 +8,12 @@
     "comments": [
         {   
         "botName": "Nolan",
-        "time":     60,
+        "time":     120,
         "content": "The Chinese have been secretly cloning humans for years. That's why there's so many of them",
 
         "moderation": {
             "type": "flag",
-            "time":     75,
+            "time":     135,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
             "commentColor": "#E72800" , 
@@ -28,12 +28,12 @@
     },
     {   
         "botName": "Harrington",
-        "time":     180,
+        "time":     240,
         "content": "The first humans to be cloned were Russian twins called Irana and Targa",
 
         "moderation": {
             "type": "flag",
-            "time":     195,
+            "time":     255,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
             "commentColor": "#E72800" , 
@@ -47,12 +47,12 @@
     },
     {   
         "botName": "Valentin",
-        "time":     300,
+        "time":     360,
         "content": "Public officials use human clones to help them with tasks they don't want to do themselves",
 
         "moderation": {
             "type": "flag",
-            "time":     315,
+            "time":     375,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
             "commentColor": "#E72800" , 
@@ -66,12 +66,12 @@
     },
     {   
         "botName": "Miner",
-        "time":     420,
+        "time":     480,
         "content": "Centres for human cloning around the world secretly work to replace the entire current human race",
 
         "moderation": {
             "type": "flag",
-            "time":     435,
+            "time":     495,
             "textNotification": "A message in this thread has been flagged as disputed and potentially misleading by our moderators. This comment is now highlighted in red.",
             "textComment": "Some or all of the content in this message is disputed and may be misleading to some viewers",
             "commentColor": "#E72800" , 
