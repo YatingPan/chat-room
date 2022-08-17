@@ -20,6 +20,7 @@ export type Log = {
     duration: number
     postTitle: string
     comments: LoggedComment[]
+    originalComments: Comment[]
     userModerationEvents: Moderation[]
     users: User[]
     outboundLink: string

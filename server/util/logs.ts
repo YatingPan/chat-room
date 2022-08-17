@@ -13,7 +13,9 @@ export module Logs {
     let logs = {}
     // replies maps comment ids to an array of its replies
     let replies = {}
+    let rawReplies:Reply[] = []
     let actions = {}
+    let rawActions: ActionsUpdate[] = []
 
     const botLikeToLike = (botDislike: BotLike, parentCommentID: number): Like => {
         return {
@@ -48,6 +50,27 @@ export module Logs {
         }
         return loggedComment
     }
+
+
+
+   /* function loggedCommentToComment(loggedComment: LoggedComment[]): Comment[]{
+        //Converting list of LoggedComment to list of comment
+        return comments
+
+    }*/
+    export function returnLog(){
+        // console.log("####Log in logs.ts in Logslog function is #####",logs)
+        return logs
+    }
+
+    export function returnRawReplies(){
+        return rawReplies
+    }
+
+    export function returnAction(){
+        return rawActions
+    }
+
     export const initLog  = (roomID: string, roomData: RoomData, specFileName: string) => {
         const autoComments: LoggedComment[] = roomData.automaticComments.map(botCommentToLoggedComment)
         const newLog: Log = {
@@ -58,6 +81,7 @@ export module Logs {
             duration: roomData.duration,
             postTitle: roomData.post.title,
             users: [],
+            originalComments:[],
             comments: autoComments,
             userModerationEvents: roomData.userModerationEvents,
             outboundLink: roomData.outboundLink
@@ -67,17 +91,23 @@ export module Logs {
 
     export const appendTopLevelComment = (roomID: string, comment: Comment) => {
         logs[roomID].comments.push(commentToLoggedCommnet(comment))
+        logs[roomID].originalComments.push(comment)
+
     }
     export const appendUser = (roomID: string, user: UserExtended) => {
         logs[roomID].users.push(user.user)
     }
     export const appendReply = (reply: Reply) => {
+        rawReplies.push(reply)
         if (replies[reply.parentID])
             [... replies[reply.parentID], commentToLoggedCommnet(reply.comment)]
         else
             replies[reply.parentID] = [commentToLoggedCommnet(reply.comment)]
+
+
     }
     export const replaceActions = (actionsUpdate: ActionsUpdate) => {
+        rawActions.push(actionsUpdate)
         actions[actionsUpdate.parentCommentID] = {
             likes: actionsUpdate.likes,
             dislikes: actionsUpdate.dislikes

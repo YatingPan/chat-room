@@ -5,22 +5,29 @@ import type { RoomData } from "../../types/room.type";
 import type { UserAssignment, User, AccessInfo, UserExtended } from "../../types/user.type";
 
 import QueryString from "qs";
+import type{LoggedComment} from "../../types/comment.type";
 
 const userToStorage = (user: UserExtended): string => JSON.stringify(user)
 const roomToStorage = (room: RoomData): string => JSON.stringify(room)
+const commentToStorage = (comment:Comment): string => JSON.stringify(comment)
 
 const storageToUser = (storedUserData: string): UserExtended => JSON.parse(storedUserData)
 const storageToRoom = (storedRoomData: string): RoomData => JSON.parse(storedRoomData)
+const storageToComment = (storedCommentData: string): Comment => JSON.parse(storedCommentData)
 
 
 const socket = io();
 
 const accessCodeStore: Writable<string> = writable()
-const commentStore: Writable<Comment> = writable()
+const commentStore: Writable<Comment| undefined> = writable(storageToComment(sessionStorage.getItem("userData")))
+const commentsStore: Writable<Comment[]> = writable()
 const replyStore: Writable<Reply> = writable()
+const repliesStore: Writable<Reply[]> = writable()
 const actionsStore: Writable<ActionsUpdate> = writable()
+const allActionsStore: Writable<ActionsUpdate[]> = writable()
 const userStore: Writable<UserExtended | undefined> = writable(storageToUser(sessionStorage.getItem("userData")))
 const roomStore: Writable<RoomData | undefined> = writable()//writable(storageToRoom(sessionStorage.getItem("roomData")))
+let tempComments: Array<Comment> = [];
 
 // Server requests an access code from client
 socket.on("requestAccessCode", (arg) => {
@@ -53,23 +60,53 @@ socket.on("requestAccessCode", (arg) => {
 });
 
 socket.on("userAssignment", (userAssignment: UserAssignment) => {
-	// console.log(userAssignment)
-	// console.log("Access granted for Room: " + userAssignment.room.name)
-	// console.log("userAssignment", userAssignment)
-
 	const user: UserExtended = userAssignment.user
 	const room: RoomData = userAssignment.room
+	const orignalComments:Comment[] = userAssignment.logs
+	const allReplies: Reply[] = userAssignment.replies
+	const actions: ActionsUpdate[] = userAssignment.actions
+	console.log("#####printingh comments in store.ts after socket call")
+	console.log(orignalComments)
+	console.log("#####printingh allReplies in store.ts after socket call")
+	console.log(allReplies)
+	console.log("#####printingh actions in store.ts after socket call")
+	console.log(actions)
 	
 	// console.log("Assigned User:", user)
 	// TODO better login check?
 	if (user) {
+		console.log("#####Entering the value in userstore")
 		sessionStorage.setItem("userData", userToStorage(user))
 		userStore.set(user)
 	}
 	if(room) {
+		console.log("#####Entering the value in roomstore")
 		sessionStorage.setItem("roomData", roomToStorage(room))
-		// console.log("recieved roomData")
 		roomStore.set(room)
+	}
+
+	if(orignalComments){
+		console.log("#####Entering the value in commentstore")
+		// for(var val of orignalComments){
+		// 	console.log("Adding to commentstore")
+		// 	console.log(val)
+		// 	let temp_val = commentToStorage(val)
+		// 	temp_val = temp_val.replace("hoi","hola")
+		// 	sessionStorage.setItem("commentData",temp_val)
+		// 	commentStore.set(storageToComment(temp_val))
+		// }
+		commentsStore.set(orignalComments)
+
+	}
+
+	if(allReplies){
+		console.log("#####Entering the value in replystore")
+		repliesStore.set(allReplies)
+	}
+
+	if(actions){
+		console.log("#####Entering the value in actionsStore")
+		allActionsStore.set(actions)
 	}
 })
 
@@ -79,6 +116,9 @@ socket.on("accessDenied", (data) => {
 
 socket.on("comment", (newComment: Comment) => {
 	// console.log("recieved comment", newComment)
+	// tempComments = [... tempComments, newComment]
+	console.log("#### calling socket add comment")
+	// socket.emit("addComment", newComment)
 	commentStore.set(newComment)
 })
 socket.on("reply", (newReply: Reply) => {
@@ -88,6 +128,11 @@ socket.on("reply", (newReply: Reply) => {
 socket.on("actionsUpdate", (newActions: ActionsUpdate) => {
 	// console.log("recieved actions", newActions)
 	actionsStore.set(newActions)
+})
+
+socket.on("updateComments", (tempComment:Array<Comment>) => {
+	tempComments = tempComment
+	console.log("After update tempComments", tempComments)
 })
 
 // function reply() {
@@ -109,12 +154,16 @@ const sendActionsUpdate= (newActionsUpdate: ActionsUpdate) => {
 
 export default {
     commentStore,
+	commentsStore,
 	replyStore,
+	repliesStore,
 	sendComment,
 	sendReply,
 	sendActionsUpdate,
 	actionsStore,
+	allActionsStore,
 	roomStore,
-	userStore
+	userStore,
+	tempComments
 }
 

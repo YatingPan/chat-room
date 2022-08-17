@@ -3,18 +3,20 @@
     import type { User, UserExtended } from "../../../types/user.type";
     import type { Moderation, RoomData, Notification } from "../../../types/room.type";
     import { navigate } from 'svelte-routing';
-
+    // import { Users } from "../../../server/util/users";
     import CommentComponent from "../../components/comment.svelte"
     import SendCommentComponent from "../../components/sendCommentComponent.svelte"
     import { onMount } from "svelte";
     import  store from "../../stores/store";
+    // import {allComments} from "../../../server/server";
+    // import {Logs} from "../../../server/util/logs";
     import * as animateScroll from "svelte-scrollto";
     import IntersectionObserver from "svelte-intersection-observer";
 
     let element;
     let remainingTimeCounter
     let remainingTime = 0
-
+    let historyComments: Array<Comment> = [];
     let user: UserExtended;
 
     let comments: Array<Comment> = [];
@@ -87,11 +89,16 @@
     }
 
     const addComment = (newComment: Comment) => {
+        // console.log("####Comments before adding",comments)
         comments = [... comments, newComment]
-        if(newComment.user.id === user.user.id)
+        // console.log("####Comments after adding",comments)
+        if(newComment.user.id === user.user.id) {
+            // console.log("###Animation since it's my comment")
             animateScroll.scrollToBottom()
-        else
+        }
+        else{
             n_new_comments++
+        }
     }
     const flagComment = (commentID: number) => {
         const comment = comments.find((comment: Comment) => comment.id === commentID)
@@ -154,34 +161,20 @@
         store.userStore.subscribe((currentUser: UserExtended) => {
             if(currentUser) user = currentUser
         })
-        store.commentStore.subscribe((currentComment: Comment) => {
-            if(currentComment) addComment(currentComment)
-        })
-        store.replyStore.subscribe((currentReply: Reply) => {
-            if(currentReply) {
-                addReply(currentReply)
-            }
-        })
-        store.actionsStore.subscribe((actionsUpdate: ActionsUpdate) => {
-            if(actionsUpdate) {
-                updateLikes(actionsUpdate.parentCommentID, actionsUpdate.likes)
-                updateDislikes(actionsUpdate.parentCommentID, actionsUpdate.dislikes)
-            }
-        })
 
         store.roomStore.subscribe((assignedRoom: RoomData) => {
             comments = []
             console.log("incommingRoom", assignedRoom)
             if(assignedRoom?.userModerationEvents) {
                 assignedRoom.userModerationEvents.map((moderation: Moderation) => {
-                    
+
                     autoSend(new Date(moderation.time), addNotification, moderation)
                     // if User got removed, remove every comment of that user from the comments list
                     if(moderation?.type === 0)
                         autoSend(new Date(moderation.time), removeEveryCommentFromUser, moderation.target)
                 })
             }
-            
+
 
             // calculate end Time from start time and duration given in minutes
             const endTime = new Date(new Date(assignedRoom?.startTime).getTime() + assignedRoom?.duration * 60 * 1000)
@@ -192,26 +185,26 @@
                 const remainingTimeMS = endTime - now
                 remainingTime = remainingTimeMS / 1000
             }, 1000);
-            
+
             if(assignedRoom?.automaticComments) {
                 const comms = assignedRoom?.automaticComments.sort((a: BotComment, b: BotComment) => a.time > b.time ? 1 : -1)
                 console.log("automaticComments", comms)
                 comms.map((autoComment: BotComment) => {
-                    
+
                     const newComment = generateComment(autoComment)
                     autoSend(newComment.time, addComment, newComment)
 
                     // register top level comment moderation messages
                     if(autoComment?.moderation) {
                         const moderationEvent = autoComment.moderation
-                            autoSend(new Date(moderationEvent.time), addNotification, moderationEvent)
-                            if(moderationEvent?.type === 1)
-                                autoSend(new Date(moderationEvent.time), flagComment, moderationEvent.target)
-                            // If comment got removed, mark it's content as removed
-                            if(moderationEvent?.type === 2)
-                                autoSend(new Date(moderationEvent.time), removeComment, moderationEvent.target)
+                        autoSend(new Date(moderationEvent.time), addNotification, moderationEvent)
+                        if(moderationEvent?.type === 1)
+                            autoSend(new Date(moderationEvent.time), flagComment, moderationEvent.target)
+                        // If comment got removed, mark it's content as removed
+                        if(moderationEvent?.type === 2)
+                            autoSend(new Date(moderationEvent.time), removeComment, moderationEvent.target)
                     }
-                    
+
                     if(autoComment.replies) {
                         for(let reply of autoComment.replies) {
                             const newReply = {
@@ -219,7 +212,7 @@
                                 comment: generateComment(reply)
                             }
                             autoSend(newReply.comment.time, addReply, newReply)
-                            
+
                             // register reply level comment moderation messages
                             if(reply?.moderation) {
                                 const moderationEvent = autoComment.moderation
@@ -240,6 +233,47 @@
                         }
                     }
                 })
+            }
+        })
+
+        store.replyStore.subscribe((currentReply: Reply) => {
+            if(currentReply) {
+                addReply(currentReply)
+            }
+        })
+        store.actionsStore.subscribe((actionsUpdate: ActionsUpdate) => {
+            if(actionsUpdate) {
+                updateLikes(actionsUpdate.parentCommentID, actionsUpdate.likes)
+                updateDislikes(actionsUpdate.parentCommentID, actionsUpdate.dislikes)
+            }
+        })
+
+        store.commentStore.subscribe((currentComment: Comment) => {
+            if(currentComment) addComment(currentComment)
+        })
+
+        store.commentsStore.subscribe((allPrevComments:Comment[]) =>{
+            if(allPrevComments){
+                for(const tempComment of allPrevComments){
+                    addComment(tempComment)
+                }
+            }
+        })
+
+        store.repliesStore.subscribe((allReplies: Reply[]) => {
+            if(allReplies) {
+                for(const currentReply of allReplies){
+                    addReply(currentReply)
+                }
+            }
+        })
+
+        store.allActionsStore.subscribe((allActionsUpdate: ActionsUpdate[]) => {
+            if(allActionsUpdate) {
+                for(const actionsUpdate of allActionsUpdate) {
+                    updateLikes(actionsUpdate.parentCommentID, actionsUpdate.likes)
+                    updateDislikes(actionsUpdate.parentCommentID, actionsUpdate.dislikes)
+                }
             }
         })
 

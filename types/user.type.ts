@@ -1,4 +1,6 @@
 import type { RoomData } from "./room.type"
+import type {ActionsUpdate, Comment, Reply} from "./comment.type";
+
 
 
 export type User = {
@@ -22,5 +24,8 @@ export type AccessInfo = {
 
 export type UserAssignment = {
     user?: UserExtended,
-    room?: RoomData
+    room?: RoomData,
+    logs?: Comment[],
+    replies?: Reply[],
+    actions?: ActionsUpdate[]
 }

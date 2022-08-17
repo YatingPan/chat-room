@@ -1,15 +1,19 @@
 'use strict';
 import type { UserAssignment, AccessInfo, User, UserExtended } from "../types/user.type"
-import type { ActionsUpdate, ProposedComment, ProposedReply} from "../types/comment.type"
+import type {ActionsUpdate, ProposedComment, ProposedReply, Reply} from "../types/comment.type"
 import { Rooms } from "./util/room.js";
 import { Users } from "./util/users.js";
 import { Chats } from "./util/chat.js";
+import {Logs} from "./util/logs.js";
 
 import express from 'express';
 import path from 'path';
 import http from "http";
 import { Server } from "socket.io";
 import type { RoomData } from "../types/room.type";
+import type{Comment} from "../types/comment.type";
+import type{Log} from "../types/room.type";
+// import type{LoggedComment} from "../types/comment.type";
 
 const app = express();
 
@@ -22,6 +26,7 @@ const __dirname =  path.join(path.resolve(), "server");
 const publicDir = path.join(__dirname, "../public");
 console.log(publicDir)
 const privateDir = path.join(__dirname, "private");
+// export let allComments: Array<Comment> = [];
 
 app.use(express.static(publicDir));
 
@@ -29,8 +34,6 @@ app.use(express.static(publicDir));
 app.get('/secret', async function (req, res, next) {
   // console.log('Accessing the secret section ...')
   const availableRooms = await Rooms.getAvailableRooms()
-  // console.log(availableRooms)
-
   const html = availableRooms.map(function(hashAndFileName) {
     const [hash, fileName] = hashAndFileName;
     const fullUrl = req.protocol + '://' + req.get('host');
@@ -69,10 +72,16 @@ io.on("connection", socket => {
 
       const room: RoomData = await Rooms.getStaticRoomData(accessInfo.accessCode)
       const newUser: UserExtended = await Users.userJoin(accessInfo, socket.id)
-      
+      let fullLog: Log = Logs.returnLog()[room.id]
+      let allReplies: Reply[] = Logs.returnRawReplies()
+      let actions:ActionsUpdate[] = Logs.returnAction()
+      let comments: Comment[] = fullLog.originalComments
       const userAssignment: UserAssignment = {
         "room": room,
-        "user": newUser
+        "user": newUser,
+        "logs": comments,
+        "replies": allReplies,
+        "actions": actions
       }
 
       socket.join(accessInfo.accessCode)
@@ -101,9 +110,14 @@ io.on("connection", socket => {
     
     Chats.broadcastActionsUpdate(proposedActionsUpdate, sendingUser, io)
   })
-  
+
+/*  socket.on("addComment",(tempComment : Comment) => {
+    allComments = [... allComments, tempComment]
+    console.log("#### addComment.ts allComments",allComments)
+    // socket.emit("updateComments", allComments)
+  })
+  */
   socket.on("disconnect", () => {
     io.emit('userDisconnect', "A user has left the chat")
   })
 })
-
