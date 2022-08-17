@@ -60,6 +60,12 @@ export module Users {
             return user
         }
 
+        const mTurkUser = getUserFromMturkId(accessInfo?.mTurkId)
+        if(mTurkUser){
+            console.log("Logging in user", mTurkUser)
+            return mTurkUser
+        }
+
         let newUser: UserExtended = await createUser(accessInfo?.accessCode, accessInfo?.mTurkId, accessInfo?.assignmentId, accessInfo?.hitId, id);
         console.log("New user created", newUser)
         users.push(newUser)
@@ -70,4 +76,10 @@ export module Users {
     export function getUserFromID(id) {
         return users.find(user => id === user.user.id)
     }
+
+    export function getUserFromMturkId(id) {
+        return users.find(user => id === user.user.mTurkId)
+    }
+
+
 }
