@@ -31,14 +31,14 @@
     }
     const removeNotification = (index: number) => {
         notifications = [
-			...notifications.slice(0, index),
-			...notifications.slice(index + 1, notifications.length)
+            ...notifications.slice(0, index),
+            ...notifications.slice(index + 1, notifications.length)
         ]
     }
     const addLike = (newLike: Like, parentCommentID: number) => {
         if(likes[parentCommentID]) {
             likes[parentCommentID] = [... likes[parentCommentID], newLike]
-        } else { 
+        } else {
             likes[parentCommentID] = [newLike]
         }
         console.log(likes)
@@ -57,11 +57,11 @@
         dislikes[commentID] = updates
     }
     const addReply = (newReply: Reply) => {
-        if(replies[newReply.parentID]) 
+        if(replies[newReply.parentID])
             replies[newReply.parentID] = [... replies[newReply.parentID], newReply.comment]
-        else 
+        else
             replies[newReply.parentID] = [newReply.comment]
-        
+
         // if(newReply.comment.user.id === user.user.id)
         //     animateScroll.scrollTo({element: `.commentCard.id${newReply.comment.id}`})
     }
@@ -107,9 +107,9 @@
         newComment.flagged = true
         console.log("Flagged moderation: " + console.log(JSON.stringify(newComment, null, 4)));
         comments = [
-			...comments.slice(0, index),
+            ...comments.slice(0, index),
             newComment,
-			...comments.slice(index + 1, comments.length)
+            ...comments.slice(index + 1, comments.length)
         ]
     }
 
@@ -121,9 +121,9 @@
         newComment.removed = true;
         console.log("Removed moderation: " + console.log(JSON.stringify(newComment, null, 4)));
         comments = [
-			...comments.slice(0, index),
+            ...comments.slice(0, index),
             newComment,
-			...comments.slice(index + 1, comments.length-1)
+            ...comments.slice(index + 1, comments.length-1)
         ]
     }
     const removeCommentsOfUser = (comms: Comment[], userID: string) => {
@@ -146,13 +146,19 @@
         const timetarget = time.getTime();
         const timenow =  new Date().getTime();
         const offsetmilliseconds = timetarget - timenow;
-        
-        
+
+
         if (offsetmilliseconds > 0) setTimeout(() => callback.apply(this, args), offsetmilliseconds)
         else callback.apply(this, args)
     }
     const closeChatRoom = () => {
         navigate(`checkout`, { replace: false });
+        clearInterval(remainingTimeCounter)
+        console.log("Experiment ends")
+    }
+
+    const closeChatRoomRefresh = () => {
+        navigate(`checkoutOnRefresh`, { replace: false });
         clearInterval(remainingTimeCounter)
         console.log("Experiment ends")
     }
@@ -178,7 +184,15 @@
 
             // calculate end Time from start time and duration given in minutes
             const endTime = new Date(new Date(assignedRoom?.startTime).getTime() + assignedRoom?.duration * 60 * 1000)
-            autoSend(endTime, closeChatRoom)
+            console.log("assigned room is")
+            console.log(assignedRoom)
+            if (typeof assignedRoom !== 'undefined'){
+                autoSend(endTime, closeChatRoom)
+            }
+            else{
+                console.log("Its undefined")
+                autoSend(endTime,closeChatRoomRefresh)
+            }
 
             remainingTimeCounter = setInterval(() => {
                 const now = Date.now()
@@ -308,22 +322,22 @@
 </svelte:head>
 <div class="remaining-time-container">
     <div class="remaining-time">
-        <p>Remaining time: </p> 
+        <p>Remaining time: </p>
         <p>{remainingTimeFormatted}</p>
     </div>
 </div>
 <div class="container">
-    
+
     <div class="center">
         <div class="notificationArea">
             {#each notifications as notification, i}
                 {#if notifications.length - 4 < i}
-                    <div class="notification" on:click={(e) => removeNotification(i)} 
-                        style="background-color: {notification?.bgColor ? notification.bgColor : "#dddc"};
+                    <div class="notification" on:click={(e) => removeNotification(i)}
+                         style="background-color: {notification?.bgColor ? notification.bgColor : "#dddc"};
                                 color: {notification?.textColor ? notification?.textColor : "#000"};
                                 font-size: {notification?.textSize ? notification?.textSize : "1em"};">
-                        <svg class="close-icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 
-                            viewBox="0 0 94.926 94.926" style="enable-background:new 0 0 94.926 94.926;" xml:space="preserve">
+                        <svg class="close-icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             viewBox="0 0 94.926 94.926" style="enable-background:new 0 0 94.926 94.926;" xml:space="preserve">
                             <g>
                                 <path d="M55.931,47.463L94.306,9.09c0.826-0.827,0.826-2.167,0-2.994L88.833,0.62C88.436,0.224,87.896,0,87.335,0
                                     c-0.562,0-1.101,0.224-1.498,0.62L47.463,38.994L9.089,0.62c-0.795-0.795-2.202-0.794-2.995,0L0.622,6.096
@@ -333,7 +347,7 @@
                             </g>
                         </svg>
 
-                        <h3>{notification?.textNotification}</h3>
+                    <h3>{notification?.textNotification}</h3>
                     {#if notification?.signature }
                         <span class="signature">{notification?.signature}</span>
                     {/if}
@@ -347,13 +361,13 @@
                 <span class="no-comments">No comments yet...</span>
             {/if}
             {#each comments as comment, i}
-                <CommentComponent 
-                    isTopLevelComment={true} 
-                    comment={comment} 
-                    replies={replies[comment.id]}
-                    likes={likes}
-                    dislikes={dislikes}
-                    myComment={comment?.user?.id === user?.user?.id}/>
+                <CommentComponent
+                        isTopLevelComment={true}
+                        comment={comment}
+                        replies={replies[comment.id]}
+                        likes={likes}
+                        dislikes={dislikes}
+                        myComment={comment?.user?.id === user?.user?.id}/>
             {/each}
             {#if n_new_comments > 0}
                 <div class="newCommentIndicator" on:click="{() => animateScroll.scrollToBottom()}">
@@ -363,153 +377,153 @@
             {/if}
             <IntersectionObserver {element} on:observe="{(e) => n_new_comments = 0}">
                 <div bind:this={element} class="bottomCommentDisplay"></div>
-                
+
             </IntersectionObserver>
         </div>
     </div>
     {#if y > 200}
-    <div class="scrollToTop" id="scrollToTop">
-        <a on:click={() => animateScroll.scrollToTop()}> <img src="../../icons/cd-top-arrow.svg" alt="scroll to top">
-            <!-- <br> <b>To Top</b></a> -->
-    </div>
+        <div class="scrollToTop" id="scrollToTop">
+            <a on:click={() => animateScroll.scrollToTop()}> <img src="../../icons/cd-top-arrow.svg" alt="scroll to top">
+                <!-- <br> <b>To Top</b></a> -->
+        </div>
     {/if}
 
 
 </div>
 
 <style lang="scss">
-    @import "src/vars";
+  @import "src/vars";
 
-    .remaining-time-container {
-        position: absolute;
-        top: 0;
-        left: 1em;
-        background: white;
-        padding: 1rem;    
-        width: 11rem;
-        p {
-            margin: 0;
-        }
+  .remaining-time-container {
+    position: absolute;
+    top: 0;
+    left: 1em;
+    background: white;
+    padding: 1rem;
+    width: 11rem;
+    p {
+      margin: 0;
     }
-    .container {
+  }
+  .container {
+    width: 100%;
+    min-height: 50vh;
+
+    @media (min-width: $mid-bp) {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    .notificationArea {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      right: 0;
+
+      .notification {
+        position: relative;
+        border-top: .1rem solid rgba(0,0,0,.15);
+        background: #dddc;
+        padding: 1.2rem;
+        width: 50vw;
+        max-width: 18rem;
+
+        .signature {
+          color:rgb(31, 31, 31);
+        }
+        .close-icon {
+          position: absolute;
+          cursor: pointer;
+          top: 0.5rem;
+          right: 0.5rem;
+          height: 1rem;
+        }
+      }
+    }
+
+    .center {
+      display: flex;
+      flex-direction: column;
+
+      @media (min-width: $mid-bp) {
+        max-width: $mid-bp;
         width: 100%;
-        min-height: 50vh;
+      }
 
-        @media (min-width: $mid-bp) {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-        }
+      .commentDisplay {
+        min-height: 20em;
+        margin: 0.5rem 1rem;
 
-        .notificationArea {
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            top: 0;
-            right: 0;
-
-            .notification {
-                position: relative;
-                border-top: .1rem solid rgba(0,0,0,.15);
-                background: #dddc;
-                padding: 1.2rem;
-                width: 50vw;
-                max-width: 18rem;
-
-                .signature {
-                    color:rgb(31, 31, 31);
-                }
-                .close-icon {
-                    position: absolute;
-                    cursor: pointer;
-                    top: 0.5rem;
-                    right: 0.5rem;
-                    height: 1rem;
-                }
-            }
-        }
-
-        .center {
-            display: flex;
-            flex-direction: column;
-        
-            @media (min-width: $mid-bp) {
-                max-width: $mid-bp;
-                width: 100%;
-            }
-
-            .commentDisplay {
-                min-height: 20em;
-                margin: 0.5rem 1rem;
-
-                .newCommentIndicator {
-                    background: white;
-                    position: fixed;
-                    bottom: 7rem;
-                    right: 3rem;
-                    width: 3rem;
-                    height: 3rem;
-                    img {
-                        width: 3rem;
-                        height: 3rem;
-                    }
-                    span {
-                        position: absolute;
-                        text-align: center;
-                        right: -1px;
-                        top: 2px;
-                        background: black;
-                        color: white;
-                        font-size: 15px;
-                        font-weight: bold;
-                        width: 21px;
-                        height: 21px;
-                        border-radius: 50%;
-                    }
-                }
-                .bottomCommentDisplay {
-                    height: 1rem;
-                    width: 100%;
-                }
-            }
-            
-        }
-    }
-    .scrollToTop {
-        background: white;
-        position: fixed;
-        bottom: 3rem;
-        right: 3.3rem;
-        width: 2rem;
-        height: 2rem;
-        // reinstate clicks
-        pointer-events: all;
-
-        // basic styling
-        display: inline-block !important;
-        text-decoration: none;
-        text-align: center;
-        border-radius: 20%;
-        padding: 0.25rem;
-
-        $color: rgba(0, 0, 0, 0.9);
-
-        // "pretty" styles, including states
-        // border: 1px solid $color;
-        background-color: $color; // scale-color($color, $lightness: 15%);
-        transition: transform 80ms ease-in;
-
-        &:hover,
-        &:focus {
-            transform: scale(1.03);
-        }
-        a {
-            text-decoration: none;
+        .newCommentIndicator {
+          background: white;
+          position: fixed;
+          bottom: 7rem;
+          right: 3rem;
+          width: 3rem;
+          height: 3rem;
+          img {
+            width: 3rem;
+            height: 3rem;
+          }
+          span {
+            position: absolute;
+            text-align: center;
+            right: -1px;
+            top: 2px;
+            background: black;
             color: white;
-            cursor: pointer;
-            img {
-                padding-top: 0.4rem;
-            }
+            font-size: 15px;
+            font-weight: bold;
+            width: 21px;
+            height: 21px;
+            border-radius: 50%;
+          }
         }
+        .bottomCommentDisplay {
+          height: 1rem;
+          width: 100%;
+        }
+      }
+
     }
+  }
+  .scrollToTop {
+    background: white;
+    position: fixed;
+    bottom: 3rem;
+    right: 3.3rem;
+    width: 2rem;
+    height: 2rem;
+    // reinstate clicks
+    pointer-events: all;
+
+    // basic styling
+    display: inline-block !important;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 20%;
+    padding: 0.25rem;
+
+    $color: rgba(0, 0, 0, 0.9);
+
+    // "pretty" styles, including states
+    // border: 1px solid $color;
+    background-color: $color; // scale-color($color, $lightness: 15%);
+    transition: transform 80ms ease-in;
+
+    &:hover,
+    &:focus {
+      transform: scale(1.03);
+    }
+    a {
+      text-decoration: none;
+      color: white;
+      cursor: pointer;
+      img {
+        padding-top: 0.4rem;
+      }
+    }
+  }
 </style>

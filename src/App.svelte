@@ -4,6 +4,7 @@
     import WelcomePage from "./pages/welcomePage/welcomePage.svelte";
     import Post from "./components/post.svelte";
     import CheckoutPage from "./pages/checkoutPage/checkoutPage.svelte";
+    import CheckoutOnRefresh from "./pages/checkoutPage/checkoutOnRefresh.svelte"
 
 	export let url = "";
     
@@ -25,6 +26,10 @@
                 <!-- <span>access code: {params.accessCode} </span> -->
 				<CheckoutPage/>
 			</Route>
+            <Route path="/:accessCode/checkoutOnRefresh" let:params>
+                <!-- <span>access code: {params.accessCode} </span> -->
+                <CheckoutOnRefresh/>
+            </Route>
         </Router>
 
     </div>
