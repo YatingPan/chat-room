@@ -55,15 +55,20 @@ export module Users {
         // Check if the user is already logged in with its details
         const user = getUserFromID(accessInfo?.user?.id)
         
-        if(user) {
-            console.log("Logging in user", user)
-            return user
+        if(user){
+            if (user.accessCode !== accessInfo.accessCode){
+                console.log("Logging in user", user)
+                return user
+            }
         }
 
-        const mTurkUser = getUserFromMturkId(accessInfo?.mTurkId)
-        if(mTurkUser){
-            console.log("Logging in user", mTurkUser)
-            return mTurkUser
+        if(accessInfo?.mTurkId !== null) {
+            const mTurkUser = getUserFromMturkId(accessInfo?.mTurkId)
+            if (mTurkUser) {
+                if (mTurkUser.accessCode !== accessInfo.accessCode) {
+                    return mTurkUser
+                }
+            }
         }
 
         let newUser: UserExtended = await createUser(accessInfo?.accessCode, accessInfo?.mTurkId, accessInfo?.assignmentId, accessInfo?.hitId, id);
@@ -72,6 +77,25 @@ export module Users {
         //console.log("Users:", users)
         return newUser    
     }
+
+    // export function getUserFromID(accessInfo) {
+    //     let id = accessInfo?.user?.id
+    //     let returnedUser = users.find(user => id === user.user.id)
+    //     if (returnedUser.accessCode === accessInfo.accessCode)
+    //         return returnedUser
+    //     else
+    //         return null
+    // }
+    //
+    // export function getUserFromMturkId(accessInfo) {
+    //     let id = accessInfo?.mTurkId
+    //     let returnedUser = users.find(user => id === user.user.mTurkId)
+    //     if (returnedUser.accessCode === accessInfo.accessCode)
+    //         return returnedUser
+    //     else
+    //         return null
+    // }
+
 
     export function getUserFromID(id) {
         return users.find(user => id === user.user.id)
