@@ -60,16 +60,20 @@ export module Users {
                 console.log("Logging in user", user)
                 return user
             }
-        }
-
-        if(accessInfo?.mTurkId !== null) {
-            const mTurkUser = getUserFromMturkId(accessInfo?.mTurkId)
-            if (mTurkUser) {
-                if (mTurkUser.accessCode !== accessInfo.accessCode) {
-                    return mTurkUser
-                }
+            else{
+                user.accessCode = accessInfo.accessCode
+                return user
             }
         }
+
+        // if(accessInfo?.mTurkId !== null) {
+        //     const mTurkUser = getUserFromMturkId(accessInfo?.mTurkId)
+        //     if (mTurkUser) {
+        //         if (mTurkUser.accessCode !== accessInfo.accessCode) {
+        //             return mTurkUser
+        //         }
+        //     }
+        // }
 
         let newUser: UserExtended = await createUser(accessInfo?.accessCode, accessInfo?.mTurkId, accessInfo?.assignmentId, accessInfo?.hitId, id);
         console.log("New user created", newUser)
@@ -77,25 +81,6 @@ export module Users {
         //console.log("Users:", users)
         return newUser    
     }
-
-    // export function getUserFromID(accessInfo) {
-    //     let id = accessInfo?.user?.id
-    //     let returnedUser = users.find(user => id === user.user.id)
-    //     if (returnedUser.accessCode === accessInfo.accessCode)
-    //         return returnedUser
-    //     else
-    //         return null
-    // }
-    //
-    // export function getUserFromMturkId(accessInfo) {
-    //     let id = accessInfo?.mTurkId
-    //     let returnedUser = users.find(user => id === user.user.mTurkId)
-    //     if (returnedUser.accessCode === accessInfo.accessCode)
-    //         return returnedUser
-    //     else
-    //         return null
-    // }
-
 
     export function getUserFromID(id) {
         return users.find(user => id === user.user.id)
