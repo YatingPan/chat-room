@@ -17,7 +17,6 @@
     "@tsconfig/svelte": "^1.0.0",
     "@types/express": "^4.16.1",
     "@types/node": "^16.3.2",
-    "node-sass": "^6.0.1",
     "nodemon": "^2.0.9",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
@@ -27,7 +26,7 @@
     "svelte": "^3.0.0",
     "svelte-check": "^1.0.0",
     "svelte-intersection-observer": "^0.7.1",
-    "svelte-preprocess": "^4.0.0",
+    "svelte-preprocess": "^5.1.1",
     "svelte-preprocess-sass": "^1.0.0",
     "svelte-scrollto": "^0.2.0",
     "tslib": "^2.0.0",
@@ -41,7 +40,6 @@
     "sirv-cli": "^1.0.0",
     "socket.io": "^4.1.2",
     "socket.io-client": "^4.1.2",
-    "svelte-preprocess": "^4.7.2",
     "svelte-routing": "^1.5.0",
     "ts-node": "^10.1.0"
   }
