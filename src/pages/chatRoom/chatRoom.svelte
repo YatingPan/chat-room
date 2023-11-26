@@ -12,6 +12,7 @@
     // import {Logs} from "../../../server/util/logs";
     import * as animateScroll from "svelte-scrollto";
     import IntersectionObserver from "svelte-intersection-observer";
+    
 
     let element;
     let remainingTimeCounter
@@ -25,6 +26,9 @@
     let dislikes = {};
     let notifications: Notification[] = [];
     let n_new_comments = 0;
+
+    //add code for endchat button
+    let showEndModal = false;
 
     const addNotification = (notification: Notification) => {
         notifications = [... notifications, notification]
@@ -151,6 +155,17 @@
         if (offsetmilliseconds > 0) setTimeout(() => callback.apply(this, args), offsetmilliseconds)
         else callback.apply(this, args)
     }
+    
+    // add code for endchat button
+    const confirmEndChat = () => {
+        showEndModal = true
+    }
+
+    const endChat = () => {
+        closeChatRoom()
+        showEndModal = false
+    }
+
     const closeChatRoom = () => {
         navigate(`checkout`, { replace: false });
         clearInterval(remainingTimeCounter)
@@ -324,6 +339,7 @@
     <div class="remaining-time">
         <p>Remaining time: </p>
         <p>{remainingTimeFormatted}</p>
+        <button on:click={confirmEndChat}>End Chat</button>
     </div>
 </div>
 <div class="container">
@@ -390,6 +406,19 @@
 
 
 </div>
+
+<!-- Modal Dialogue -->
+{#if showEndModal}
+    <div class="modal-overlay" on:click={() => showEndModal = false}>
+        <div class="modal" on:click|stopPropagation>
+            <h2>End Chat</h2>
+            <p>Have you completed the chat? Are you sure you want to end it?</p>
+            <button on:click={endChat}>Yes, End it</button>
+            <button on:click={() => showEndModal = false}>No, Continue</button>
+        </div>
+    </div>
+{/if}
+
 
 <style lang="scss">
   @import "src/vars";
@@ -526,4 +555,44 @@
       }
     }
   }
+  .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  h2 {
+    margin-top: 0;
+  }
+}
+
+button {
+  padding: 0.5em 1em;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+
 </style>

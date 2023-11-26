@@ -22,7 +22,7 @@ rm -rf chat-room/.*
 cd /srv/chat-room
 
 # CHANGE THIS TO THE RIGHT GITHUB REPOSITORY
-repo_url="https://github.com/DigDemLab/chat-room.git"
+repo_url="https://github.com/YatingPan/chat-room.git"
 tput setab 7
 tput setaf 5
 tput bold
