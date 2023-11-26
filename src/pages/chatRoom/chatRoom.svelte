@@ -335,12 +335,14 @@
 <svelte:head>
     <title>Discussion Room</title>
 </svelte:head>
+<div class = "timer-and-button-container">
 <div class="remaining-time-container">
     <div class="remaining-time">
         <p>Remaining time: </p>
         <p>{remainingTimeFormatted}</p>
-        <button on:click={confirmEndChat}>End Chat</button>
     </div>
+    <button class="end-chat-button" on:click={confirmEndChat}>End Chat</button>
+</div>
 </div>
 <div class="container">
 
@@ -423,17 +425,46 @@
 <style lang="scss">
   @import "src/vars";
 
-  .remaining-time-container {
-    position: absolute;
-    top: 0;
-    left: 1em;
+  .timer-and-button-container {
+  position: fixed; // Fixed position
+  top: 1rem; // Adjust as necessary for spacing from the top
+  left: 1rem; // Adjust as necessary for spacing from the left
+  display: flex; // Use flexbox
+  flex-direction: column; // Stack children vertically
+  align-items: center; // Center-align the flex items
+  gap: 0.5rem; // Space between timer and button
+  z-index: 1000; // Ensure it's on top of other elements
+}
+
+    .remaining-time-container {
+    position: fixed; /* Keep it fixed at the top left */
+    top: 1rem; /* Adjust as necessary for spacing from the top */
+    left: 1rem; /* Adjust as necessary for spacing from the left */
     background: white;
     padding: 1rem;
-    width: 11rem;
-    p {
-      margin: 0;
+    border-radius: 5px; /* Rounded corners for aesthetics */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    z-index: 1000; /* Ensure it's on top of other elements */
     }
-  }
+      .remaining-time p {
+      margin: 0;
+      text-align: center; /* Center the text */
+      font-weight: bold; /* Make the text bold */
+    }
+  
+    button.end-chat-button {
+    padding: 0.5em 1em;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    width: auto; // Let it size according to its content
+    &:hover {
+    background-color: #0056b3;
+    }
+}
+
   .container {
     width: 100%;
     min-height: 50vh;
@@ -484,7 +515,6 @@
       .commentDisplay {
         min-height: 20em;
         margin: 0.5rem 1rem;
-
         .newCommentIndicator {
           background: white;
           position: fixed;
@@ -565,9 +595,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
+  }
 
-.modal {
+  .modal {
   background: white;
   padding: 2rem;
   border-radius: 8px;
@@ -580,19 +610,6 @@
   h2 {
     margin-top: 0;
   }
-}
-
-button {
-  padding: 0.5em 1em;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
   }
-}
 
 </style>
