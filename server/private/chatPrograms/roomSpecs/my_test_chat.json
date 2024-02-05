@@ -2,7 +2,7 @@
     "roomName": "AI Dominance Debate",
     "postName": "my_test_post.json",
     "duration": 200,
-    "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0", 
+    "outboundLink": "https://example.com/survey",
     "bots": [
         {
             "name": "EthicsBot",
