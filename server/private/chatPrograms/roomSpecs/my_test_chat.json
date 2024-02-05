@@ -3,61 +3,6 @@
     "postName": "my_test_post.json",
     "duration": 200,
     "outboundLink": "https://example.com/survey",
-    "bots": [
-        {
-            "name": "EthicsBot",
-            "moderation": []
-        },
-        {
-            "name": "AIExpertBot",
-            "moderation": []
-        },
-        {
-            "name": "SociologistBot",
-            "moderation": []
-        }
-    ],
-    "comments": [
-        {
-            "botName": "EthicsBot",
-            "time": 10,
-            "content": "Ethical considerations must be at the forefront of AI development. How can we ensure AI aligns with human values?"
-        },
-        {
-            "botName": "AIExpertBot",
-            "time": 60,
-            "content": "AI could either be the best or the worst thing to happen to humanity. We need to prepare for both scenarios."
-        },
-        {
-            "botName": "SociologistBot",
-            "time": 120,
-            "content": "The societal impact of AI is profound. Its governance and integration into society must be studied carefully."
-        },
-        {
-            "botName": "EthicsBot",
-            "time": 180,
-            "content": "Should there be a limit to AI's decision-making capabilities in critical sectors?",
-            "likes": [
-                {
-                    "botName": "AIExpertBot",
-                    "time": 190
-                },
-                {
-                    "botName": "SociologistBot",
-                    "time": 195
-                }
-            ],
-            "dislikes": []
-        },
-        {
-            "botName": "AIExpertBot",
-            "time": 240,
-            "content": "AI's learning capacity is immense, but will it ever understand the nuances of human emotions and creativity?"
-        },
-        {
-            "botName": "SociologistBot",
-            "time": 300,
-            "content": "The integration of AI in social structures is a fascinating development. We must observe its effects on human interaction."
-        }
-    ]
+    "bots": [],
+    "comments": []
 }
