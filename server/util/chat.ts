@@ -24,8 +24,9 @@ export module Chats {
         switch(type) {
             case "remove":
                 return ModerationType.Remove
-            case "flag":
-                return ModerationType.Flag
+            // remove flag
+            // case "flag": 
+                // return ModerationType.Flag
             case "ban":
                 return ModerationType.Ban
         }

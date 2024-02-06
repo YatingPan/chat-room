@@ -24,7 +24,7 @@ export type Comment = {
     user: User
     content: string
     moderation?: Moderation
-    flagged?: boolean
+    // flagged?: boolean
     removed?: boolean
 }
 

@@ -104,18 +104,19 @@
             n_new_comments++
         }
     }
-    const flagComment = (commentID: number) => {
-        const comment = comments.find((comment: Comment) => comment.id === commentID)
-        const index = comments.findIndex((comment: Comment) => comment.id === commentID)
-        const newComment = comment
-        newComment.flagged = true
-        console.log("Flagged moderation: " + console.log(JSON.stringify(newComment, null, 4)));
-        comments = [
-            ...comments.slice(0, index),
-            newComment,
-            ...comments.slice(index + 1, comments.length)
-        ]
-    }
+    // Remove Flag
+    //const flagComment = (commentID: number) => {
+    //    const comment = comments.find((comment: Comment) => comment.id === commentID)
+    //    const index = comments.findIndex((comment: Comment) => comment.id === commentID)
+    //    const newComment = comment
+    //    newComment.flagged = true
+    //    console.log("Flagged moderation: " + console.log(JSON.stringify(newComment, null, 4)));
+    //    comments = [
+    //        ...comments.slice(0, index),
+    //        newComment,
+    //        ...comments.slice(index + 1, comments.length)
+    //    ]
+    //}
 
     const removeComment = (commentID: number) => {
         const comment = comments.find((comment: Comment) => comment.id === commentID)
@@ -227,8 +228,9 @@
                     if(autoComment?.moderation) {
                         const moderationEvent = autoComment.moderation
                         autoSend(new Date(moderationEvent.time), addNotification, moderationEvent)
-                        if(moderationEvent?.type === 1)
-                            autoSend(new Date(moderationEvent.time), flagComment, moderationEvent.target)
+                        // remove flag
+                        // if(moderationEvent?.type === 1)
+                        //    autoSend(new Date(moderationEvent.time), flagComment, moderationEvent.target)
                         // If comment got removed, mark it's content as removed
                         if(moderationEvent?.type === 2)
                             autoSend(new Date(moderationEvent.time), removeComment, moderationEvent.target)

@@ -26,7 +26,8 @@ export type Log = {
     outboundLink: string
 }
 
-export enum ModerationType { Ban, Flag, Remove }
+//export enum ModerationType { Ban, Flag, Remove }
+export enum ModerationType { Ban, Remove }
 
 export type RoomData = {
     id: string
