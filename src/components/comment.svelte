@@ -21,9 +21,9 @@
     console.log(JSON.stringify(comment, null, 4));
 </script>
 
-{#if comment.removed || comment.flagged}
+{#if comment.removed}
 <article class="commentCard id{comment?.id}" class:myComment={myComment}>
-    <div class="commentContainer {comment?.flagged === true ? 'flagged' : ''} {comment?.removed === true ? 'removed' : ''}"
+    <div class="commentContainer {comment?.removed === true ? 'removed' : ''}"
     style="
     background-color: {comment?.moderation?.bgColor ? comment?.moderation.bgColor : "#dddc"}; 
     color: {comment?.moderation?.textColor ? comment?.moderation?.textColor : "#000"};
@@ -40,8 +40,8 @@
             <p class="text">{comment?.content}</p>
         {/if}
 
-        {#if comment?.flagged || comment?.removed}
-            <p class="moderationText {comment?.flagged === true ? 'flagged' : ''} {comment?.removed === true ? 'removed' : ''}"
+        {#if comment?.removed}
+            <p class="moderationText {comment?.removed === true ? 'removed' : ''}"
             style="
             font-style: {comment?.moderation?.commentStyle ? comment?.moderation?.commentStyle : "italic"};
             color: {comment?.moderation?.commentColor ? comment?.moderation?.commentColor : "magenta"};
