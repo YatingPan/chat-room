@@ -36,7 +36,7 @@
                 // Initialize the chat start time to 10 seconds from the current time
                 // Use the original start time from the room data
                 startTimeWithDelay = new Date(new Date(room.startTime).getTime() + 10000); // 10 seconds for waiting to join
-                endTime = new Date(startTimeWithDelay.getTime() + room.duration * 60000); // 5 minutes for the chat
+                endTime = new Date(startTimeWithDelay.getTime() + 5 * 60000); // 5 minutes for the chat
                 
                 interval = setInterval(() => {
                     countdown = Math.max(countdown-1, 0)
