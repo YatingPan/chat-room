@@ -57,22 +57,6 @@
                     "time":     6,
                     "content": "reply 4"
                 }
-            ],
-            "likes": [
-                {
-                    "botName": "user4",
-                    "time":     1000
-                }
-            ],
-            "dislikes": [
-                {
-                    "botName": "user4",
-                    "time":     -900
-                },
-                {
-                    "botName": "user2",
-                    "time":     -200
-                }
             ]
         },
         {
@@ -84,12 +68,6 @@
                     "botName": "user3",
                     "time":     16,
                     "content": "reply 7"
-                }
-            ],
-            "likes": [
-                {
-                    "botName": "user4",
-                    "time":     -900
                 }
             ]
         }

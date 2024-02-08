@@ -23,18 +23,6 @@
                     "time":     -100,
                     "content": "asdasd hello"
                 }
-            ],
-            "likes": [
-                {
-                    "userName": "user4",
-                    "time":     -900
-                }
-            ],
-            "dislikes": [
-                {
-                    "userName": "bot2",
-                    "time":     -900
-                }
             ]
         },
         {
@@ -46,12 +34,6 @@
                     "userName": "bot2",
                     "time":     -100,
                     "content": "asdasd hello"
-                }
-            ],
-            "likes": [
-                {
-                    "userName": "bot1",
-                    "time":     -900
                 }
             ]
         }

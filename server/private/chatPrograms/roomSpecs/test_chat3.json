@@ -6,22 +6,10 @@
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
     "bots": [
         {
-            "name": "bot1",
-            "moderation": [
-                {
-                    "type": "ban",
-                    "time": 100
-                }
-            ]
+            "name": "bot1"
         },
         {
-            "name": "bot2",
-            "moderation": [
-                {
-                    "type": "ban",
-                    "time": 10
-                }
-            ]
+            "name": "bot2"
         }
     ],
     "comments": [
@@ -34,26 +22,6 @@
                     "botName": "user3",
                     "time":     -90,
                     "content": "reply 1"
-                }
-            ],
-            "likes": [
-                {
-                    "botName": "user4",
-                    "time":     5
-                },
-                {
-                    "botName": "user2",
-                    "time":     -200
-                }
-            ],
-            "dislikes": [
-                {
-                    "botName": "user4",
-                    "time":     -900
-                },
-                {
-                    "botName": "user2",
-                    "time":     -200
                 }
             ]
         }

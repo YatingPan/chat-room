@@ -1,7 +1,7 @@
 import path from "path";
 import fs from 'fs';
 import type { Log, RoomData } from "../../types/room.type";
-import type { BotComment, BotLike, Like, LoggedComment, Comment, Reply, ActionsUpdate} from "../../types/comment.type";
+import type { BotComment, LoggedComment, Comment, Reply, ActionsUpdate} from "../../types/comment.type";
 import type { UserExtended } from "../../types/user.type";
 import moment from "moment";
 
@@ -17,12 +17,12 @@ export module Logs {
     let actions = {}
     let rawActions: ActionsUpdate[] = []
 
-    const botLikeToLike = (botDislike: BotLike, parentCommentID: number): Like => {
-        return {
-            userID: botDislike.botName,
-            time: new Date(botDislike.time)
-        }
-    }
+    //const botLikeToLike = (botDislike: BotLike, parentCommentID: number): Like => {
+    //    return {
+    //        userID: botDislike.botName,
+    //        time: new Date(botDislike.time)
+    //    }
+    //}
     const botCommentToLoggedComment = (botComment: BotComment) => {
         const loggedComment: LoggedComment = {
             id: botComment.id,
@@ -33,8 +33,8 @@ export module Logs {
             replies: botComment?.replies?.map((autoComment: BotComment) => botCommentToLoggedComment(autoComment)),
             // remove moderation
             // moderation: botComment?.moderation,
-            likes: botComment?.likes?.map(botLikeToLike),
-            dislikes: botComment?.dislikes?.map(botLikeToLike)
+    //        likes: botComment?.likes?.map(botLikeToLike),
+    //        dislikes: botComment?.dislikes?.map(botLikeToLike)
         }
         return loggedComment
     }
@@ -46,8 +46,8 @@ export module Logs {
             time: comment.time,
             userName: comment.user.name,
             content: comment.content,
-            likes: [],
-            dislikes: []
+    //        likes: [],
+    //        dislikes: []
         }
         return loggedComment
     }
@@ -110,8 +110,8 @@ export module Logs {
     export const replaceActions = (actionsUpdate: ActionsUpdate) => {
         rawActions.push(actionsUpdate)
         actions[actionsUpdate.parentCommentID] = {
-            likes: actionsUpdate.likes,
-            dislikes: actionsUpdate.dislikes
+            //likes: actionsUpdate.likes,
+            //dislikes: actionsUpdate.dislikes
         }
     }
 
@@ -123,8 +123,8 @@ export module Logs {
             const reps: LoggedComment[] = replies[comment.id]
             comment["replies"] = reps?.sort((a: LoggedComment, b: LoggedComment) => a.time < b.time ? -1 : 1)
             const act = actions[comment.id]
-            comment["likes"] = act?.likes
-            comment["dislikes"] = act?.dislikes
+            //comment["likes"] = act?.likes
+            //comment["dislikes"] = act?.dislikes
 
             return comment
         })

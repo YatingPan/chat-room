@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { ActionsUpdate, BotComment, BotLike, Comment, Like, Reply } from "../../../types/comment.type"
+    import type { ActionsUpdate, BotComment, Comment, Reply } from "../../../types/comment.type"
     import type { User, UserExtended } from "../../../types/user.type";
     import type { RoomData } from "../../../types/room.type";
     import { navigate } from 'svelte-routing';
@@ -22,8 +22,8 @@
 
     let comments: Array<Comment> = [];
     let replies = {};
-    let likes = {};
-    let dislikes = {};
+    //let likes = {};
+    //let dislikes = {};
     let notifications: Notification[] = [];
     let n_new_comments = 0;
 
@@ -39,27 +39,27 @@
             ...notifications.slice(index + 1, notifications.length)
         ]
     }
-    const addLike = (newLike: Like, parentCommentID: number) => {
-        if(likes[parentCommentID]) {
-            likes[parentCommentID] = [... likes[parentCommentID], newLike]
-        } else {
-            likes[parentCommentID] = [newLike]
-        }
-        console.log(likes)
-    }
-    const addDislike = (newDislike: Like, parentCommentID: number) => {
-        if(dislikes[parentCommentID]) {
-            dislikes[parentCommentID] = [... dislikes[parentCommentID], newDislike]
-        } else {
-            dislikes[parentCommentID] = [newDislike]
-        }
-    }
-    const updateLikes = (commentID: number, updates: Like[]) => {
-        likes[commentID] = updates
-    }
-    const updateDislikes = (commentID: number, updates: Like[]) => {
-        dislikes[commentID] = updates
-    }
+    //const addLike = (newLike: Like, parentCommentID: number) => {
+    //    if(likes[parentCommentID]) {
+    //        likes[parentCommentID] = [... likes[parentCommentID], newLike]
+    //    } else {
+    //        likes[parentCommentID] = [newLike]
+    //    }
+    //    console.log(likes)
+    //}
+    //const addDislike = (newDislike: Like, parentCommentID: number) => {
+    //    if(dislikes[parentCommentID]) {
+    //        dislikes[parentCommentID] = [... dislikes[parentCommentID], newDislike]
+    //    } else {
+    //        dislikes[parentCommentID] = [newDislike]
+    //    }
+    //}
+    //const updateLikes = (commentID: number, updates: Like[]) => {
+    //    likes[commentID] = updates
+    //}
+    //const updateDislikes = (commentID: number, updates: Like[]) => {
+    //    dislikes[commentID] = updates
+    //}
     const addReply = (newReply: Reply) => {
         if(replies[newReply.parentID])
             replies[newReply.parentID] = [... replies[newReply.parentID], newReply.comment]
@@ -69,12 +69,12 @@
         // if(newReply.comment.user.id === user.user.id)
         //     animateScroll.scrollTo({element: `.commentCard.id${newReply.comment.id}`})
     }
-    const botLikeToLike = (botDislike: BotLike, parentCommentID: number): Like => {
-        return {
-            userID: botDislike.botName,
-            time: new Date(botDislike.time)
-        }
-    }
+    //const botLikeToLike = (botDislike: BotLike, parentCommentID: number): Like => {
+    //    return {
+    //        userID: botDislike.botName,
+    //        time: new Date(botDislike.time)
+    //    }
+    //}
     const generateComment = (autoComment: BotComment) => {
         console.log(`received bot Comment: ${JSON.stringify(autoComment, null, 4)}`)
         const newComment: Comment = {
@@ -251,18 +251,18 @@
                             //}
                         }
                     }
-                    if(autoComment.likes) {
-                        for(let like of autoComment.likes) {
-                            const newLike = botLikeToLike(like, autoComment.id)
-                            autoSend(newLike.time, addLike, newLike, autoComment.id)
-                        }
-                    }
-                    if(autoComment.dislikes) {
-                        for(let dislike of autoComment.dislikes) {
-                            const newDislike = botLikeToLike(dislike, autoComment.id)
-                            autoSend(newDislike.time, addDislike, newDislike, autoComment.id)
-                        }
-                    }
+                    //if(autoComment.likes) {
+                    //    for(let like of autoComment.likes) {
+                    //        const newLike = botLikeToLike(like, autoComment.id)
+                    //        autoSend(newLike.time, addLike, newLike, autoComment.id)
+                    //    }
+                    //}
+                    //if(autoComment.dislikes) {
+                    //    for(let dislike of autoComment.dislikes) {
+                    //        const newDislike = botLikeToLike(dislike, autoComment.id)
+                    //        autoSend(newDislike.time, addDislike, newDislike, autoComment.id)
+                    //    }
+                    //}
                 })
             }
         })
@@ -273,10 +273,10 @@
             }
         })
         store.actionsStore.subscribe((actionsUpdate: ActionsUpdate) => {
-            if(actionsUpdate) {
-                updateLikes(actionsUpdate.parentCommentID, actionsUpdate.likes)
-                updateDislikes(actionsUpdate.parentCommentID, actionsUpdate.dislikes)
-            }
+            //if(actionsUpdate) {
+            //    updateLikes(actionsUpdate.parentCommentID, actionsUpdate.likes)
+            //    updateDislikes(actionsUpdate.parentCommentID, actionsUpdate.dislikes)
+            //}
         })
 
         store.commentStore.subscribe((currentComment: Comment) => {
@@ -301,10 +301,10 @@
 
         store.allActionsStore.subscribe((allActionsUpdate: ActionsUpdate[]) => {
             if(allActionsUpdate) {
-                for(const actionsUpdate of allActionsUpdate) {
-                    updateLikes(actionsUpdate.parentCommentID, actionsUpdate.likes)
-                    updateDislikes(actionsUpdate.parentCommentID, actionsUpdate.dislikes)
-                }
+                //for(const actionsUpdate of allActionsUpdate) {
+                //    updateLikes(actionsUpdate.parentCommentID, actionsUpdate.likes)
+                //    updateDislikes(actionsUpdate.parentCommentID, actionsUpdate.dislikes)
+                //}
             }
         })
 
@@ -359,8 +359,6 @@
                         isTopLevelComment={true}
                         comment={comment}
                         replies={replies[comment.id]}
-                        likes={likes}
-                        dislikes={dislikes}
                         myComment={comment?.user?.id === user?.user?.id}/>
             {/each}
             {#if n_new_comments > 0}

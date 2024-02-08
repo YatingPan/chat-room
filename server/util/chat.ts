@@ -1,4 +1,4 @@
-import type { ActionsUpdate, BotComment, BotLike, ProposedReply, Reply, UnparsedBotComment, UnparsedBotLike } from "../../types/comment.type"
+import type { ActionsUpdate, BotComment, ProposedReply, Reply, UnparsedBotComment } from "../../types/comment.type"
 import type { ProposedComment, Comment } from "../../types/comment.type"
 import type { UserExtended } from "../../types/user.type"
 import { Logs } from "./logs.js"
@@ -8,16 +8,16 @@ export module Chats {
     let commentID = 1
     let botCommentID = -1
 
-    const parseLike = (unparsedLike: UnparsedBotLike, startTime: number): BotLike => {
+    //const parseLike = (unparsedLike: UnparsedBotLike, startTime: number): BotLike => {
         
-        const time = new Date(startTime + unparsedLike.time * 1000)
+    //    const time = new Date(startTime + unparsedLike.time * 1000)
         
-        const botLike: BotLike = {
-            botName: unparsedLike.botName,
-            time
-        }
-        return botLike
-    }
+    //    const botLike: BotLike = {
+    //        botName: unparsedLike.botName,
+    //        time
+    //    }
+    //    return botLike
+    //}
     //Remove moderation
     //const parseModerationType = (type: string): ModerationType => {
     //    switch(type) {
@@ -36,8 +36,8 @@ export module Chats {
         const id = botCommentID--
         const time = new Date(startTime + unparsedComment.time * 1000)
         const replies: BotComment[] = unparsedComment.replies?.map((reply: UnparsedBotComment) => parseComment(reply, startTime))
-        const likes: BotLike[] = unparsedComment.likes?.map((like: UnparsedBotLike) => parseLike(like, startTime))
-        const dislikes: BotLike[] = unparsedComment.dislikes?.map((dislike: UnparsedBotLike) => parseLike(dislike, startTime))
+        //const likes: BotLike[] = unparsedComment.likes?.map((like: UnparsedBotLike) => parseLike(like, startTime))
+        //const dislikes: BotLike[] = unparsedComment.dislikes?.map((dislike: UnparsedBotLike) => parseLike(dislike, startTime))
         
         //const moderation: Moderation = unparsedComment.moderation ? {
             //type: parseModerationType(unparsedComment.moderation.type),
@@ -63,8 +63,8 @@ export module Chats {
             content: unparsedComment.content,
             replies,
             //moderation,
-            likes,
-            dislikes
+            //likes,
+            //dislikes
         }
         return comment
     }
