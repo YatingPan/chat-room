@@ -31,7 +31,8 @@ export module Logs {
             userName: botComment.botName,
             content: botComment.content,
             replies: botComment?.replies?.map((autoComment: BotComment) => botCommentToLoggedComment(autoComment)),
-            moderation: botComment?.moderation,
+            // remove moderation
+            // moderation: botComment?.moderation,
             likes: botComment?.likes?.map(botLikeToLike),
             dislikes: botComment?.dislikes?.map(botLikeToLike)
         }
@@ -83,7 +84,7 @@ export module Logs {
             users: [],
             originalComments:[],
             comments: autoComments,
-            userModerationEvents: roomData.userModerationEvents,
+            //userModerationEvents: roomData.userModerationEvents,
             outboundLink: roomData.outboundLink
         }
         logs[roomID] = newLog

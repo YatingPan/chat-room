@@ -23,6 +23,7 @@ export module Posts {
 
     export const getPostData = async (postFileName: string): Promise<Post> => {
 
+        
         const unparsedPostData: UnparsedPost = await getRawRoomData(postFileName);
 
         const id = fileNameToHash(postFileName);

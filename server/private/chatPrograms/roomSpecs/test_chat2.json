@@ -6,22 +6,10 @@
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
     "bots": [
         {
-            "name": "bot1",
-            "moderation": [
-                {
-                    "type": "ban",
-                    "time": 100
-                }
-            ]
+            "name": "bot1"
         },
         {
-            "name": "bot2",
-            "moderation": [
-                {
-                    "type": "ban",
-                    "time": 10
-                }
-            ]
+            "name": "bot2"
         }
     ],
     "comments": [
@@ -29,10 +17,6 @@
             "userName": "bot1",
             "time":     10,
             "content": "Hello from user1 in Room 2",
-            "moderation": {
-                "type": "flag",
-                "time":     15
-            },
             "replies": [
                 {
                     "userName": "user3",
@@ -57,10 +41,6 @@
             "userName": "bot2",
             "time":     14,
             "content": "Ciao!",
-            "moderation": {
-                "type": "remove",
-                "time": 15
-            },
             "replies": [
                 {
                     "userName": "bot2",

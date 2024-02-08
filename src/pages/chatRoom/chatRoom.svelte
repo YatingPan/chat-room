@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { ActionsUpdate, BotComment, BotLike, Comment, Like, Reply } from "../../../types/comment.type"
     import type { User, UserExtended } from "../../../types/user.type";
-    import type { Moderation, RoomData, Notification } from "../../../types/room.type";
+    import type { RoomData } from "../../../types/room.type";
     import { navigate } from 'svelte-routing';
     // import { Users } from "../../../server/util/users";
     import CommentComponent from "../../components/comment.svelte"
@@ -86,7 +86,7 @@
                 name: autoComment.botName
             },
             content: autoComment.content,
-            moderation: autoComment.moderation
+            //moderation: autoComment.moderation
         }
         console.log(`generated new comment: ${JSON.stringify(newComment, null, 4)}`)
         return newComment
@@ -122,9 +122,9 @@
         const comment = comments.find((comment: Comment) => comment.id === commentID)
         const index = comments.findIndex((comment: Comment) => comment.id === commentID)
         const newComment = comment;
-        newComment.content = comment.moderation.textComment;
+        //newComment.content = comment.moderation.textComment;
         newComment.removed = true;
-        console.log("Removed moderation: " + console.log(JSON.stringify(newComment, null, 4)));
+        //console.log("Removed moderation: " + console.log(JSON.stringify(newComment, null, 4)));
         comments = [
             ...comments.slice(0, index),
             newComment,
@@ -187,15 +187,15 @@
         store.roomStore.subscribe((assignedRoom: RoomData) => {
             comments = []
             console.log("incommingRoom", assignedRoom)
-            if(assignedRoom?.userModerationEvents) {
-                assignedRoom.userModerationEvents.map((moderation: Moderation) => {
+            //if(assignedRoom?.userModerationEvents) {
+                //assignedRoom.userModerationEvents.map((moderation: Moderation) => {
 
-                    autoSend(new Date(moderation.time), addNotification, moderation)
+                    //autoSend(new Date(moderation.time), addNotification, moderation)
                     // if User got removed, remove every comment of that user from the comments list
-                    if(moderation?.type === 0)
-                        autoSend(new Date(moderation.time), removeEveryCommentFromUser, moderation.target)
-                })
-            }
+                    //if(moderation?.type === 0)
+                        //autoSend(new Date(moderation.time), removeEveryCommentFromUser, moderation.target)
+                //})
+            //}
 
 
             // calculate end Time from start time and duration given in minutes
@@ -225,16 +225,16 @@
                     autoSend(newComment.time, addComment, newComment)
 
                     // register top level comment moderation messages
-                    if(autoComment?.moderation) {
-                        const moderationEvent = autoComment.moderation
-                        autoSend(new Date(moderationEvent.time), addNotification, moderationEvent)
+                    //if(autoComment?.moderation) {
+                    //    const moderationEvent = autoComment.moderation
+                    //    autoSend(new Date(moderationEvent.time), addNotification, moderationEvent)
                         // remove flag
                         // if(moderationEvent?.type === 1)
                         //    autoSend(new Date(moderationEvent.time), flagComment, moderationEvent.target)
                         // If comment got removed, mark it's content as removed
-                        if(moderationEvent?.type === 2)
-                            autoSend(new Date(moderationEvent.time), removeComment, moderationEvent.target)
-                    }
+                    //    if(moderationEvent?.type === 2)
+                    //        autoSend(new Date(moderationEvent.time), removeComment, moderationEvent.target)
+                    //}
 
                     if(autoComment.replies) {
                         for(let reply of autoComment.replies) {
@@ -245,10 +245,10 @@
                             autoSend(newReply.comment.time, addReply, newReply)
 
                             // register reply level comment moderation messages
-                            if(reply?.moderation) {
-                                const moderationEvent = autoComment.moderation
-                                autoSend(new Date(moderationEvent.time), addNotification, moderationEvent)
-                            }
+                            //if(reply?.moderation) {
+                            //    const moderationEvent = autoComment.moderation
+                            //    autoSend(new Date(moderationEvent.time), addNotification, moderationEvent)
+                            //}
                         }
                     }
                     if(autoComment.likes) {
@@ -349,32 +349,6 @@
 <div class="container">
 
     <div class="center">
-        <div class="notificationArea">
-            {#each notifications as notification, i}
-                {#if notifications.length - 4 < i}
-                    <div class="notification" on:click={(e) => removeNotification(i)}
-                         style="background-color: {notification?.bgColor ? notification.bgColor : "#dddc"};
-                                color: {notification?.textColor ? notification?.textColor : "#000"};
-                                font-size: {notification?.textSize ? notification?.textSize : "1em"};">
-                        <svg class="close-icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                             viewBox="0 0 94.926 94.926" style="enable-background:new 0 0 94.926 94.926;" xml:space="preserve">
-                            <g>
-                                <path d="M55.931,47.463L94.306,9.09c0.826-0.827,0.826-2.167,0-2.994L88.833,0.62C88.436,0.224,87.896,0,87.335,0
-                                    c-0.562,0-1.101,0.224-1.498,0.62L47.463,38.994L9.089,0.62c-0.795-0.795-2.202-0.794-2.995,0L0.622,6.096
-                                    c-0.827,0.827-0.827,2.167,0,2.994l38.374,38.373L0.622,85.836c-0.827,0.827-0.827,2.167,0,2.994l5.473,5.476
-                                    c0.397,0.396,0.936,0.62,1.498,0.62s1.1-0.224,1.497-0.62l38.374-38.374l38.374,38.374c0.397,0.396,0.937,0.62,1.498,0.62
-                                    s1.101-0.224,1.498-0.62l5.473-5.476c0.826-0.827,0.826-2.167,0-2.994L55.931,47.463z"/>
-                            </g>
-                        </svg>
-
-                    <h3>{notification?.textNotification}</h3>
-                    {#if notification?.signature }
-                        <span class="signature">{notification?.signature}</span>
-                    {/if}
-                    </div>
-                {/if}
-            {/each}
-        </div>
         <SendCommentComponent showReplyInput={false}/>
         <div class="commentDisplay">
             {#if comments.length == 0}

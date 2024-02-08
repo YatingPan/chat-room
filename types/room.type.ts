@@ -21,13 +21,13 @@ export type Log = {
     postTitle: string
     comments: LoggedComment[]
     originalComments: Comment[]
-    userModerationEvents: Moderation[]
+    //userModerationEvents: Moderation[]
     users: User[]
     outboundLink: string
 }
 
 //export enum ModerationType { Ban, Flag, Remove }
-export enum ModerationType { Ban, Remove }
+//export enum ModerationType { Ban, Remove }
 
 export type RoomData = {
     id: string
@@ -36,34 +36,34 @@ export type RoomData = {
     duration: number
     post: Post
     automaticComments: BotComment[]
-    userModerationEvents: Moderation[]
+    //userModerationEvents: Moderation[]
     outboundLink: string
 }
 
 
-export type Moderation = {
-    type: ModerationType
-    time: Date
-    target: string | number // either user id or comment id
-    textNotification: string
-    textComment: string
-    textColor?: string
-    textSize?: string
-    bgColor?: string
-    signature?: string
-    commentColor?: string //comment properties are for changing the moderation text in comment
-    commentSize?: string
-    commentStyle?: string //Bold or Italics
-    commentWeight?: number //font-weight
-}
+//export type Moderation = {
+//    type: ModerationType
+//    time: Date
+//    target: string | number // either user id or comment id
+//    textNotification: string
+//    textComment: string
+//    textColor?: string
+//    textSize?: string
+//    bgColor?: string
+//    signature?: string
+//    commentColor?: string //comment properties are for changing the moderation text in comment
+//    commentSize?: string
+//    commentStyle?: string //Bold or Italics
+//    commentWeight?: number //font-weight
+//}
 
-export type Notification = {
-    textNotification: string
-    textColor: string
-    bgColor: string
-    signature: string
-    textSize: string
-}
+//export type Notification = {
+//    textNotification: string
+//    textColor: string
+//    bgColor: string
+//    signature: string
+//    textSize: string
+//}
 
 /**
  * Types for unparsed Data
@@ -94,22 +94,22 @@ export type UnparsedRoomData = {
 // Type of Bot specification JSON
 export type UnparsedBot = {
     name: string
-    moderation?: UnparsedModeration
+    //moderation?: UnparsedModeration
 }
 
 // Type of moderation specification for users and comments
-export type UnparsedModeration = {
-    type: string
-    time: number
-    textNotification: string
-    textComment: string
-    textColor?: string
-    textSize?: string
-    bgColor?: string
-    signature?: string
-    commentColor?: string //comment properties are for changing the moderation text in comment
-    commentSize?: string
-    commentStyle?: string //Bold or Italics
-    commentWeight?: number //font-weight
-}
+//export type UnparsedModeration = {
+//    type: string
+//    time: number
+//    textNotification: string
+//    textComment: string
+//    textColor?: string
+//    textSize?: string
+//    bgColor?: string
+//    signature?: string
+//    commentColor?: string //comment properties are for changing the moderation text in comment
+//    commentSize?: string
+//    commentStyle?: string //Bold or Italics
+//    commentWeight?: number //font-weight
+//}
 
