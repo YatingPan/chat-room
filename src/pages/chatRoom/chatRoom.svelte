@@ -349,7 +349,6 @@
 <div class="container">
 
     <div class="center">
-        <SendCommentComponent showReplyInput={false}/>
         <div class="commentDisplay">
             {#if comments.length == 0}
                 <span class="no-comments">No comments yet...</span>
@@ -372,6 +371,7 @@
 
             </IntersectionObserver>
         </div>
+        <SendCommentComponent showReplyInput={false}/>
     </div>
     {#if y > 200}
         <div class="scrollToTop" id="scrollToTop">
