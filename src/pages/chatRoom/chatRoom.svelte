@@ -186,11 +186,11 @@
                 //})
             //}
 
-
-            // calculate end Time from start time and duration given in minutes
             // add to set room time as 5 minutes
             assignedRoom.duration = 5;
-            const endTime = new Date(new Date(assignedRoom?.startTime).getTime() + assignedRoom?.duration * 60 * 1000)
+            // Calculate the end time accounting for the 10-second wait time to join
+            const startTimeWithDelay = new Date(new Date(assignedRoom.startTime).getTime() + 10000); // 10 seconds for waiting to join
+            const endTime = new Date(startTimeWithDelay.getTime() + assignedRoom.duration * 60000); // 5 minutes for the chat
             console.log("assigned room is")
             console.log(assignedRoom)
             if (typeof assignedRoom !== 'undefined'){
@@ -201,11 +201,24 @@
                 autoSend(endTime,closeChatRoomRefresh)
             }
 
+            // Set up a countdown for the remaining time
             remainingTimeCounter = setInterval(() => {
-                const now = Date.now()
-                const remainingTimeMS = endTime - now
-                remainingTime = remainingTimeMS / 1000
-            }, 1000);
+                const now = Date.now();
+                const remainingTimeMS = endTime - now;
+                remainingTime = remainingTimeMS / 1000;
+
+                // Stop the countdown when the time is up
+                if (remainingTime <= 0) {
+                    clearInterval(remainingTimeCounter);
+                    closeChatRoom(); // Call this function to handle the chat room closure
+                }
+        }   , 1000);
+            
+            //remainingTimeCounter = setInterval(() => {
+            //    const now = Date.now()
+            //    const remainingTimeMS = endTime - now
+            //    remainingTime = remainingTimeMS / 1000
+            //}, 1000);
 
             if(assignedRoom?.automaticComments) {
                 const comms = assignedRoom?.automaticComments.sort((a: BotComment, b: BotComment) => a.time > b.time ? 1 : -1)
