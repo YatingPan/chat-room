@@ -15,10 +15,12 @@
     let endTime;
     let countdown = 10;
     let interval;
+    let assignedRoom;
 
 
     
     $: roomAccessible = countdown < 0
+    
     
     onMount(() => {
         store.userStore.subscribe((userData: UserExtended) => {
@@ -30,9 +32,10 @@
                 room = roomData
                 console.log(room)
                 // Initialize the chat start time to 10 seconds from the current time
-                startTime = new Date(Date.now() + countdown * 1000);
-                console.log(startTime)
-                endTime = new Date(startTime.getTime() + 5 * 60 * 1000)
+                // Use the original start time from the room data
+                assignedRoom.duration = 5;
+                const startTimeWithDelay = new Date(new Date(assignedRoom.startTime).getTime() + 10000); // 10 seconds for waiting to join
+                const endTime = new Date(startTimeWithDelay.getTime() + assignedRoom.duration * 60000); // 5 minutes for the chat
                 
                 interval = setInterval(() => {
                     countdown = Math.max(countdown-1, 0)
