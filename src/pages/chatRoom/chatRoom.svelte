@@ -416,19 +416,6 @@
       text-align: center; /* Center the text */
       font-weight: bold; /* Make the text bold */
     }
-  
-    button.end-chat-button {
-    padding: 0.5em 1em;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    width: auto; // Let it size according to its content
-    &:hover {
-    background-color: #0056b3;
-    }
-}
 
   .container {
     width: 100%;
@@ -440,33 +427,33 @@
       justify-content: center;
     }
 
-    .notificationArea {
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      top: 0;
-      right: 0;
+    //.notificationArea {
+    //  display: flex;
+    //  flex-direction: column;
+    //  position: fixed;
+    //  top: 0;
+    //  right: 0;
 
-      .notification {
-        position: relative;
-        border-top: .1rem solid rgba(0,0,0,.15);
-        background: #dddc;
-        padding: 1.2rem;
-        width: 50vw;
-        max-width: 18rem;
+    //  .notification {
+    //    position: relative;
+    //    border-top: .1rem solid rgba(0,0,0,.15);
+    //    background: #dddc;
+    //    padding: 1.2rem;
+    //    width: 50vw;
+    //    max-width: 18rem;
 
-        .signature {
-          color:rgb(31, 31, 31);
-        }
-        .close-icon {
-          position: absolute;
-          cursor: pointer;
-          top: 0.5rem;
-          right: 0.5rem;
-          height: 1rem;
-        }
-      }
-    }
+    //    .signature {
+    //      color:rgb(31, 31, 31);
+    //    }
+    //    .close-icon {
+    //      position: absolute;
+    //      cursor: pointer;
+    //      top: 0.5rem;
+    //      right: 0.5rem;
+    //      height: 1rem;
+    //    }
+    //  }
+    //}
 
     .center {
       display: flex;
