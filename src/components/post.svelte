@@ -1,30 +1,29 @@
 <script lang="ts">
-    import LikesDislikes from "./likeDislike.svelte";
     import { onMount } from "svelte";
     import  store from "../stores/store";
     import type { RoomData, Post } from "../../types/room.type";
     import moment from "moment";
-    import type { ActionsUpdate, Like } from "../../types/comment.type";
+    import type { ActionsUpdate } from "../../types/comment.type";
 
     //const bgImage = "build/Material/images/testImage.jpg"
     let post: Post = null
-    let likes: Like[] 
-    let dislikes: Like[]
+    //let likes: Like[] 
+    //let dislikes: Like[]
     $: headerImageURL = `../postImages/${post?.imageName}`
 
     onMount(() => {
         store.roomStore.subscribe((assignedRoom: RoomData) => {
             if(assignedRoom?.post) {
                 post = assignedRoom.post
-                likes = post?.likes
-                dislikes = post?.dislikes
+                //likes = post?.likes
+                //dislikes = post?.dislikes
             }
         })
 
         store.actionsStore.subscribe((actionsUpdate: ActionsUpdate) => {
             if(actionsUpdate && actionsUpdate.parentCommentID == 0) {
-                likes = actionsUpdate.likes
-                dislikes = actionsUpdate.dislikes
+                //likes = actionsUpdate.likes
+                //dislikes = actionsUpdate.dislikes
             }
         })
     })
@@ -45,8 +44,6 @@
                 <span>{formatTime(post?.time)}</span>
             </div>
             <div class="actionsContainer">
-                <!-- TODO fix likes and dislikes -->
-                <LikesDislikes likes={likes} dislikes={dislikes} parentCommentID={0}/>
             </div>
         </div>
         <div class="header">

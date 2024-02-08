@@ -1,21 +1,20 @@
 <script lang="ts">
     import moment from "moment";
     
-    import type { Comment, Like } from "../../types/comment.type"
+    import type { Comment} from "../../types/comment.type"
     import CommentComponent from "./comment.svelte"
-    import LikesDislikes from "./likeDislike.svelte";
     import SendCommentComponent from "./sendCommentComponent.svelte"
 
     export let comment: Comment
     export let myComment: Boolean = false
     export let replies: Comment[] = []
-    export let likes: {}
-    export let dislikes: {}
+    //export let likes: {}
+    //export let dislikes: {}
     export let isTopLevelComment: Boolean = true
     let showReplyInput: Boolean = false
     //export let flagged: Boolean = false
-    $: thisCommentLikes = likes[comment.id] ? likes[comment.id] : []
-    $: thisCommentDislikes = dislikes[comment.id] ? dislikes[comment.id] : []
+    //$: thisCommentLikes = likes[comment.id] ? likes[comment.id] : []
+    //$: thisCommentDislikes = dislikes[comment.id] ? dislikes[comment.id] : []
 
     const formatTime = (date: Date): string => moment(date).format("D.MM.YYYY, HH:mm")
     console.log(JSON.stringify(comment, null, 4));
@@ -39,7 +38,6 @@
         {/if} 
     </div>
     <div class="actionsContainer">
-       <LikesDislikes likes={thisCommentLikes} dislikes={thisCommentDislikes} parentCommentID={comment.id}/>
         <div class="reply-button" class:showReplyButton={isTopLevelComment}>
             <button on:click="{() => showReplyInput = !showReplyInput}">
                 <span>Reply</span>
@@ -54,7 +52,7 @@
     {#if replies}  
         <div class="repliesContainer" class:showReplies={replies}> 
             {#each replies as reply, i}
-                <CommentComponent comment={reply} replies={[]} isTopLevelComment={false} likes={likes} dislikes={dislikes}/>
+                <CommentComponent comment={reply} replies={[]} isTopLevelComment={false}/>
             {/each}
         </div>
     {/if}
@@ -71,7 +69,6 @@
         <p class="text">{comment?.content}</p>
     </div>
     <div class="actionsContainer">
-       <LikesDislikes likes={thisCommentLikes} dislikes={thisCommentDislikes} parentCommentID={comment.id}/>
         <div class="reply-button" class:showReplyButton={isTopLevelComment}>
             <button on:click="{() => showReplyInput = !showReplyInput}">
                 <span>Reply</span>
@@ -86,7 +83,7 @@
     {#if replies}  
         <div class="repliesContainer" class:showReplies={replies}> 
             {#each replies as reply, i}
-                <CommentComponent comment={reply} replies={[]} isTopLevelComment={false} likes={likes} dislikes={dislikes}/>
+                <CommentComponent comment={reply} replies={[]} isTopLevelComment={false}/>
             {/each}
         </div>
     {/if}
