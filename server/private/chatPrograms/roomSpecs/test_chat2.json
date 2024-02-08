@@ -4,38 +4,6 @@
     "postName": "post1.json",
     "duration": 1,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
-    "bots": [
-        {
-            "name": "bot1"
-        },
-        {
-            "name": "bot2"
-        }
-    ],
-    "comments": [
-        {
-            "userName": "bot1",
-            "time":     10,
-            "content": "Hello from user1 in Room 2",
-            "replies": [
-                {
-                    "userName": "user3",
-                    "time":     -100,
-                    "content": "asdasd hello"
-                }
-            ]
-        },
-        {
-            "userName": "bot2",
-            "time":     14,
-            "content": "Ciao!",
-            "replies": [
-                {
-                    "userName": "bot2",
-                    "time":     -100,
-                    "content": "asdasd hello"
-                }
-            ]
-        }
-    ]
+    "bots": [],
+    "comments": []
 }

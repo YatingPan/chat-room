@@ -5,54 +5,7 @@
     "duration": 12,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_3pV3eX1SqMSjxX0",
     "bots": [],
-    "comments": [
-        {   
-        "botName": "Nolan",
-        "time":     120,
-        "content": "The Chinese have been secretly cloning humans for years. That's why there's so many of them"
-    },
-    {   
-        "botName": "Harrington",
-        "time":     180,
-        "content": "The first humans to be cloned were Russian twins called Irana and Targa"
-    },
-
-    {   
-        "botName": "Valentin",
-        "time":     240,
-        "content": "Public officials use human clones to help them with tasks they don't want to do themselves"
-    },
-
-    {   
-        "botName": "Miner",
-        "time":     300,
-        "content": "Centres for human cloning around the world secretly work to replace the entire current human race"
-    },
-
-    {   
-        "botName": "McFarland",
-        "time":     360,
-        "content": "The US government has an ultra-secret human cloning program"
-    },
-
-    {   
-        "botName": "Adkins",
-        "time":     420,
-        "content": "Human cloning is legal in Qatar"
-    },
-
-    {   
-        "botName": "Lacey",
-        "time":     480,
-        "content": "Twints don't actully exist - they are just the outcomes of medical cloning experiments"
-    },
-
-    {   
-        "botName": "Ballard",
-        "time":     540,
-        "content": "Ever since JFK, all US presdients got clones who replace them during public appearances. The real ones are kept safe in the White House"
-    }
-]
+    "comments": []
 }
 
 
