@@ -15,6 +15,7 @@
     let endTime;
     let countdown = 10;
     let interval;
+    let startTimeWithDelay;
 
 
 
@@ -31,15 +32,17 @@
             if(roomData) {
                 room = roomData
                 console.log(room)
+                startTime = new Date(room.startTime);
                 // Initialize the chat start time to 10 seconds from the current time
                 // Use the original start time from the room data
-                const startTimeWithDelay = new Date(new Date(room.startTime).getTime() + 10000); // 10 seconds for waiting to join
-                const endTime = new Date(startTimeWithDelay.getTime() + room.duration * 60000); // 5 minutes for the chat
+                startTimeWithDelay = new Date(new Date(room.startTime).getTime() + 10000); // 10 seconds for waiting to join
+                endTime = new Date(startTimeWithDelay.getTime() + room.duration * 60000); // 5 minutes for the chat
                 
                 interval = setInterval(() => {
                     countdown = Math.max(countdown-1, 0)
 
                     if(countdown <= 0) {
+                        clearInterval(interval);
                         condRedirect()
                     }
                 }, 1000);
@@ -87,7 +90,7 @@
 <div class="container">
     <h1>Welcome to {room?.name}</h1>
     <h2>Your user name is: <bold>{user?.user?.name}</bold></h2>
-    <p>Room starts at: {formatTime(room?.startTime)}</p>
+    <p>Room starts at: {formatTime(startTimeWithDelay)}</p>
     <p>Room ends at: {formatTime(endTime)}</p>
 
     {#if !roomAccessible}
