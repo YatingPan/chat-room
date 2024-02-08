@@ -4,26 +4,6 @@
     "postName": "post1.json",
     "duration": 1,
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
-    "bots": [
-        {
-            "name": "bot1"
-        },
-        {
-            "name": "bot2"
-        }
-    ],
-    "comments": [
-        {   
-            "botName": "HalloIchBinEinBot",
-            "time":     -100,
-            "content": "Hoi!",
-            "replies": [
-                {
-                    "botName": "user3",
-                    "time":     -90,
-                    "content": "reply 1"
-                }
-            ]
-        }
-    ]
+    "bots": [],
+    "comments": []
 }
