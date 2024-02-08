@@ -27,18 +27,16 @@
     let notifications: Notification[] = [];
     let n_new_comments = 0;
 
-    //add code for endchat button
-    let showEndModal = false;
 
-    const addNotification = (notification: Notification) => {
-        notifications = [... notifications, notification]
-    }
-    const removeNotification = (index: number) => {
-        notifications = [
-            ...notifications.slice(0, index),
-            ...notifications.slice(index + 1, notifications.length)
-        ]
-    }
+    //const addNotification = (notification: Notification) => {
+    //    notifications = [... notifications, notification]
+    //}
+    //const removeNotification = (index: number) => {
+    //    notifications = [
+    //        ...notifications.slice(0, index),
+    //        ...notifications.slice(index + 1, notifications.length)
+    //    ]
+    //}
     //const addLike = (newLike: Like, parentCommentID: number) => {
     //    if(likes[parentCommentID]) {
     //        likes[parentCommentID] = [... likes[parentCommentID], newLike]
@@ -157,15 +155,6 @@
         else callback.apply(this, args)
     }
     
-    // add code for endchat button
-    const confirmEndChat = () => {
-        showEndModal = true
-    }
-
-    const endChat = () => {
-        closeChatRoom()
-        showEndModal = false
-    }
 
     const closeChatRoom = () => {
         navigate(`checkout`, { replace: false });
@@ -343,7 +332,6 @@
         <p>Remaining time: </p>
         <p>{remainingTimeFormatted}</p>
     </div>
-    <button class="end-chat-button" on:click={confirmEndChat}>End Chat</button>
 </div>
 </div>
 <div class="container">
@@ -382,18 +370,6 @@
 
 
 </div>
-
-<!-- Modal Dialogue -->
-{#if showEndModal}
-    <div class="modal-overlay" on:click={() => showEndModal = false}>
-        <div class="modal" on:click|stopPropagation>
-            <h2>End Chat</h2>
-            <p>Have you completed the chat? Are you sure you want to end it?</p>
-            <button on:click={endChat}>Yes, End it</button>
-            <button on:click={() => showEndModal = false}>No, Continue</button>
-        </div>
-    </div>
-{/if}
 
 
 <style lang="scss">
