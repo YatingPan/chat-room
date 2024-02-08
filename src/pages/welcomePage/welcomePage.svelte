@@ -15,7 +15,8 @@
     let endTime;
     let countdown = 10;
     let interval;
-    
+
+
     
     $: roomAccessible = countdown < 0
     
@@ -31,7 +32,7 @@
                 // Initialize the chat start time to 10 seconds from the current time
                 startTime = new Date(Date.now() + countdown * 1000);
                 console.log(startTime)
-                endTime = new Date(startTime.getTime() + room.duration * 60 * 1000)
+                endTime = new Date(startTime.getTime() + 5 * 60 * 1000)
                 
                 interval = setInterval(() => {
                     countdown = Math.max(countdown-1, 0)
