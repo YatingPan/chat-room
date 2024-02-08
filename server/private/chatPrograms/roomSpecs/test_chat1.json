@@ -27,26 +27,6 @@
                     "time":    60,
                     "content": "reply 1"
                 }
-            ],
-            "likes": [
-                {
-                    "botName": "user4",
-                    "time":     20
-                },
-                {
-                    "botName": "user2",
-                    "time":     30
-                }
-            ],
-            "dislikes": [
-                {
-                    "botName": "user4",
-                    "time":     10
-                },
-                {
-                    "botName": "user2",
-                    "time":     10
-                }
             ]
         },
         {
@@ -64,26 +44,6 @@
                     "time":     0,
                     "content": "reply 3"
                 }
-            ],
-            "likes": [
-                {
-                    "botName": "user4",
-                    "time":     -900
-                },
-                {
-                    "botName": "user2",
-                    "time":     -200
-                }
-            ],
-            "dislikes": [
-                {
-                    "botName": "user4",
-                    "time":     10
-                },
-                {
-                    "botName": "user2",
-                    "time":     10
-                }
             ]
         },
         {
@@ -96,22 +56,6 @@
                     "time":     6,
                     "content": "reply 4"
                 }
-            ],
-            "likes": [
-                {
-                    "botName": "user4",
-                    "time":     1000
-                }
-            ],
-            "dislikes": [
-                {
-                    "botName": "user4",
-                    "time":     10
-                },
-                {
-                    "botName": "user2",
-                    "time":     10
-                }
             ]
         },
         {
@@ -123,12 +67,6 @@
                     "botName": "user3",
                     "time":     5,
                     "content": "reply 7"
-                }
-            ],
-            "likes": [
-                {
-                    "botName": "user4",
-                    "time":     -900
                 }
             ]
         }
