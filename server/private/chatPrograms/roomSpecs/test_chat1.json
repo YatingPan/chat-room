@@ -5,21 +5,10 @@
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
     "bots": [
         {
-            "name": "bot1",
-            "moderation": {
-                "type": "ban",
-                "time": 100,
-                "textNotification": "Bot1 got banned!",
-                "bgColor": "#B9DED6"
-            }
+            "name": "bot1"
         },
         {
-            "name": "bot2",
-            "moderation": {
-                "type": "ban",
-                "time": 100,
-                "textNotification": "Bot2 got banned!"
-            }
+            "name": "bot2"
         }
     ],
     "comments": [
@@ -39,20 +28,6 @@
                     "content": "reply 1"
                 }
             ],
-            "moderation": {
-                "type": "flag",
-                "time":     50,
-                "textNotification": "Comment with content 'Hoi!', by user HalloIchBinEinBot got flagged",
-                "textComment": "This comment was flagged",
-                "signature": "- by the mooooooooooods",
-                "bgColor": "#ABCCFF",
-                "textSize": "2rem",
-                "textColor": "green",
-                "commentColor": "red",
-                "commentStyle": "bold",
-                "commentSize": "large",
-                "commentWeight": 900
-            },
             "likes": [
                 {
                     "botName": "user4",
@@ -90,13 +65,6 @@
                     "content": "reply 3"
                 }
             ],
-            "moderation": {
-                "type": "remove",
-                "time": 15,
-                "textNotification": "Comment got removed",
-                "textComment": "this comment was deleted deleted deleted deleted",
-                "bgColor": "red"
-            },
             "likes": [
                 {
                     "botName": "user4",

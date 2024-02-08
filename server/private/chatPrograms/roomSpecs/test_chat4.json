@@ -6,81 +6,17 @@
     "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_25gJVGiRk8KD4N0",
     "bots": [
         {
-            "name": "user3",
-            "moderation": {
-                    "type": "ban",
-                    "time": 1,
-                    "textNotification": "1😀",
-                    "bgColor": "red",
-                    "textSize": "2em"
-            }
+            "name": "user3"
         },
         {
-            "name": "bot2",
-            "moderation": {
-                    "type": "ban",
-                    "time": 2,
-                    "textNotification": "2😃",
-                    "bgColor": "#009900",
-                    "textColor": "#fff",
-                    "textSize": "16px"
-            }
-        },
-        {
-            "name": "bot2",
-            "moderation": {
-                    "type": "ban",
-                    "time": 3,
-                    "textNotification": "3",
-                    "signature": "the admins",
-                    "textColor": "#fff"
-            }
-        },
-        {
-            "name": "bot2",
-            "moderation": {
-                    "type": "ban",
-                    "time": 4,
-                    "textNotification": "4"
-            }
-        },
-        {
-            "name": "bot2",
-            "moderation": {
-                    "type": "ban",
-                    "time": 5,
-                    "textNotification": "5"
-            }
-        },
-        {
-            "name": "bot2",
-            "moderation": {
-                    "type": "ban",
-                    "time": 6,
-                    "textNotification": "6"
-            }
-        },
-        {
-            "name": "bot2",
-            "moderation": {
-                    "type": "ban",
-                    "time": 7,
-                    "textNotification": "7"
-            }
+            "name": "bot2"
         }
     ],
     "comments": [
         {
             "botName": "bot1",
             "time":     0,
-            "content": "Ciao, wenn Fangts ah?",
-            "moderation": {
-                "type": "ban",
-                "time": 1,
-                "textNotification": "1😀",
-                "bgColor": "red",
-                "textSize": "2em"
-        }
+            "content": "Ciao, wenn Fangts ah?"
         },
         {   
             "botName": "bot3",

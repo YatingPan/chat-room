@@ -2,8 +2,8 @@ import path from "path";
 import fs from 'fs';
 import crypt from 'crypto';
 import { Posts } from "./post.js";
-import type { Moderation, Post, RoomData, UnparsedBot, UnparsedModeration, UnparsedRoomData } from "../../types/room.type";
-import { ModerationType } from "../../types/room.type.js";
+import type { Post, RoomData, UnparsedBot, UnparsedRoomData } from "../../types/room.type";
+//import { ModerationType } from "../../types/room.type.js";
 import type { BotComment, Comment, UnparsedBotComment } from "../../types/comment.type.js";
 import { Chats } from "./chat.js";
 import { Logs } from "./logs.js"
@@ -111,28 +111,27 @@ export module Rooms {
 
     /**
      * 
-     * @param unparsedModeration 
      * @param botId 
      * @returns 
      */
-    const parseUserModeration = (unparsedModeration: UnparsedModeration, botId: string, startTime: number): Moderation => {
+    //const parseUserModeration = (unparsedModeration: UnparsedModeration, botId: string, startTime: number): Moderation => {
         
-        const time: Date = new Date(startTime + unparsedModeration.time * 1000)
+    //    const time: Date = new Date(startTime + unparsedModeration.time * 1000)
         //console.log("parseUserModeration", time, unparsedModeration)
-        const moderation: Moderation = {
-            type: ModerationType.Ban,
-            time,
-            target: botId,
-            textNotification: unparsedModeration.textNotification,
-            textComment: unparsedModeration.textComment,
-            textColor: unparsedModeration?.textColor,
-            textSize: unparsedModeration?.textSize,
-            bgColor: unparsedModeration?.bgColor,
-            signature: unparsedModeration?.signature
+    //    const moderation: Moderation = {
+    //        type: ModerationType.Ban,
+    //        time,
+    //        target: botId,
+    //        textNotification: unparsedModeration.textNotification,
+    //        textComment: unparsedModeration.textComment,
+    //        textColor: unparsedModeration?.textColor,
+    //        textSize: unparsedModeration?.textSize,
+    //        bgColor: unparsedModeration?.bgColor,
+    //        signature: unparsedModeration?.signature
 
-        }
-        return moderation
-    }
+    //    }
+    //    return moderation
+    //}
 
     /**
      * 
@@ -155,11 +154,11 @@ export module Rooms {
         const name: string = roomData.roomName
         const post: Post = await Posts.getPostData(roomData.postName)
 
-        const userModerationEvents: Moderation[] = roomData.bots
-            .filter((bot: UnparsedBot) => bot.moderation ? true : false)
-            .map((bot: UnparsedBot): Moderation => {
-                    return parseUserModeration(bot.moderation, bot.name, startTimeStamp)
-            })
+        //const userModerationEvents: Moderation[] = roomData.bots
+        //    .filter((bot: UnparsedBot) => bot.moderation ? true : false)
+        //    .map((bot: UnparsedBot): Moderation => {
+        //            return parseUserModeration(bot.moderation, bot.name, startTimeStamp)
+        //    })
         //console.log("userModerationEvents", userModerationEvents)
 
         const outboundLink = roomData.outboundLink
@@ -171,7 +170,7 @@ export module Rooms {
             duration,
             post,
             automaticComments,
-            userModerationEvents,
+            //userModerationEvents,
             outboundLink
         }
         return parsedRoomData

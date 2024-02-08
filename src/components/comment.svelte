@@ -24,11 +24,6 @@
 {#if comment.removed}
 <article class="commentCard id{comment?.id}" class:myComment={myComment}>
     <div class="commentContainer {comment?.removed === true ? 'removed' : ''}"
-    style="
-    background-color: {comment?.moderation?.bgColor ? comment?.moderation.bgColor : "#dddc"}; 
-    color: {comment?.moderation?.textColor ? comment?.moderation?.textColor : "#000"};
-    font-size: {comment?.moderation?.textSize ? comment?.moderation?.textSize : "1em"};
-    "
     >
         <header class="CommentCard_header">
             <div class="userInfo">
@@ -41,19 +36,7 @@
         {/if}
 
         {#if comment?.removed}
-            <p class="moderationText {comment?.removed === true ? 'removed' : ''}"
-            style="
-            font-style: {comment?.moderation?.commentStyle ? comment?.moderation?.commentStyle : "italic"};
-            color: {comment?.moderation?.commentColor ? comment?.moderation?.commentColor : "magenta"};
-            font-size: {comment?.moderation?.commentSize ? comment?.moderation?.commentSize : "large"};
-            font-weight: {comment?.moderation?.commentWeight ? comment?.moderation?.commentWeight : 100 };
-            ">
-                {comment?.moderation?.textComment}
-                {#if comment?.moderation?.signature }
-                    <p class="signature">{comment?.moderation?.signature}</p>
-                {/if} 
-            </p>
-        {/if}
+        {/if} 
     </div>
     <div class="actionsContainer">
        <LikesDislikes likes={thisCommentLikes} dislikes={thisCommentDislikes} parentCommentID={comment.id}/>

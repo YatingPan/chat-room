@@ -1,7 +1,5 @@
 import type { ActionsUpdate, BotComment, BotLike, ProposedReply, Reply, UnparsedBotComment, UnparsedBotLike } from "../../types/comment.type"
 import type { ProposedComment, Comment } from "../../types/comment.type"
-import type { Moderation } from "../../types/room.type"
-import { ModerationType } from "../../types/room.type.js"
 import type { UserExtended } from "../../types/user.type"
 import { Logs } from "./logs.js"
 
@@ -20,17 +18,18 @@ export module Chats {
         }
         return botLike
     }
-    const parseModerationType = (type: string): ModerationType => {
-        switch(type) {
-            case "remove":
-                return ModerationType.Remove
+    //Remove moderation
+    //const parseModerationType = (type: string): ModerationType => {
+    //    switch(type) {
+    //        case "remove":
+    //            return ModerationType.Remove
             // remove flag
             // case "flag": 
                 // return ModerationType.Flag
-            case "ban":
-                return ModerationType.Ban
-        }
-    }
+    //        case "ban":
+    //            return ModerationType.Ban
+    //    }
+    //}
 
     export const parseComment = (unparsedComment: UnparsedBotComment, startTime: number): BotComment => {
         
@@ -40,29 +39,30 @@ export module Chats {
         const likes: BotLike[] = unparsedComment.likes?.map((like: UnparsedBotLike) => parseLike(like, startTime))
         const dislikes: BotLike[] = unparsedComment.dislikes?.map((dislike: UnparsedBotLike) => parseLike(dislike, startTime))
         
-        const moderation: Moderation = unparsedComment.moderation ? {
-            type: parseModerationType(unparsedComment.moderation.type),
-            time: new Date(startTime + unparsedComment.moderation.time * 1000),
-            target: id,
-            textNotification: unparsedComment.moderation.textNotification,
-            textComment: unparsedComment.moderation.textComment,
-            bgColor: unparsedComment.moderation.bgColor,
-            textColor: unparsedComment.moderation.textColor,
-            textSize: unparsedComment.moderation.textSize,
-            signature: unparsedComment.moderation.signature,
-            commentColor : unparsedComment.moderation.commentColor,
-            commentSize : unparsedComment.moderation.commentSize,
-            commentStyle: unparsedComment.moderation.commentStyle,
-            commentWeight: unparsedComment.moderation.commentWeight
+        //const moderation: Moderation = unparsedComment.moderation ? {
+            //type: parseModerationType(unparsedComment.moderation.type),
+        //    time: new Date(startTime + unparsedComment.moderation.time * 1000),
+        //    target: id,
+        //    textNotification: unparsedComment.moderation.textNotification,
+        //    textComment: unparsedComment.moderation.textComment,
+        //    bgColor: unparsedComment.moderation.bgColor,
+        //    textColor: unparsedComment.moderation.textColor,
+        //    textSize: unparsedComment.moderation.textSize,
+        //    signature: unparsedComment.moderation.signature,
+        //    commentColor : unparsedComment.moderation.commentColor,
+        //    commentSize : unparsedComment.moderation.commentSize,
+        //    commentStyle: unparsedComment.moderation.commentStyle,
+        //    commentWeight: unparsedComment.moderation.commentWeight
 
-        } : undefined
+        //} : undefined
+        // here need to remove moderation from BotComment
         const comment: BotComment = {
             id,
             time,
             botName: unparsedComment.botName,
             content: unparsedComment.content,
             replies,
-            moderation,
+            //moderation,
             likes,
             dislikes
         }
