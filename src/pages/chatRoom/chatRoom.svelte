@@ -188,6 +188,8 @@
 
 
             // calculate end Time from start time and duration given in minutes
+            // add to set room time as 5 minutes
+            assignedRoom.duration = 5;
             const endTime = new Date(new Date(assignedRoom?.startTime).getTime() + assignedRoom?.duration * 60 * 1000)
             console.log("assigned room is")
             console.log(assignedRoom)
