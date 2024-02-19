@@ -15,10 +15,10 @@ export type UserExtended = {
     accessCode: string
 }
 export type AccessInfo = {
-    accessCode: string
-    mTurkId: string
-    assignmentId: string
-    hitId : string
+    //accessCode: string
+    //mTurkId: string
+    //assignmentId: string
+    //hitId : string
     user?: User
 }
 
