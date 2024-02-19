@@ -42,21 +42,32 @@ socket.on("requestAccessCode", (arg) => {
 
 	const queryString = window.location.search;
 	const url_params = new URLSearchParams(queryString);
-	const mTurkId = url_params.get('mTurkId')
-	const hitId = url_params.get("hitId")
-	const assignmentId = url_params.get("assignmentId")
-	// console.log(url_params)
-	// // console.log(url_params.mTurkId)
+	//const mTurkId = url_params.get('mTurkId')
+	//const hitId = url_params.get("hitId")
+	//const assignmentId = url_params.get("assignmentId")
+	//console.log(url_params)
+	//console.log(url_params.mTurkId)
 	
 	// console.log(`My Access code: ${accessCode}, my mTurkId: ${mTurkId}, hitId: ${hitId}, assignmentId: ${assignmentId}`)
 
-	const storedUserData: UserExtended = storageToUser(sessionStorage.getItem("userData"))
-	let accessInfo: AccessInfo = { "accessCode": accessCode, "mTurkId": mTurkId, "assignmentId": assignmentId, "hitId": hitId }
-	if(storedUserData){
-		accessInfo["user"] = storedUserData.user
-	}
+	//const storedUserData: UserExtended = storageToUser(sessionStorage.getItem("userData"))
+	//let accessInfo: AccessInfo = { "accessCode": accessCode, "mTurkId": mTurkId, "assignmentId": assignmentId, "hitId": hitId }
+	//if(storedUserData){
+		//accessInfo["user"] = storedUserData.user
+	//}
 	// console.log(accessInfo, storedUserData)
-	socket.emit("accessInfo", accessInfo)
+	//socket.emit("accessInfo", accessInfo)
+//});
+
+	let accessInfo: AccessInfo = {}
+	const storedUserData: String | null=sessionStorage.getItem("userData");
+
+	if (storedUserData) {
+		const storedUser: UserExtended = JSON.parse(storedUserData);
+		accessInfo.user = storedUser.user;
+	}
+	
+	socket.emit("accessInfo", {accessCode, user: accessInfo.user});
 });
 
 socket.on("userAssignment", (userAssignment: UserAssignment) => {
