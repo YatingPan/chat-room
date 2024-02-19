@@ -65,7 +65,7 @@ socket.on("requestAccessCode", (arg) => {
 //});
 
 	let accessInfo: AccessInfo = {accessCode};
-	const storedUserData: String | null=sessionStorage.getItem("userData");
+	const storedUserData: string | null=sessionStorage.getItem("userData");
 
 	if (storedUserData) {
 		const storedUser: UserExtended = JSON.parse(storedUserData);
