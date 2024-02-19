@@ -36,6 +36,11 @@ socket.on("requestAccessCode", (arg) => {
 	// Grabbing access code from URL
 	const path = window.location.pathname.split("/");
 	const accessCode = 2 <= path.length ? path[1] : undefined
+
+	if (!accessCode) {
+		console.error("Access code not found in URL.");
+		return;
+	  }
 	
 	// let url_params = QueryString.parse(location.search)
 	// const mTurkId = String(url_params['mTurkId'])
@@ -59,7 +64,7 @@ socket.on("requestAccessCode", (arg) => {
 	//socket.emit("accessInfo", accessInfo)
 //});
 
-	let accessInfo: AccessInfo = {accessCode}
+	let accessInfo: AccessInfo = {accessCode};
 	const storedUserData: String | null=sessionStorage.getItem("userData");
 
 	if (storedUserData) {
@@ -67,12 +72,12 @@ socket.on("requestAccessCode", (arg) => {
 		accessInfo.user = storedUser.user;
 	}
 	
-	socket.emit("accessInfo", {accessCode, user: accessInfo.user});
+	socket.emit("accessInfo", accessInfo);
 });
 
 socket.on("userAssignment", (userAssignment: UserAssignment) => {
-	const user: UserExtended = userAssignment.user
-	const room: RoomData = userAssignment.room
+	//const user: UserExtended = userAssignment.user
+	//const room: RoomData = userAssignment.room
 	const orignalComments:Comment[] = userAssignment.logs
 	const allReplies: Reply[] = userAssignment.replies
 	const actions: ActionsUpdate[] = userAssignment.actions
@@ -85,15 +90,25 @@ socket.on("userAssignment", (userAssignment: UserAssignment) => {
 	
 	// console.log("Assigned User:", user)
 	// TODO better login check?
-	if (user) {
-		console.log("#####Entering the value in userstore")
-		sessionStorage.setItem("userData", userToStorage(user))
-		userStore.set(user)
+	//if (user) {
+	//	console.log("#####Entering the value in userstore")
+	//	sessionStorage.setItem("userData", userToStorage(user))
+	//	userStore.set(user)
+	//}
+	//if(room) {
+	//	console.log("#####Entering the value in roomstore")
+	//	sessionStorage.setItem("roomData", roomToStorage(room))
+	//	roomStore.set(room)
+	//}
+
+	if (userAssignment.user) {
+		sessionStorage.setItem("userData", JSON.stringify(userAssignment.user));
+		userStore.set(userAssignment.user);
 	}
-	if(room) {
-		console.log("#####Entering the value in roomstore")
-		sessionStorage.setItem("roomData", roomToStorage(room))
-		roomStore.set(room)
+	  
+	if (userAssignment.room) {
+		sessionStorage.setItem("roomData", JSON.stringify(userAssignment.room));
+		roomStore.set(userAssignment.room);
 	}
 
 	if(orignalComments){
