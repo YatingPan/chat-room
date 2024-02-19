@@ -30,6 +30,11 @@ const privateDir = path.join(__dirname, "private");
 
 app.use(express.static(publicDir));
 
+// Simple in-memory storage to track waiting room participants
+let waitingRoomUsers = 0;
+const waitingRoomThreshold = 5; // Minimum users required to proceed
+
+
 // page to display the available chatroom access links
 app.get('/secret', async function (req, res, next) {
   // console.log('Accessing the secret section ...')
@@ -63,6 +68,10 @@ server.listen(port, () => {
 
 // run when client connects
 io.on("connection", socket => {
+  // Increment waiting room user count and check if threshold is met
+  waitingRoomUsers++;
+  checkWaitingRoomThreshold();
+
   io.to(socket.id).emit("requestAccessCode");
   
   socket.on("accessInfo", async (accessInfo: AccessInfo) => {
@@ -118,6 +127,18 @@ io.on("connection", socket => {
   })
   */
   socket.on("disconnect", () => {
-    io.emit('userDisconnect', "A user has left the chat")
-  })
-})
+    waitingRoomUsers--; // Decrement user count on disconnect
+    io.emit('userDisconnect', "A user has left the chat");
+});
+
+
+function checkWaitingRoomThreshold() {
+  // Emit current participant count to all clients
+  io.emit('message', `participants:${waitingRoomUsers}`);
+    
+  if (waitingRoomUsers >= waitingRoomThreshold) {
+      io.emit('message', 'Continue:YourTimestampOrOtherData');
+      waitingRoomUsers = 0; // Reset count or manage as needed for your use case
+  }
+}
+});
