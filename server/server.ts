@@ -30,10 +30,33 @@ const privateDir = path.join(__dirname, "private");
 
 app.use(express.static(publicDir));
 
-// Simple in-memory storage to track waiting room participants
 let waitingRoomUsers = 0;
+let timeoutHandle: NodeJS.Timeout | null = null;
+
 const waitingRoomThreshold = 5; // Minimum users required to proceed
 
+// set the max waiting time to 2 minutes
+const waitingRoomDuration = 120000;
+
+
+function checkAndHandleWaitingRoom() {
+  if (waitingRoomUsers >= waitingRoomThreshold) {
+    io.emit('message', 'Proceed');
+    if (timeoutHandle !== null) {
+      clearTimeout(timeoutHandle);
+      timeoutHandle = null;
+    }
+    waitingRoomUsers = 0;
+  } else if (timeoutHandle === null) {
+    timeoutHandle = setTimeout(() => {
+      if (waitingRoomUsers < waitingRoomThreshold) {
+        io.emit('message', 'Fail to start');
+      }
+      waitingRoomUsers = 0;
+      timeoutHandle = null;
+    }, waitingRoomDuration);
+  }
+}
 
 // page to display the available chatroom access links
 app.get('/secret', async function (req, res, next) {
@@ -70,7 +93,7 @@ server.listen(port, () => {
 io.on("connection", socket => {
   // Increment waiting room user count and check if threshold is met
   waitingRoomUsers++;
-  checkWaitingRoomThreshold();
+  checkAndHandleWaitingRoom;
 
   io.to(socket.id).emit("requestAccessCode");
   
@@ -129,16 +152,5 @@ io.on("connection", socket => {
   socket.on("disconnect", () => {
     waitingRoomUsers--; // Decrement user count on disconnect
     io.emit('userDisconnect', "A user has left the chat");
-});
-
-
-function checkWaitingRoomThreshold() {
-  // Emit current participant count to all clients
-  io.emit('message', `participants:${waitingRoomUsers}`);
-    
-  if (waitingRoomUsers >= waitingRoomThreshold) {
-      io.emit('message', 'Continue:YourTimestampOrOtherData');
-      waitingRoomUsers = 0; // Reset count or manage as needed for your use case
-  }
-}
-});
+})
+})
