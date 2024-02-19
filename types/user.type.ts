@@ -6,16 +6,16 @@ import type {ActionsUpdate, Comment, Reply} from "./comment.type";
 export type User = {
     id: string
     name: string
-    mTurkId: string
-    assignmentId: string
-    hitId : string
+    //mTurkId: string
+    //assignmentId: string
+    //hitId : string
 }
 export type UserExtended = {
     user: User
     accessCode: string
 }
 export type AccessInfo = {
-    //accessCode: string
+    accessCode: string
     //mTurkId: string
     //assignmentId: string
     //hitId : string

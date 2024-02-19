@@ -59,7 +59,7 @@ socket.on("requestAccessCode", (arg) => {
 	//socket.emit("accessInfo", accessInfo)
 //});
 
-	let accessInfo: AccessInfo = {}
+	let accessInfo: AccessInfo = {accessCode}
 	const storedUserData: String | null=sessionStorage.getItem("userData");
 
 	if (storedUserData) {
