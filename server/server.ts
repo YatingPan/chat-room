@@ -6,6 +6,8 @@ import { Users } from "./util/users.js";
 import { Chats } from "./util/chat.js";
 import {Logs} from "./util/logs.js";
 
+import cors from 'cors';
+
 import express from 'express';
 import path from 'path';
 import http from "http";
@@ -15,12 +17,22 @@ import type{Comment} from "../types/comment.type";
 import type{Log} from "../types/room.type";
 // import type{LoggedComment} from "../types/comment.type";
 
+
 const app = express();
 
+app.use(cors());
 
 const port = process.env.PORT || 5000;
 const server = http.createServer(app)
-const io = new Server(server);
+
+// Configure Socket.IO with CORS options
+const io = new Server(server, {
+  cors: {
+    origin: "*", 
+    methods: ["GET", "POST"],
+    credentials: true,
+  }
+});
 
 const __dirname =  path.join(path.resolve(), "server");
 const publicDir = path.join(__dirname, "../public");
