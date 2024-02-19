@@ -116,7 +116,7 @@ io.on("connection", socket => {
         "actions": actions
       }
 
-      socket.join(accessInfo.accessCode)
+      socket.join(accessInfo)
       // console.log(userAssignment)
       // console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`)
       io.to(socket.id).emit("userAssignment", userAssignment)

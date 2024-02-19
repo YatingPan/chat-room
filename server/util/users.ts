@@ -33,16 +33,12 @@ export module Users {
        
     }
     
-    const createUser = async (accessCode: string, mTurkId: string, assignmentId:string, hitId: string, id: string): Promise<UserExtended> => {
+    const createUser = async (accessCode: string, id: string): Promise<UserExtended> => {
         const userName = await assignUserName()
         const newUser: UserExtended = {
             "user": {
                 "name": userName,
-                "mTurkId": mTurkId,
                 "id": id,
-                "hitId": hitId,
-                "assignmentId": assignmentId
-
             },
             "accessCode": accessCode
         }
@@ -75,7 +71,7 @@ export module Users {
         //     }
         // }
 
-        let newUser: UserExtended = await createUser(accessInfo?.accessCode, accessInfo?.mTurkId, accessInfo?.assignmentId, accessInfo?.hitId, id);
+        let newUser: UserExtended = await createUser(accessInfo?.accessCode, id);
         console.log("New user created", newUser)
         users.push(newUser)
         //console.log("Users:", users)
@@ -86,9 +82,9 @@ export module Users {
         return users.find(user => id === user.user.id)
     }
 
-    export function getUserFromMturkId(id) {
-        return users.find(user => id === user.user.mTurkId)
-    }
+    //export function getUserFromMturkId(id) {
+    //    return users.find(user => id === user.user.mTurkId)
+    //}
 
 
 }
