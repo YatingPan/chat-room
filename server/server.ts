@@ -34,6 +34,19 @@ const io = new Server(server, {
   }
 });
 
+app.use(cors({
+  origin: function(origin, callback){
+    const allowedOrigins = ["https://ipz.qualtrics.com"];
+    if (!origin || allowedOrigins.indexOf(origin) !== -1){
+      callback(null, true);
+    } else {
+      callback(new Error('CORS policy violation'), false);
+    }
+  },
+  credentials: true,
+}));
+
+
 const __dirname =  path.join(path.resolve(), "server");
 const publicDir = path.join(__dirname, "../public");
 console.log(publicDir)
@@ -45,14 +58,14 @@ app.use(express.static(publicDir));
 let waitingRoomUsers = 0;
 let timeoutHandle: NodeJS.Timeout | null = null;
 
-const waitingRoomThreshold = 5; // Minimum users required to proceed
+const waitingRoomThreshold = 2; // Minimum users required to proceed, should be 5, here 2 is for test
 
 // set the max waiting time to 2 minutes
 const waitingRoomDuration = 120000;
 
-
 function checkAndHandleWaitingRoom() {
   if (waitingRoomUsers >= waitingRoomThreshold) {
+    // if waiting room has 5 users, send "Proceed" to Qualtrics to set proceedMeet to true, and show "Redirect" block 
     io.emit('message', 'Proceed');
     if (timeoutHandle !== null) {
       clearTimeout(timeoutHandle);
@@ -60,6 +73,7 @@ function checkAndHandleWaitingRoom() {
     }
     waitingRoomUsers = 0;
   } else if (timeoutHandle === null) {
+    // if there are less than 5 users in 2 minutes in the waiting room, send "Fail to start" to Qualtrics to set proceedMeet to false, and show "Fail to start" block
     timeoutHandle = setTimeout(() => {
       if (waitingRoomUsers < waitingRoomThreshold) {
         io.emit('message', 'Fail to start');
@@ -71,6 +85,7 @@ function checkAndHandleWaitingRoom() {
 }
 
 // page to display the available chatroom access links
+// returns HTML page, not JSON!
 app.get('/secret', async function (req, res, next) {
   // console.log('Accessing the secret section ...')
   const availableRooms = await Rooms.getAvailableRooms()
