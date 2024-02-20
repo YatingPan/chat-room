@@ -28,24 +28,11 @@ const server = http.createServer(app)
 // Configure Socket.IO with CORS options
 const io = new Server(server, {
   cors: {
-    origin: "*", 
-    methods: ["GET", "POST"],
-    credentials: true,
+    origin: "https://ipz.qualtrics.com",
+    methods: ["GET", "POST", "PUT"],
+    credentials: true
   }
 });
-
-app.use(cors({
-  origin: function(origin, callback){
-    const allowedOrigins = ["https://ipz.qualtrics.com"];
-    if (!origin || allowedOrigins.indexOf(origin) !== -1){
-      callback(null, true);
-    } else {
-      callback(new Error('CORS policy violation'), false);
-    }
-  },
-  credentials: true,
-}));
-
 
 const __dirname =  path.join(path.resolve(), "server");
 const publicDir = path.join(__dirname, "../public");
