@@ -22,13 +22,13 @@ const app = express();
 
 app.use(cors());
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001; // change from 5000 to 5001 to run on the subdomain
 const server = http.createServer(app)
 
 // Configure Socket.IO with CORS options
 const io = new Server(server, {
   cors: {
-    origin: "https://ipz.qualtrics.com",
+    origin: ["https://ipz.qualtrics.com", "http://online.discussionroom.org/"],
     methods: ["GET", "POST", "PUT"],
     credentials: true
   }
@@ -74,8 +74,8 @@ const waitingRoomDuration = 120000;
 // select a chat room URL 
 const selectChatRoomURL = () => {
   const chatRooms = [
-    "https://discussionroom.org/KkhDj%2Bm3qFXhaYVeG076c%2BkMkE24kW1Sjinni8q9lr4%3D",
-    "https://discussionroom.org/p6%2BwHz29x1XWz3ddFY%2FU%2FHwdxXKq6WvAwpUStAKcMRA%3D",
+    "https://online.discussionroom.org/KkhDj%2Bm3qFXhaYVeG076c%2BkMkE24kW1Sjinni8q9lr4%3D",
+    "https://online.discussionroom.org/p6%2BwHz29x1XWz3ddFY%2FU%2FHwdxXKq6WvAwpUStAKcMRA%3D",
   ];
   const randomIndex = Math.floor(Math.random() * chatRooms.length);
   return chatRooms[randomIndex];
