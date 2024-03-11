@@ -31,53 +31,37 @@ let tempComments: Array<Comment> = [];
 
 // Server requests an access code from client
 socket.on("requestAccessCode", (arg) => {
-	// console.log("Server requested Access code.");
+	console.log("Server requested Access code.");
 
 	// Grabbing access code from URL
 	const path = window.location.pathname.split("/");
 	const accessCode = 2 <= path.length ? path[1] : undefined
-
-	if (!accessCode) {
-		console.error("Access code not found in URL.");
-		return;
-	  }
 	
-	// let url_params = QueryString.parse(location.search)
-	// const mTurkId = String(url_params['mTurkId'])
+	//let url_params = QueryString.parse(location.search)
+	//const prolificPid = String(url_params['prolificPid'])
 
 	const queryString = window.location.search;
 	const url_params = new URLSearchParams(queryString);
-	//const mTurkId = url_params.get('mTurkId')
-	//const hitId = url_params.get("hitId")
-	//const assignmentId = url_params.get("assignmentId")
+	const prolificPid = url_params.get('prolificPid')
+	const studyId = url_params.get("studyId")
+	const sessionId = url_params.get("sessionId")
 	//console.log(url_params)
 	//console.log(url_params.mTurkId)
 	
-	// console.log(`My Access code: ${accessCode}, my mTurkId: ${mTurkId}, hitId: ${hitId}, assignmentId: ${assignmentId}`)
-
-	//const storedUserData: UserExtended = storageToUser(sessionStorage.getItem("userData"))
-	//let accessInfo: AccessInfo = { "accessCode": accessCode, "mTurkId": mTurkId, "assignmentId": assignmentId, "hitId": hitId }
-	//if(storedUserData){
-		//accessInfo["user"] = storedUserData.user
-	//}
-	// console.log(accessInfo, storedUserData)
-	//socket.emit("accessInfo", accessInfo)
-//});
-
-	let accessInfo: AccessInfo = {accessCode};
-	const storedUserData: string | null=sessionStorage.getItem("userData");
-
-	if (storedUserData) {
-		const storedUser: UserExtended = JSON.parse(storedUserData);
-		accessInfo.user = storedUser.user;
-	}
+    // console.log(`My Access code: ${accessCode}, my mTurkId: ${mTurkId}, hitId: ${hitId}, assignmentId: ${assignmentId}`)
 	
-	socket.emit("accessInfo", accessInfo);
+	const storedUserData: UserExtended = storageToUser(sessionStorage.getItem("userData"))
+	let accessInfo: AccessInfo = { "accessCode": accessCode, "prolificPid": prolificPid, "sessionId": sessionId, "studyId": studyId }
+	if(storedUserData){
+		accessInfo["user"] = storedUserData.user
+	}
+	// console.log(accessInfo, storedUserData)
+	socket.emit("accessInfo", accessInfo)
 });
 
 socket.on("userAssignment", (userAssignment: UserAssignment) => {
-	//const user: UserExtended = userAssignment.user
-	//const room: RoomData = userAssignment.room
+	const user: UserExtended = userAssignment.user
+	const room: RoomData = userAssignment.room
 	const orignalComments:Comment[] = userAssignment.logs
 	const allReplies: Reply[] = userAssignment.replies
 	const actions: ActionsUpdate[] = userAssignment.actions
@@ -90,25 +74,15 @@ socket.on("userAssignment", (userAssignment: UserAssignment) => {
 	
 	// console.log("Assigned User:", user)
 	// TODO better login check?
-	//if (user) {
-	//	console.log("#####Entering the value in userstore")
-	//	sessionStorage.setItem("userData", userToStorage(user))
-	//	userStore.set(user)
-	//}
-	//if(room) {
-	//	console.log("#####Entering the value in roomstore")
-	//	sessionStorage.setItem("roomData", roomToStorage(room))
-	//	roomStore.set(room)
-	//}
-
-	if (userAssignment.user) {
-		sessionStorage.setItem("userData", JSON.stringify(userAssignment.user));
-		userStore.set(userAssignment.user);
+	if (user) {
+		console.log("#####Entering the value in userstore")
+		sessionStorage.setItem("userData", userToStorage(user))
+		userStore.set(user)
 	}
-	  
-	if (userAssignment.room) {
-		sessionStorage.setItem("roomData", JSON.stringify(userAssignment.room));
-		roomStore.set(userAssignment.room);
+	if(room) {
+		console.log("#####Entering the value in roomstore")
+		sessionStorage.setItem("roomData", roomToStorage(room))
+		roomStore.set(room)
 	}
 
 	if(orignalComments){
