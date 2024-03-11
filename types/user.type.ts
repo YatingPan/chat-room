@@ -6,9 +6,9 @@ import type {ActionsUpdate, Comment, Reply} from "./comment.type";
 export type User = {
     id: string
     name: string
-    //mTurkId: string
-    //assignmentId: string
-    //hitId : string
+    prolificPid: string
+    sessionId: string
+    studyId : string
 }
 export type UserExtended = {
     user: User
@@ -16,9 +16,9 @@ export type UserExtended = {
 }
 export type AccessInfo = {
     accessCode: string
-    //mTurkId: string
-    //assignmentId: string
-    //hitId : string
+    prolificPid: string
+    sessionId: string
+    studyId : string
     user?: User
 }
 
