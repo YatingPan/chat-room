@@ -25,7 +25,7 @@ app.use(cors());
 const port = process.env.PORT || 5001; // change from 5000 to 5001 to run on the subdomain
 const server = http.createServer(app)
 
-// Configure Socket.IO with CORS options
+// Configure Socket.IO with CORS optsudoions
 const io = new Server(server, {
   cors: {
     origin: ["https://ipz.qualtrics.com", "http://online.discussionroom.org/"],
@@ -42,44 +42,6 @@ const privateDir = path.join(__dirname, "private");
 
 app.use(express.static(publicDir));
 
-let waitingRoomUsers = 0;
-let timeoutHandle: NodeJS.Timeout | null = null;
-
-const waitingRoomThreshold = 2; // Minimum users required to proceed, should be 5, here 2 is for test
-
-// set the max waiting time to 2 minutes
-const waitingRoomDuration = 120000;
-
-//function checkAndHandleWaitingRoom() {
-//  if (waitingRoomUsers >= waitingRoomThreshold) {
-    // if waiting room has 5 users, send "Proceed" to Qualtrics to set proceedMeet to true, and show "Redirect" block 
-//    io.emit('message', 'Proceed');
-//    if (timeoutHandle !== null) {
-//      clearTimeout(timeoutHandle);
-//      timeoutHandle = null;
-//    }
-//    waitingRoomUsers = 0;
-//  } else if (timeoutHandle === null) {
-    // if there are less than 5 users in 2 minutes in the waiting room, send "Fail to start" to Qualtrics to set proceedMeet to false, and show "Fail to start" block
-//    timeoutHandle = setTimeout(() => {
-//      if (waitingRoomUsers < waitingRoomThreshold) {
-//        io.emit('message', 'Fail to start');
-//      }
-//      waitingRoomUsers = 0;
-//      timeoutHandle = null;
-//    }, waitingRoomDuration);
-//  }
-//}
-
-// select a chat room URL 
-const selectChatRoomURL = () => {
-  const chatRooms = [
-    "https://online.discussionroom.org/KkhDj%2Bm3qFXhaYVeG076c%2BkMkE24kW1Sjinni8q9lr4%3D",
-    "https://online.discussionroom.org/p6%2BwHz29x1XWz3ddFY%2FU%2FHwdxXKq6WvAwpUStAKcMRA%3D",
-  ];
-  const randomIndex = Math.floor(Math.random() * chatRooms.length);
-  return chatRooms[randomIndex];
-};
 
 // page to display the available chatroom access links
 // returns HTML page, not JSON!
@@ -117,26 +79,6 @@ server.listen(port, () => {
 io.on("connection", socket => {
   // Increment waiting room user count and check if threshold is met
   console.log("A user has connected")
-  waitingRoomUsers++;
-  
-  if (waitingRoomUsers >= waitingRoomThreshold) {
-    if (timeoutHandle) {
-        clearTimeout(timeoutHandle);
-        timeoutHandle = null;
-    }
-    const chatRoomURL = selectChatRoomURL();
-    io.emit('chatRoomURL', chatRoomURL);
-    console.log(`Chat room URL: ${chatRoomURL}`);
-    waitingRoomUsers = 0;
-    } else if (timeoutHandle === null) {
-        timeoutHandle = setTimeout(() => {
-            if (waitingRoomUsers < waitingRoomThreshold) {
-            io.emit('message', 'Fail to start');
-            }
-            waitingRoomUsers = 0;
-            timeoutHandle = null;
-        }, waitingRoomDuration);
-        }
   
   io.to(socket.id).emit("requestAccessCode");
 
@@ -193,8 +135,6 @@ io.on("connection", socket => {
   })
   */
   socket.on("disconnect", () => {
-    waitingRoomUsers--; // Decrement user count on disconnect
     io.emit('userDisconnect', "A user has left the chat");
-    waitingRoomUsers = Math.max(0, waitingRoomUsers - 1)
 })
 })
