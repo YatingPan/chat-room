@@ -33,19 +33,22 @@ export module Users {
        
     }
     
-    const createUser = async (accessCode: string, id: string): Promise<UserExtended> => {
+    const createUser = async (accessCode: string, prolificPid: string, sessionId:string, studyId: string, id: string): Promise<UserExtended> => {
         const userName = await assignUserName()
         const newUser: UserExtended = {
             "user": {
                 "name": userName,
+                "prolificPid": prolificPid,
                 "id": id,
+                "studyId": studyId,
+                "sessionId": sessionId
+
             },
             "accessCode": accessCode
         }
         Logs.appendUser(accessCode, newUser)
         return newUser 
     }
-
     export const userJoin = async (accessInfo: AccessInfo, id: string) => {
 
         // Check if the user is already logged in with its details
@@ -62,16 +65,16 @@ export module Users {
             }
         }
 
-        // if(accessInfo?.mTurkId !== null) {
-        //     const mTurkUser = getUserFromMturkId(accessInfo?.mTurkId)
-        //     if (mTurkUser) {
-        //         if (mTurkUser.accessCode !== accessInfo.accessCode) {
-        //             return mTurkUser
+        //if(accessInfo?.prolificPid !== null) {
+        //     const prolificUser = getUserFromProlific(accessInfo?.prolificPid)
+        //     if (prolificUser) {
+        //         if (prolificUser.accessCode !== accessInfo.accessCode) {
+        //             return prolificUser
         //         }
         //     }
         // }
 
-        let newUser: UserExtended = await createUser(accessInfo?.accessCode, id);
+        let newUser: UserExtended = await createUser(accessInfo?.accessCode, accessInfo?.prolificPid, accessInfo?.sessionId, accessInfo?.studyId, id);
         console.log("New user created", newUser)
         users.push(newUser)
         //console.log("Users:", users)
@@ -82,9 +85,9 @@ export module Users {
         return users.find(user => id === user.user.id)
     }
 
-    //export function getUserFromMturkId(id) {
-    //    return users.find(user => id === user.user.mTurkId)
-    //}
+    export function getUserFromProlific(id) {
+        return users.find(user => id === user.user.prolificPid)
+    }
 
 
 }
