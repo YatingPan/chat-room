@@ -36,19 +36,15 @@ socket.on("requestAccessCode", (arg) => {
 	// Grabbing access code from URL
 	const path = window.location.pathname.split("/");
 	const accessCode = 2 <= path.length ? path[1] : undefined
-	
-	//let url_params = QueryString.parse(location.search)
-	//const prolificPid = String(url_params['prolificPid'])
 
 	const queryString = window.location.search;
 	const url_params = new URLSearchParams(queryString);
-	const prolificPid = url_params.get('prolificPid')
-	const studyId = url_params.get("studyId")
-	const sessionId = url_params.get("sessionId")
-	//console.log(url_params)
-	//console.log(url_params.mTurkId)
-	
-    // console.log(`My Access code: ${accessCode}, my mTurkId: ${mTurkId}, hitId: ${hitId}, assignmentId: ${assignmentId}`)
+	console.log(url_params)
+
+	const prolificPid = url_params.get('PROLIFIC_PID');
+	const studyId = url_params.get("STUDY_ID");
+	const sessionId = url_params.get("SESSION_ID");
+	console.log("Acess code: ", accessCode, "prolificPid: ", prolificPid, "studyId: ", studyId, "sessionId: ", sessionId)
 	
 	const storedUserData: UserExtended = storageToUser(sessionStorage.getItem("userData"))
 	let accessInfo: AccessInfo = { "accessCode": accessCode, "prolificPid": prolificPid, "sessionId": sessionId, "studyId": studyId }
@@ -72,7 +68,7 @@ socket.on("userAssignment", (userAssignment: UserAssignment) => {
 	console.log("#####printingh actions in store.ts after socket call")
 	console.log(actions)
 	
-	// console.log("Assigned User:", user)
+	console.log("Assigned User:", user)
 	// TODO better login check?
 	if (user) {
 		console.log("#####Entering the value in userstore")
