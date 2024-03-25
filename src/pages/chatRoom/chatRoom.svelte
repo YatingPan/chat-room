@@ -79,7 +79,6 @@
             id: autoComment.id,
             time: new Date(autoComment.time),
             user: {
-                //mTurkId: "",
                 id: autoComment.botName,
                 name: autoComment.botName
             },

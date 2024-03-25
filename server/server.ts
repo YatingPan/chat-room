@@ -84,6 +84,8 @@ io.on("connection", socket => {
 
   socket.on("accessInfo", async (accessInfo: AccessInfo) => {
     const assignedChatRoom = await Rooms.getAssignedChatRoom(accessInfo.accessCode)
+    console.log("accessInfo", accessInfo)
+    console.log("assignedChatRoom", assignedChatRoom)
 
     if (assignedChatRoom) {
 
@@ -102,8 +104,8 @@ io.on("connection", socket => {
       }
 
       socket.join(accessInfo.accessCode)
-      // console.log(userAssignment)
-      // console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`)
+      console.log(userAssignment)
+      console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`)
       io.to(socket.id).emit("userAssignment", userAssignment)
     } else {
       socket.emit("accessDenied", "accessDenied")
