@@ -28,7 +28,8 @@
             }
         })
 
-        surveyLink = `${room.outboundLink}?&roomId=${user.accessCode}&prolificPid=${user?.user?.prolificPid}&sessionId=${user?.user?.sessionId}&studyId=${user?.user?.studyId}`;
+        //surveyLink = `${room.outboundLink}?&roomId=${user.accessCode}&prolificPid=${user?.user?.prolificPid}&sessionId=${user?.user?.sessionId}&studyId=${user?.user?.studyId}`;
+        surveyLink = `${room.outboundLink}?PROLIFIC_PID=${user?.user?.prolificPid}&STUDY_ID=${user?.user?.studyId}&SESSION_ID=${user?.user?.sessionId}`;
     })
     const formatTime = (date: Date): string => {
         return moment(date).format("D.MM.YYYY, HH:mm")
