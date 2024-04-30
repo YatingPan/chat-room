@@ -9,17 +9,17 @@ echo "==============================================================="
 folder_name=backup_$(date '+%Y-%m-%d-%H-%M-%S')
 cd /var/www/logBackup
 mkdir ${folder_name}
-cd /srv/chat-room/server/private/chatLogs
+cd /srv/argumentbot/chat-room/chat-room/server/private/chatLogs
 cp * /var/www/logBackup/${folder_name}
 
 echo "==============================================================="
 echo "STARTING SETUP; DELETING CONTENTS OF /srv/chat-room"
 echo "==============================================================="
 
-cd /srv
+cd /srv/argumentbot/chat-room
 rm -rf chat-room/*
 rm -rf chat-room/.*
-cd /srv/chat-room
+cd /srv/argumentbot/chat-room/chat-room
 
 # CHANGE THIS TO THE RIGHT GITHUB REPOSITORY
 repo_url="https://github.com/YatingPan/chat-room.git"
@@ -41,5 +41,5 @@ echo "==============================================================="
 echo "DONE BUILDING, RESTARTING USING pm2 restart 0 "
 echo "==============================================================="
 
-cd /srv
+cd /srv/argumentbot/chat-room
 pm2 restart 0
