@@ -9,7 +9,8 @@
     let post: Post = null
     //let likes: Like[] 
     //let dislikes: Like[]
-    $: headerImageURL = `../postImages/${post?.imageName}`
+    //$: headerImageURL = `../postImages/${post?.imageName}`
+    $: headerImageURL = post?.imageName ? `../postImages/${post.imageName}` : null;
 
     onMount(() => {
         store.roomStore.subscribe((assignedRoom: RoomData) => {
@@ -35,11 +36,9 @@
 
 <div class="container">
     <div class="center">
-        {#if headerImageURL != null && headerImageURL != ""}
-            <div class="imageContainer" style="background-image: url({headerImageURL});">
-                <!-- Image will only show if headerImageURL is not null -->
-            </div>
-        {/if}
+        <div class="imageContainer has-image" style="background-image: url({headerImageURL});">
+            <!-- Image will only show if headerImageURL is not null -->
+        </div>
         <div class="metaDataContainer">
 
             <div class="time">
