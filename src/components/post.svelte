@@ -35,7 +35,7 @@
 
 <div class="container">
     <div class="center">
-        {#if headerImageURL}
+        {#if headerImageURL != null && headerImageURL != ""}
             <div class="imageContainer" style="background-image: url({headerImageURL});">
                 <!-- Image will only show if headerImageURL is not null -->
             </div>
@@ -83,14 +83,25 @@
                 background-position: center center;
                 background-size: cover;
                 background-repeat: no-repeat;
-                @media (max-width: $mid-bp) {
-                    max-width: none;
-                    width: 100%;
-                    height: 12em;
-                    margin: 0;
+                // apply conditional styling
+                &.has-image {
+                    height: 40vw;
+                    max-height: 50vh;
+                    margin: 0.5rem 1rem;
+
+                    @media (max-width: $mid-bp) {
+                        height: 12em;
+                        margin: 0;
                 }
-                margin-right: 1em;
-            }
+                }
+                //@media (max-width: $mid-bp) {
+                //    max-width: none;
+                //    width: 100%;
+                //    height: 12em;
+                //    margin: 0;
+                //}
+                //margin-right: 1em;
+            //}
             .header {
                 margin: 0.5rem 1rem;
             }
@@ -116,4 +127,5 @@
             }
         }
     }
+}
 </style>
