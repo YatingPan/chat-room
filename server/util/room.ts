@@ -219,17 +219,13 @@ export module Rooms {
      * @param roomID the sha256 hash of the file name of the room spec file
      */
     export const getStaticRoomData = async (roomID: string): Promise<RoomData> => {
-        
-        const fileName = await getAssignedChatRoom(roomID)
-        const startTimeTimeStamp = Date.now()
-        console.log(`Loading Room(roomID: ${roomID}, fileName: ${fileName}) for the first time!`)
+        if(!rooms.hasOwnProperty(roomID)) {
 
-        //if(!rooms.hasOwnProperty(roomID)) {
-        if (!rooms.hasOwnProperty(roomID) || rooms[roomID].endTime < new Date(startTimeTimeStamp)) {
-            console.log(`Initializing or Re-initializing Room (roomID: ${roomID}, fileName: ${fileName})`);
+            const fileName = await getAssignedChatRoom(roomID)
+            console.log(`Loading Room(roomID: ${roomID}, fileName: ${fileName}) for the first time!`)
 
             // set the start time of the room to the current time
-            // const startTimeTimeStamp = Date.now()// Date.parse(roomData["startTime"])
+            const startTimeTimeStamp = Date.now()// Date.parse(roomData["startTime"])
 
             const roomData: RoomData = await getRoomData(fileName, startTimeTimeStamp)
             rooms[roomData.id] = roomData
@@ -237,12 +233,9 @@ export module Rooms {
             Logs.initLog(roomData.id, roomData, fileName)
 
             // calculate end Time from start time and duration given in minutes
-            // add 10 seconds delay
-            const endTime = new Date(startTimeTimeStamp + roomData.duration * 60 * 1000 + 10000)
+            const endTime = new Date(startTimeTimeStamp + roomData.duration * 60 * 1000)
             
             console.log("endTime", endTime)
-            
-            roomData.endTime = endTime;
             registerEndRoom(roomData.id, endTime)            
             //console.log(rooms)
         }
