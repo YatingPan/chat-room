@@ -48,6 +48,7 @@ export module Rooms {
         const end_func = async () => {
             await Logs.writeLog(roomID);  // Assuming writeLog returns a promise
             console.log("start writing log for room", roomID);
+
             delete rooms[roomID];
             // Possibly include redirection here or signal that it's okay to redirect
         }
@@ -218,13 +219,17 @@ export module Rooms {
      * @param roomID the sha256 hash of the file name of the room spec file
      */
     export const getStaticRoomData = async (roomID: string): Promise<RoomData> => {
-        if(!rooms.hasOwnProperty(roomID)) {
+        
+        const fileName = await getAssignedChatRoom(roomID)
+        const startTimeTimeStamp = Date.now()
+        console.log(`Loading Room(roomID: ${roomID}, fileName: ${fileName}) for the first time!`)
 
-            const fileName = await getAssignedChatRoom(roomID)
-            console.log(`Loading Room(roomID: ${roomID}, fileName: ${fileName}) for the first time!`)
+        //if(!rooms.hasOwnProperty(roomID)) {
+        if (!rooms.hasOwnProperty(roomID) || rooms[roomID].endTime < new Date(startTimeTimeStamp)) {
+            console.log(`Initializing or Re-initializing Room (roomID: ${roomID}, fileName: ${fileName})`);
 
             // set the start time of the room to the current time
-            const startTimeTimeStamp = Date.now()// Date.parse(roomData["startTime"])
+            // const startTimeTimeStamp = Date.now()// Date.parse(roomData["startTime"])
 
             const roomData: RoomData = await getRoomData(fileName, startTimeTimeStamp)
             rooms[roomData.id] = roomData
@@ -236,6 +241,8 @@ export module Rooms {
             const endTime = new Date(startTimeTimeStamp + roomData.duration * 60 * 1000 + 10000)
             
             console.log("endTime", endTime)
+            
+            roomData.endTime = endTime;
             registerEndRoom(roomData.id, endTime)            
             //console.log(rooms)
         }

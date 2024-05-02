@@ -46,7 +46,7 @@
 <div class="container">
     <h1>Experiment ended at: {formatTime(endTime)}</h1>
     <p>
-        Continue with the survey by clicking <a href={surveyLink}>here</a>
+        Thank you for your participation, we will now review your submission and you will hear from us within max. 10 business days.
     </p>
 </div>
 
