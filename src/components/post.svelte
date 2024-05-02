@@ -35,9 +35,11 @@
 
 <div class="container">
     <div class="center">
-        <div class="imageContainer" style="background-image: url({headerImageURL});">
-            <!-- <img src="build/Material/images/testImage.jpg"/> -->
-        </div>
+        {#if headerImageURL}
+            <div class="imageContainer" style="background-image: url({headerImageURL});">
+                <!-- Image will only show if headerImageURL is not null -->
+            </div>
+        {/if}
         <div class="metaDataContainer">
 
             <div class="time">
