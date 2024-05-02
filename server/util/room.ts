@@ -214,7 +214,7 @@ export module Rooms {
             Logs.initLog(roomData.id, roomData, fileName)
 
             // calculate end Time from start time and duration given in minutes
-            const endTime = new Date(startTimeTimeStamp + roomData.duration * 60 * 1000)
+            const endTime = new Date(startTimeTimeStamp + roomData.duration * 60 * 1000 + 10000)
             
             console.log("endTime", endTime)
             registerEndRoom(roomData.id, endTime)            

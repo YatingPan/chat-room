@@ -64,8 +64,8 @@
         else
             replies[newReply.parentID] = [newReply.comment]
 
-        // if(newReply.comment.user.id === user.user.id)
-        //     animateScroll.scrollTo({element: `.commentCard.id${newReply.comment.id}`})
+        if(newReply.comment.user.id === user.user.id)
+            animateScroll.scrollTo({element: `.commentCard.id${newReply.comment.id}`})
     }
     //const botLikeToLike = (botDislike: BotLike, parentCommentID: number): Like => {
     //    return {
@@ -90,11 +90,11 @@
     }
 
     const addComment = (newComment: Comment) => {
-        // console.log("####Comments before adding",comments)
+        console.log("####Comments before adding",comments)
         comments = [... comments, newComment]
-        // console.log("####Comments after adding",comments)
+        console.log("####Comments after adding",comments)
         if(newComment.user.id === user.user.id) {
-            // console.log("###Animation since it's my comment")
+            console.log("###Animation since it's my comment")
             animateScroll.scrollToBottom()
         }
         else{
@@ -188,8 +188,10 @@
             // add to set room time as 5 minutes
             assignedRoom.duration = 5;
             // Calculate the end time accounting for the 10-second wait time to join
-            const startTimeWithDelay = new Date(new Date(assignedRoom.startTime).getTime() + 10000); // 10 seconds for waiting to join
-            const endTime = new Date(startTimeWithDelay.getTime() + assignedRoom.duration * 60000); // 5 minutes for the chat
+            const endTime = new Date(new Date(assignedRoom?.startTime).getTime() + assignedRoom?.duration * 60 * 1000 + 10000)
+            //const endTime = new Date(new Date(assignedRoom?.startTime).getTime() + assignedRoom?.duration * 60 * 1000)
+            //const startTimeWithDelay = new Date(new Date(assignedRoom.startTime).getTime() + 10000); // 10 seconds for waiting to join
+            //const endTime = new Date(startTimeWithDelay.getTime() + assignedRoom.duration * 60000); // 5 minutes for the chat
             console.log("assigned room is")
             console.log(assignedRoom)
             if (typeof assignedRoom !== 'undefined'){
