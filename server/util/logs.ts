@@ -85,7 +85,7 @@ export module Logs {
             originalComments:[],
             comments: autoComments,
             //userModerationEvents: roomData.userModerationEvents,
-            //outboundLink: roomData.outboundLink
+            outboundLink: roomData.outboundLink
         }
         logs[roomID] = newLog
     }
