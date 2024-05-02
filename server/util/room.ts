@@ -36,14 +36,28 @@ export module Rooms {
         const offsetmilliseconds = timetarget - timenow;
         console.log("offsetmilliseconds", offsetmilliseconds)
         
-        const end_func = () => {
-            Logs.writeLog(roomID)
-            console.log("start writing log for room", roomID)
-            delete rooms[roomID]
+        //const end_func = () => {
+        //    Logs.writeLog(roomID)
+        //    console.log("start writing log for room", roomID)
+        //    delete rooms[roomID]
+        //}
+        
+        //if (offsetmilliseconds > 0) setTimeout(end_func, offsetmilliseconds)
+        //else end_func()
+
+        const end_func = async () => {
+            await Logs.writeLog(roomID);  // Assuming writeLog returns a promise
+            console.log("start writing log for room", roomID);
+            delete rooms[roomID];
+            // Possibly include redirection here or signal that it's okay to redirect
         }
         
-        if (offsetmilliseconds > 0) setTimeout(end_func, offsetmilliseconds)
-        else end_func()
+        if (offsetmilliseconds > 0) {
+            setTimeout(end_func, offsetmilliseconds);
+        } else {
+            end_func();
+        }
+        
     }
     // const registerCloseChatRoom = (roomID, time: Date) => {
     //     const timetarget = time.getTime();
@@ -218,7 +232,8 @@ export module Rooms {
             Logs.initLog(roomData.id, roomData, fileName)
 
             // calculate end Time from start time and duration given in minutes
-            const endTime = new Date(startTimeTimeStamp + roomData.duration * 60 * 1000)
+            // add 10 seconds delay
+            const endTime = new Date(startTimeTimeStamp + roomData.duration * 60 * 1000 + 10000)
             
             console.log("endTime", endTime)
             registerEndRoom(roomData.id, endTime)            
