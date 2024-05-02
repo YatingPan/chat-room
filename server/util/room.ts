@@ -30,11 +30,15 @@ export module Rooms {
 
     const registerEndRoom = (roomID, time: Date) => {
         const timetarget = time.getTime();
+        console.log("timetarget", timetarget)
         const timenow =  new Date().getTime();
+        console.log("timenow", timenow)
         const offsetmilliseconds = timetarget - timenow;
+        console.log("offsetmilliseconds", offsetmilliseconds)
         
         const end_func = () => {
             Logs.writeLog(roomID)
+            console.log("start writing log for room", roomID)
             delete rooms[roomID]
         }
         
