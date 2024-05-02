@@ -166,7 +166,7 @@ export module Rooms {
         const parsedRoomData: RoomData = {
             id,
             name,
-            startTime: new Date(startTimeStamp),
+            startTime: new Date(startTimeStamp), // set the start time of the room to the current time
             duration,
             post,
             automaticComments,
