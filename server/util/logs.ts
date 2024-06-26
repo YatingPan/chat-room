@@ -107,7 +107,7 @@ export module Logs {
         return fullLog
     }
 
-    const writeLog = (roomID: string, version: number) => {
+    export const writeLog = async (roomID: string, version: number) => {
         const logData = assembleLog(roomID)
         const src_spec = logData.specFileName.split(".")[0]
         const logJSON = JSON.stringify(logData, null, 2)
@@ -115,9 +115,7 @@ export module Logs {
         const currentdate = new Date();
         const formatTime = moment(currentdate).format("D.MM.YYYY-HH:mm")
 
-        fs.writeFile(`${logDir}/${src_spec}_${formatTime}_${version}.log.json`, logJSON, (err) => {
-            if (err) throw err;
-        });
+        await fs.promises.writeFile(`${logDir}/${src_spec}_${formatTime}_${version}.log.json`, logJSON);
     }
 
     const scheduleLogWrites = (roomID: string) => {
