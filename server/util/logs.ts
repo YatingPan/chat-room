@@ -1,7 +1,7 @@
 import path from "path";
 import fs from 'fs';
 import type { Log, RoomData } from "../../types/room.type";
-import type { BotComment, LoggedComment, Comment, Reply, ActionsUpdate} from "../../types/comment.type";
+import type { BotComment, LoggedComment, Comment, Reply, ActionsUpdate } from "../../types/comment.type";
 import type { UserExtended } from "../../types/user.type";
 import moment from "moment";
 
@@ -9,20 +9,14 @@ const __dirname = path.resolve();
 const privateDir = path.join(__dirname, "server", "private")
 const logDir = path.join(privateDir, "chatLogs")
 export module Logs {
-    
+
     let logs = {}
     // replies maps comment ids to an array of its replies
     let replies = {}
-    let rawReplies:Reply[] = []
+    let rawReplies: Reply[] = []
     let actions = {}
     let rawActions: ActionsUpdate[] = []
 
-    //const botLikeToLike = (botDislike: BotLike, parentCommentID: number): Like => {
-    //    return {
-    //        userID: botDislike.botName,
-    //        time: new Date(botDislike.time)
-    //    }
-    //}
     const botCommentToLoggedComment = (botComment: BotComment) => {
         const loggedComment: LoggedComment = {
             id: botComment.id,
@@ -31,10 +25,6 @@ export module Logs {
             userName: botComment.botName,
             content: botComment.content,
             replies: botComment?.replies?.map((autoComment: BotComment) => botCommentToLoggedComment(autoComment)),
-            // remove moderation
-            // moderation: botComment?.moderation,
-    //        likes: botComment?.likes?.map(botLikeToLike),
-    //        dislikes: botComment?.dislikes?.map(botLikeToLike)
         }
         return loggedComment
     }
@@ -46,72 +36,58 @@ export module Logs {
             time: comment.time,
             userName: comment.user.name,
             content: comment.content,
-    //        likes: [],
-    //        dislikes: []
         }
         return loggedComment
     }
 
-
-
-   /* function loggedCommentToComment(loggedComment: LoggedComment[]): Comment[]{
-        //Converting list of LoggedComment to list of comment
-        return comments
-
-    }*/
-    export function returnLog(){
-        // console.log("####Log in logs.ts in Logslog function is #####",logs)
+    export function returnLog() {
         return logs
     }
 
-    export function returnRawReplies(){
+    export function returnRawReplies() {
         return rawReplies
     }
 
-    export function returnAction(){
+    export function returnAction() {
         return rawActions
     }
 
-    export const initLog  = (roomID: string, roomData: RoomData, specFileName: string) => {
+    export const initLog = (roomID: string, roomData: RoomData, specFileName: string) => {
         const autoComments: LoggedComment[] = roomData.automaticComments.map(botCommentToLoggedComment)
         const newLog: Log = {
             id: roomData.id,
             specFileName: specFileName,
             name: roomData.name,
             startTime: roomData.startTime,
-            duration: roomData.duration,
+            duration: 15, // changed to 15 minutes
             postTitle: roomData.post.title,
             users: [],
-            originalComments:[],
             comments: autoComments,
-            //userModerationEvents: roomData.userModerationEvents,
-            outboundLink: roomData.outboundLink
         }
         logs[roomID] = newLog
     }
 
     export const appendTopLevelComment = (roomID: string, comment: Comment) => {
         logs[roomID].comments.push(commentToLoggedCommnet(comment))
-        logs[roomID].originalComments.push(comment)
-
     }
+
     export const appendUser = (roomID: string, user: UserExtended) => {
         logs[roomID].users.push(user.user)
     }
+
     export const appendReply = (reply: Reply) => {
         rawReplies.push(reply)
         if (replies[reply.parentID])
-            [... replies[reply.parentID], commentToLoggedCommnet(reply.comment)]
+            replies[reply.parentID].push(commentToLoggedCommnet(reply.comment))
         else
             replies[reply.parentID] = [commentToLoggedCommnet(reply.comment)]
-
-
     }
+
     export const replaceActions = (actionsUpdate: ActionsUpdate) => {
         rawActions.push(actionsUpdate)
         actions[actionsUpdate.parentCommentID] = {
-            //likes: actionsUpdate.likes,
-            //dislikes: actionsUpdate.dislikes
+            // likes: actionsUpdate.likes,
+            // dislikes: actionsUpdate.dislikes
         }
     }
 
@@ -123,29 +99,36 @@ export module Logs {
             const reps: LoggedComment[] = replies[comment.id]
             comment["replies"] = reps?.sort((a: LoggedComment, b: LoggedComment) => a.time < b.time ? -1 : 1)
             const act = actions[comment.id]
-            //comment["likes"] = act?.likes
-            //comment["dislikes"] = act?.dislikes
+            // comment["likes"] = act?.likes
+            // comment["dislikes"] = act?.dislikes
 
             return comment
         })
         return fullLog
     }
 
-    export const writeLog = (roomID: string) => {
-
+    const writeLog = (roomID: string, version: number) => {
         const logData = assembleLog(roomID)
         const src_spec = logData.specFileName.split(".")[0]
         const logJSON = JSON.stringify(logData, null, 2)
 
-        var currentdate = new Date(); 
-
-
+        const currentdate = new Date();
         const formatTime = moment(currentdate).format("D.MM.YYYY-HH:mm")
-        // ${(new Date()).toTimeString()}
-        fs.writeFile(`${logDir}/${src_spec}_${formatTime}.log.json`, logJSON, (err) => {
+
+        fs.writeFile(`${logDir}/${src_spec}_${formatTime}_${version}.log.json`, logJSON, (err) => {
             if (err) throw err;
         });
     }
 
-}
+    const scheduleLogWrites = (roomID: string) => {
+        setTimeout(() => writeLog(roomID, 1), 4 * 60 * 1000) // 4th minute
+        setTimeout(() => writeLog(roomID, 2), 8 * 60 * 1000) // 8th minute
+        setTimeout(() => writeLog(roomID, 3), 12 * 60 * 1000) // 12th minute
+        setTimeout(() => writeLog(roomID, 4), 15 * 60 * 1000) // 15th minute (end)
+    }
 
+    export const initLogWithSchedule = (roomID: string, roomData: RoomData, specFileName: string) => {
+        initLog(roomID, roomData, specFileName)
+        scheduleLogWrites(roomID)
+    }
+}
