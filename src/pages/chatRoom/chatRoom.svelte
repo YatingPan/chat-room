@@ -186,7 +186,7 @@
             //}
 
             // add to set room time as 5 minutes
-            assignedRoom.duration = 5;
+            assignedRoom.duration = 15;
             // Calculate the end time accounting for the 10-second wait time to join
             const endTime = new Date(new Date(assignedRoom?.startTime).getTime() + assignedRoom?.duration * 60 * 1000 + 10000)
             //const endTime = new Date(new Date(assignedRoom?.startTime).getTime() + assignedRoom?.duration * 60 * 1000)
