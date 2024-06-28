@@ -11,7 +11,6 @@ const logDir = path.join(privateDir, "chatLogs")
 export module Logs {
 
     let logs = {}
-    // replies maps comment ids to an array of its replies
     let replies = {}
     let rawReplies: Reply[] = []
     let actions = {}
@@ -59,7 +58,7 @@ export module Logs {
             specFileName: specFileName,
             name: roomData.name,
             startTime: roomData.startTime,
-            duration: 15, // changed to 15 minutes
+            duration: 15, // 15 minutes
             postTitle: roomData.post.title,
             users: [],
             comments: autoComments,
@@ -91,24 +90,31 @@ export module Logs {
         }
     }
 
-    const assembleLog = (roomID: string): Log => {
+    const assembleLog = (roomID: string, startTime: number, endTime: number): Log => {
         let fullLog: Log = logs[roomID]
+        let filteredLog: Log = {
+            ...fullLog,
+            comments: [],
+        }
 
         fullLog.comments.sort((a: LoggedComment, b: LoggedComment) => a.time < b.time ? -1 : 1)
         fullLog.comments.map((comment: LoggedComment) => {
-            const reps: LoggedComment[] = replies[comment.id]
-            comment["replies"] = reps?.sort((a: LoggedComment, b: LoggedComment) => a.time < b.time ? -1 : 1)
-            const act = actions[comment.id]
-            // comment["likes"] = act?.likes
-            // comment["dislikes"] = act?.dislikes
-
+            const commentTime = moment(comment.time).diff(moment(fullLog.startTime), 'minutes')
+            if (commentTime >= startTime && commentTime < endTime) {
+                const reps: LoggedComment[] = replies[comment.id]
+                comment["replies"] = reps?.sort((a: LoggedComment, b: LoggedComment) => a.time < b.time ? -1 : 1)
+                const act = actions[comment.id]
+                // comment["likes"] = act?.likes
+                // comment["dislikes"] = act?.dislikes
+                filteredLog.comments.push(comment)
+            }
             return comment
         })
-        return fullLog
+        return filteredLog
     }
 
-    export const writeLog = async (roomID: string, version: number) => {
-        const logData = assembleLog(roomID)
+    export const writeLog = async (roomID: string, version: number, startTime: number, endTime: number) => {
+        const logData = assembleLog(roomID, startTime, endTime)
         const src_spec = logData.specFileName.split(".")[0]
         const logJSON = JSON.stringify(logData, null, 2)
 
@@ -119,10 +125,10 @@ export module Logs {
     }
 
     const scheduleLogWrites = (roomID: string) => {
-        setTimeout(() => writeLog(roomID, 1), 4 * 60 * 1000) // 4th minute
-        setTimeout(() => writeLog(roomID, 2), 8 * 60 * 1000) // 8th minute
-        setTimeout(() => writeLog(roomID, 3), 12 * 60 * 1000) // 12th minute
-        setTimeout(() => writeLog(roomID, 4), 15 * 60 * 1000) // 15th minute (end)
+        setTimeout(() => writeLog(roomID, 1, 0, 4), 4 * 60 * 1000) // From beginning to 4th minute
+        setTimeout(() => writeLog(roomID, 2, 4, 8), 8 * 60 * 1000) // From 4th minute to 8th minute
+        setTimeout(() => writeLog(roomID, 3, 8, 12), 12 * 60 * 1000) // From 8th minute to 12th minute
+        setTimeout(() => writeLog(roomID, 4, 0, 15), 15 * 60 * 1000) // From beginning to 15th minute
     }
 
     export const initLogWithSchedule = (roomID: string, roomData: RoomData, specFileName: string) => {
