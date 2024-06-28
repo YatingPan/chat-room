@@ -37,17 +37,7 @@ export module Rooms {
         }
     }
 
-    /**
-     * Used for Access checks
-     * Access is granted if the access Code is equal to the sha265 hash of a filename in the chatPrograms directory
-     * 
-     * 
-     * @returns Returns an array of tuples (arrays) that maps from hash to fileNames and back
-     * 
-     */
     export async function getAvailableRooms(): Promise<any[]> {
-        // only read the room spec file list the first time this function gets called.
-        // if spec files added -> need to restart the chatroom
         if (!(roomSpecFiles.length > 0)) {
             roomSpecFiles = await fs.promises.readdir(path.resolve(roomDir, "roomSpecs"));
         }
@@ -60,12 +50,6 @@ export module Rooms {
         return hash_filename_map;
     }
 
-    /**
-     * The roomID argument is the sha256 hash of the file name of the room spec file
-     * 
-     * @param roomID: string
-     * @returns Returns a promise of the fileName if there is a chat room specfile who's hash is equal to the roomID
-     */
     export async function getAssignedChatRoom(roomID: string): Promise<string> {
         const availableRooms = await getAvailableRooms();
         const availableRoomMap = availableRooms.find(([hash, fileName]) => hash === roomID);
@@ -76,11 +60,6 @@ export module Rooms {
         throw new Error(`Room with ID ${roomID} not found`);
     }
 
-    /**
-     * 
-     * @param roomFileName 
-     * @returns a promise of the hash of the roomSpecFile name given the roomFileName
-     */
     async function fileNameLookup(roomFileName: string): Promise<string> {
         const availableRooms = await getAvailableRooms();
         const availableRoomMap = availableRooms.find(([hash, fileName]) => fileName === roomFileName);
@@ -96,18 +75,10 @@ export module Rooms {
             .update(fileName)
             .digest('base64'));
 
-    /**
-     * 
-     * @param roomData is an object of unparsed, raw room data
-     * @param fileName is the file name this data has originated from
-     * @param startTimeStamp is the time stamp at which this room should be started
-     * @returns returns a promise of the parsed room data
-     */
     const parseRoomData = async (roomData: UnparsedRoomData, fileName: string, startTimeStamp: number): Promise<RoomData> => {
-        // The duration of the room experiment in minutes
         const duration = roomData.duration;
         const automaticComments: BotComment[] = 
-            roomData.comments.map( (comment: UnparsedBotComment): BotComment => {
+            roomData.comments.map((comment: UnparsedBotComment): BotComment => {
                 return Chats.parseComment(comment, startTimeStamp);
             });
         const id: string = fileNameToHash(fileName);
@@ -117,7 +88,7 @@ export module Rooms {
         const parsedRoomData: RoomData = {
             id,
             name,
-            startTime: new Date(startTimeStamp), // set the start time of the room to the current time
+            startTime: new Date(startTimeStamp),
             duration,
             post,
             automaticComments,
@@ -131,23 +102,11 @@ export module Rooms {
         return roomData;
     }
 
-    /**
-     * 
-     * @parameter roomFileName of a room
-     * @parameter start time is the time stamp at which the room should start
-     * @returns A parsed room Object
-     */
-    const getRoomData = async (roomFileName: string, startTime: number) : Promise<RoomData> => {
+    const getRoomData = async (roomFileName: string, startTime: number): Promise<RoomData> => {
         const unparsedRoomData: UnparsedRoomData = await getRawRoomData(roomFileName);
         return parseRoomData(unparsedRoomData, roomFileName, startTime);
     }
 
-    /**
-     * If there exists a room spec file with the corresponding hash (roomID) it will parse the file and return the RoomData object
-     * where the time is set to this first call to the function.
-     * 
-     * @param roomID the sha256 hash of the file name of the room spec file
-     */
     export const getStaticRoomData = async (roomID: string): Promise<RoomData> => {
         if (!rooms.hasOwnProperty(roomID)) {
             let fileName;
@@ -160,7 +119,6 @@ export module Rooms {
 
             console.log(`Loading Room(roomID: ${roomID}, fileName: ${fileName}) for the first time!`);
 
-            // set the start time of the room to the current time
             const startTimeTimeStamp = Date.now();
 
             const roomData: RoomData = await getRoomData(fileName, startTimeTimeStamp);
@@ -168,7 +126,6 @@ export module Rooms {
 
             Logs.initLogWithSchedule(roomData.id, roomData, fileName);
 
-            // calculate end Time from start time and duration given in minutes
             const endTime = new Date(startTimeTimeStamp + roomData.duration * 60 * 1000);
 
             console.log("endTime", endTime);
