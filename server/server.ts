@@ -1,6 +1,8 @@
+// server.ts
+
 'use strict';
 import type { UserAssignment, AccessInfo, User, UserExtended } from "../types/user.type"
-import type {ActionsUpdate, ProposedComment, ProposedReply, Reply} from "../types/comment.type"
+import type {ActionsUpdate, ProposedComment, ProposedReply, Reply, Comment} from "../types/comment.type"
 import { Rooms } from "./util/room.js";
 import { Users } from "./util/users.js";
 import { Chats } from "./util/chat.js";
@@ -13,20 +15,17 @@ import path from 'path';
 import http from "http";
 import { Server } from "socket.io";
 import type { RoomData } from "../types/room.type";
-import type{Comment} from "../types/comment.type";
 import type{Log} from "../types/room.type";
-// import type{LoggedComment} from "../types/comment.type";
-
 
 const app = express();
 
 app.use(cors());
 
 const port = process.env.PORT || 5001; // change from 5000 to 5001 to run on the subdomain
-const server = http.createServer(app)
+const server = http.createServer(app);
 
-// Configure Socket.IO with CORS optsudoions
-const io = new Server(server, {
+// Configure Socket.IO with CORS options
+export const io = new Server(server, {
   cors: {
     origin: ["https://ipz.qualtrics.com", "http://online.discussionroom.org/"],
     methods: ["GET", "POST", "PUT"],
@@ -36,22 +35,18 @@ const io = new Server(server, {
 
 const __dirname =  path.join(path.resolve(), "server");
 const publicDir = path.join(__dirname, "../public");
-console.log(publicDir)
 const privateDir = path.join(__dirname, "private");
-// export let allComments: Array<Comment> = [];
 
 app.use(express.static(publicDir));
-
 
 // page to display the available chatroom access links
 // returns HTML page, not JSON!
 app.get('/secret', async function (req, res, next) {
-  // console.log('Accessing the secret section ...')
-  const availableRooms = await Rooms.getAvailableRooms()
+  const availableRooms = await Rooms.getAvailableRooms();
   const html = availableRooms.map(function(hashAndFileName) {
     const [hash, fileName] = hashAndFileName;
     const fullUrl = req.protocol + '://' + req.get('host');
-    return `<li>${fileName}: <a href="${fullUrl}/${hash}" target="_blank"> ${hash} </a></li>`
+    return `<li>${fileName}: <a href="${fullUrl}/${hash}" target="_blank"> ${hash} </a></li>`;
   }).join("");
   
   res.write(`
@@ -65,7 +60,7 @@ app.get('/secret', async function (req, res, next) {
     </body>
   `);
   res.end();
-})
+});
 
 // Every other link is resolved to the svelte application
 app.get('*', (req, res) => {
@@ -77,69 +72,61 @@ server.listen(port, () => {
 
 // run when client connects
 io.on("connection", socket => {
-  // Increment waiting room user count and check if threshold is met
-  console.log("A user has connected")
+  console.log("A user has connected");
   
   io.to(socket.id).emit("requestAccessCode");
 
   socket.on("accessInfo", async (accessInfo: AccessInfo) => {
-    const assignedChatRoom = await Rooms.getAssignedChatRoom(accessInfo.accessCode)
-    console.log("accessInfo", accessInfo)
-    console.log("assignedChatRoom", assignedChatRoom)
+    const assignedChatRoom = await Rooms.getAssignedChatRoom(accessInfo.accessCode);
+    console.log("accessInfo", accessInfo);
+    console.log("assignedChatRoom", assignedChatRoom);
 
     if (assignedChatRoom) {
-
-      const room: RoomData = await Rooms.getStaticRoomData(accessInfo.accessCode)
-      const newUser: UserExtended | undefined = await Users.userJoin(accessInfo, socket.id)
+      const room: RoomData = await Rooms.getStaticRoomData(accessInfo.accessCode);
+      const newUser: UserExtended | undefined = await Users.userJoin(accessInfo, socket.id);
       if (newUser) {
         // Rest of the code that uses newUser
       }
-      let fullLog: Log = Logs.returnLog()[room.id]
-      let allReplies: Reply[] = Logs.returnRawReplies()
-      let actions:ActionsUpdate[] = Logs.returnAction()
-      let comments: Comment[] = Logs.returnLog()[room.id].comments
+      let fullLog: Log = Logs.returnLog()[room.id];
+      let allReplies: Reply[] = Logs.returnRawReplies();
+      let actions: ActionsUpdate[] = Logs.returnAction();
+      let comments: Comment[] = Logs.returnLog()[room.id].comments;
       const userAssignment: UserAssignment = {
         "room": room,
         "user": newUser,
         "logs": comments,
         "replies": allReplies,
         "actions": actions
-      }
+      };
 
-      socket.join(accessInfo.accessCode)
-      console.log(userAssignment)
-      console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`)
-      io.to(socket.id).emit("userAssignment", userAssignment)
+      socket.join(accessInfo.accessCode);
+      console.log(userAssignment);
+      console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`);
+      io.to(socket.id).emit("userAssignment", userAssignment);
     } else {
-      socket.emit("accessDenied", "accessDenied")
+      socket.emit("accessDenied", "accessDenied");
     }
-  })
+  });
 
   socket.on("broadcastComment", (proposedComment: ProposedComment) => {
-    const sendingUser: UserExtended = Users.getUserFromID(proposedComment.user.id)
-    
-    Chats.broadcastComment(proposedComment, sendingUser, io)
-  })
+    const sendingUser: UserExtended = Users.getUserFromID(proposedComment.user.id);
+    Chats.broadcastComment(proposedComment, sendingUser, io);
+  });
   socket.on("broadcastReply", (proposedReply: ProposedReply) => {
-    // console.log(proposedReply)
-    const sendingUser: UserExtended = Users.getUserFromID(proposedReply.comment.user.id)
-    
-    Chats.broadcastReply(proposedReply, sendingUser, io)
-  })
+    const sendingUser: UserExtended = Users.getUserFromID(proposedReply.comment.user.id);
+    Chats.broadcastReply(proposedReply, sendingUser, io);
+  });
   socket.on("broadcastActionsUpdate", (proposedActionsUpdate: ActionsUpdate) => {
-    // console.log(proposedActionsUpdate)
-    const sendingUser: UserExtended = Users.getUserFromID(proposedActionsUpdate.senderID)
-    
-    Chats.broadcastActionsUpdate(proposedActionsUpdate, sendingUser, io)
-  })
+    const sendingUser: UserExtended = Users.getUserFromID(proposedActionsUpdate.senderID);
+    Chats.broadcastActionsUpdate(proposedActionsUpdate, sendingUser, io);
+  });
 
-/*  socket.on("addComment",(tempComment : Comment) => {
-    allComments = [... allComments, tempComment]
-    console.log("#### addComment.ts allComments",allComments)
-    // socket.emit("updateComments", allComments)
-  })
-  */
   socket.on("disconnect", () => {
     io.emit('userDisconnect', "A user has left the chat");
-})
-})
+  });
+
+  socket.on('broadcastGptResponse', (gptComment: Comment) => {
+    // Broadcast the GPT-4 response to all users in the room
+    io.to(gptComment.user.id).emit('newComment', gptComment);
+  });
+});

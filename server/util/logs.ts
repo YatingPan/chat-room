@@ -4,6 +4,7 @@ import type { Log, RoomData } from "../../types/room.type";
 import type { BotComment, LoggedComment, Comment, Reply, ActionsUpdate } from "../../types/comment.type";
 import type { UserExtended, User } from "../../types/user.type";
 import moment from "moment";
+import { io } from "../server";
 
 const __dirname = path.resolve();
 const privateDir = path.join(__dirname, "server", "private");
@@ -137,7 +138,7 @@ export module Logs {
             appendTopLevelComment(roomID, gptComment);
 
             // Broadcast the bot message to all users
-            broadcastMessage(roomID, gptComment);
+            io.to(roomID).emit('broadcastGptResponse', gptComment);
         }
     }
 
@@ -173,11 +174,6 @@ export module Logs {
             botName,
             content: missingArgument,
         };
-    }
-
-    const broadcastMessage = (roomID: string, message: Comment) => {
-        // Your implementation here
-        // Example: WebSocket server or any other real-time communication method
     }
 
     const defaultBotUser = (botName: string): User => ({

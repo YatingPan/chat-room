@@ -151,6 +151,12 @@
         });
 
         store.allActionsStore.subscribe((allActionsUpdate: ActionsUpdate[]) => {});
+
+        // Listen for GPT-4 responses
+        const socket = io();
+        socket.on('newComment', (gptComment: Comment) => {
+            addComment(gptComment);
+        });
     });
 
     let y;
