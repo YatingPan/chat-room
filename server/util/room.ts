@@ -3,7 +3,6 @@ import fs from 'fs';
 import crypt from 'crypto';
 import { Posts } from "./post.js";
 import type { Post, RoomData, UnparsedBot, UnparsedRoomData } from "../../types/room.type";
-//import { ModerationType } from "../../types/room.type.js";
 import type { BotComment, Comment, UnparsedBotComment } from "../../types/comment.type.js";
 import { Chats } from "./chat.js";
 import { Logs } from "./logs.js";
@@ -17,15 +16,6 @@ export module Rooms {
     let rooms = {};
     let roomSpecFiles: string[] = [];
 
-    // const registerRoomDataCollection = (roomID, time: Date) => {
-    //     const timetarget = time.getTime();
-    //     const timenow =  new Date().getTime();
-    //     const offsetmilliseconds = timetarget - timenow;
-        
-    //     if (offsetmilliseconds > 0) setTimeout(() => Logs.writeLog(roomID), offsetmilliseconds)
-    //     else Logs.writeLog(roomID)
-    // }
-
     const registerEndRoom = (roomID, time: Date) => {
         const timetarget = time.getTime();
         console.log("timetarget", timetarget);
@@ -33,27 +23,19 @@ export module Rooms {
         console.log("timenow", timenow);
         const offsetmilliseconds = timetarget - timenow;
         console.log("offsetmilliseconds", offsetmilliseconds);
-        
+
         const end_func = async () => {
-            await Logs.writeLog(roomID, 4);  // Final log at the end of 15 minutes
+            await Logs.writeLog(roomID, 4, 0, 15);  // Final log from beginning to 15th minute
             console.log("start writing log for room", roomID);
             delete rooms[roomID];
         }
-        
+
         if (offsetmilliseconds > 0) {
             setTimeout(end_func, offsetmilliseconds);
         } else {
             end_func();
         }
     }
-    // const registerCloseChatRoom = (roomID, time: Date) => {
-    //     const timetarget = time.getTime();
-    //     const timenow =  new Date().getTime();
-    //     const offsetmilliseconds = timetarget - timenow;
-        
-    //     if (offsetmilliseconds > 0) setTimeout(() => {delete rooms[roomID]})
-    //     else Logs.writeLog(roomID)
-    // }
 
     /**
      * Used for Access checks
@@ -77,7 +59,7 @@ export module Rooms {
         console.log(hash_filename_map);
         return hash_filename_map;
     }
-    
+
     /**
      * The roomID argument is the sha256 hash of the file name of the room spec file
      * 
@@ -132,15 +114,6 @@ export module Rooms {
         const name: string = roomData.roomName;
         const post: Post = await Posts.getPostData(roomData.postName);
 
-        //const userModerationEvents: Moderation[] = roomData.bots
-        //    .filter((bot: UnparsedBot) => bot.moderation ? true : false)
-        //    .map((bot: UnparsedBot): Moderation => {
-        //            return parseUserModeration(bot.moderation, bot.name, startTimeStamp)
-        //    })
-        //console.log("userModerationEvents", userModerationEvents)
-
-        //const outboundLink = roomData.outboundLink;
-
         const parsedRoomData: RoomData = {
             id,
             name,
@@ -148,7 +121,6 @@ export module Rooms {
             duration,
             post,
             automaticComments,
-            //outboundLink // Removed outboundLink from type definition
         };
         return parsedRoomData;
     }
@@ -158,6 +130,7 @@ export module Rooms {
         const roomData = JSON.parse(rawdata.toString());
         return roomData;
     }
+
     /**
      * 
      * @parameter roomFileName of a room
@@ -184,7 +157,7 @@ export module Rooms {
                 console.error(error.message);
                 throw new Error("Room not found");
             }
-            
+
             console.log(`Loading Room(roomID: ${roomID}, fileName: ${fileName}) for the first time!`);
 
             // set the start time of the room to the current time
@@ -197,11 +170,11 @@ export module Rooms {
 
             // calculate end Time from start time and duration given in minutes
             const endTime = new Date(startTimeTimeStamp + roomData.duration * 60 * 1000);
-            
+
             console.log("endTime", endTime);
             registerEndRoom(roomData.id, endTime);
         }
-        
+
         return rooms[roomID];
     }
 }
