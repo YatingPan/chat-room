@@ -49,6 +49,7 @@ export module Users {
         Logs.appendUser(accessCode, newUser)
         return newUser 
     }
+    
     export const userJoin = async (accessInfo: AccessInfo, id: string) => {
 
         // Check if the user is already logged in with its details

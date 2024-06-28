@@ -1,8 +1,6 @@
 import type { RoomData } from "./room.type"
 import type {ActionsUpdate, Comment, Reply} from "./comment.type";
 
-
-
 export type User = {
     id: string
     name: string
