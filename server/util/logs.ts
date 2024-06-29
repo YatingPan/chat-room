@@ -138,7 +138,7 @@ export module Logs {
             appendTopLevelComment(roomID, gptComment);
 
             // Broadcast the bot message to all users
-            io.to(roomID).emit('broadcastGptResponse', gptComment);
+            io.to(roomID).emit('newComment', gptComment);
         }
     }
 

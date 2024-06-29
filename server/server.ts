@@ -6,7 +6,7 @@ import type {ActionsUpdate, ProposedComment, ProposedReply, Reply, Comment} from
 import { Rooms } from "./util/room.js";
 import { Users } from "./util/users.js";
 import { Chats } from "./util/chat.js";
-import {Logs} from "./util/logs.js";
+import { Logs } from "./util/logs.js";
 
 import cors from 'cors';
 
