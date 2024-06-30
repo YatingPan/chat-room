@@ -18,12 +18,15 @@ export module Rooms {
 
     const registerEndRoom = (roomID, time: Date) => {
         const timetarget = time.getTime();
-        const timenow = new Date().getTime();
+        console.log("timetarget", timetarget)
+        const timenow =  new Date().getTime();
+        console.log("timenow", timenow)
         const offsetmilliseconds = timetarget - timenow;
+        console.log("offsetmilliseconds", offsetmilliseconds)
 
         const end_func = async () => {
             await Logs.writeLog(roomID, 4, 0, 15);
-            await GPT.analyzeLogs(roomID);
+            //await GPT.analyzeLogs(roomID);
             console.log("Final log written and analyzed for room", roomID);
             delete rooms[roomID];
         }
@@ -44,27 +47,28 @@ export module Rooms {
             const res: any[] = [hash, fileName];
             return res;
         }, []);
+        console.log("hash_filename_map", hash_filename_map);
         return hash_filename_map;
     }
 
-    export async function getAssignedChatRoom(roomID: string): Promise<string> {
-        const availableRooms = await getAvailableRooms();
-        const availableRoomMap = availableRooms.find(([hash, fileName]) => hash === roomID);
-        if (availableRoomMap) {
-            const [_, fileName] = availableRoomMap;
-            return fileName;
+    export async function getAssignedChatRoom(roomID: string): Promise<string | undefined> {
+        const availableRooms = await getAvailableRooms()
+        const availableRoomMap = availableRooms.find(([hash, fileName]) => hash === roomID)
+        if(availableRoomMap){
+            const [_, fileName] = availableRoomMap
+            return fileName
         }
-        throw new Error(`Room with ID ${roomID} not found`);
+        return undefined
     }
 
-    async function fileNameLookup(roomFileName: string): Promise<string> {
+    async function fileNameLookup(roomFileName: string): Promise<string | undefined> {
         const availableRooms = await getAvailableRooms();
         const availableRoomMap = availableRooms.find(([hash, fileName]) => fileName === roomFileName);
         if (availableRoomMap) {
             const [hash, _] = availableRoomMap;
             return hash;
         }
-        throw new Error(`Room with filename ${roomFileName} not found`);
+        return undefined; 
     }
 
     const fileNameToHash = (fileName: string) => 
@@ -81,6 +85,7 @@ export module Rooms {
         const id: string = fileNameToHash(fileName);
         const name: string = roomData.roomName;
         const post: Post = await Posts.getPostData(roomData.postName);
+        const botType: string = roomData.botType;
 
         const parsedRoomData: RoomData = {
             id,
@@ -89,7 +94,7 @@ export module Rooms {
             duration,
             post,
             automaticComments,
-            botType: roomData.botType
+            botType
         };
         return parsedRoomData;
     }
@@ -130,7 +135,8 @@ export module Rooms {
 
     export const updateRoomData = async (roomID: string, updatedRoomData: RoomData): Promise<void> => {
         const roomFileName = await getAssignedChatRoom(roomID);
-        const roomFilePath = path.resolve(roomDir, "roomSpecs", roomFileName);
+        //path: server/private/chatPrograms/roomSpecs/prompt_test_1.json
+        const roomFilePath = roomFileName ? path.resolve(roomDir, "roomSpecs", roomFileName) : '';
         const roomDataJSON = JSON.stringify(updatedRoomData, null, 2);
         await fs.promises.writeFile(roomFilePath, roomDataJSON);
         rooms[roomID] = updatedRoomData;
