@@ -2,16 +2,15 @@ import path from "path";
 import fs from 'fs';
 import type { Log, RoomData } from "../../types/room.type";
 import type { BotComment, LoggedComment, Comment, Reply, ActionsUpdate } from "../../types/comment.type";
-import type { UserExtended, User } from "../../types/user.type";
 import moment from "moment";
-import { io } from "../server";
+import { Chats } from "./chat";
+import type { User, UserExtended } from '../../types/user.type';
 
 const __dirname = path.resolve();
 const privateDir = path.join(__dirname, "server", "private");
 const logDir = path.join(privateDir, "chatLogs");
 
 export module Logs {
-
     let logs = {};
     let replies = {};
     let rawReplies: Reply[] = [];
@@ -60,10 +59,11 @@ export module Logs {
             specFileName: specFileName,
             name: roomData.name,
             startTime: roomData.startTime,
-            duration: 15, // 15 minutes
+            duration: 15,
             postTitle: roomData.post.title,
             users: [],
             comments: autoComments,
+            botType: roomData.botType,
         }
         logs[roomID] = newLog;
     }
@@ -83,13 +83,10 @@ export module Logs {
         else
             replies[reply.parentID] = [commentToLoggedComment(reply.comment)];
     }
-
+    
     export const replaceActions = (actionsUpdate: ActionsUpdate) => {
         rawActions.push(actionsUpdate);
-        actions[actionsUpdate.parentCommentID] = {
-            // likes: actionsUpdate.likes,
-            // dislikes: actionsUpdate.dislikes
-        }
+        actions[actionsUpdate.parentCommentID] = {};
     }
 
     const assembleLog = (roomID: string, startTime: number, endTime: number): Log => {
@@ -106,8 +103,6 @@ export module Logs {
                 const reps: LoggedComment[] = replies[comment.id];
                 comment["replies"] = reps?.sort((a: LoggedComment, b: LoggedComment) => a.time < b.time ? -1 : 1);
                 const act = actions[comment.id];
-                // comment["likes"] = act?.likes
-                // comment["dislikes"] = act?.dislikes
                 filteredLog.comments.push(comment);
             }
             return comment;
@@ -115,7 +110,7 @@ export module Logs {
         return filteredLog;
     }
 
-    export const writeLog = async (roomID: string, version: number, startTime: number, endTime: number) => {
+    export const writeLog = async (roomID: string, version: number, startTime: number, endTime: number): Promise<void> => {
         const logData = assembleLog(roomID, startTime, endTime);
         const src_spec = logData.specFileName.split(".")[0];
         const logJSON = JSON.stringify(logData, null, 2);
@@ -124,63 +119,32 @@ export module Logs {
         const formatTime = moment(currentdate).format("D.MM.YYYY-HH:mm");
 
         await fs.promises.writeFile(`${logDir}/${src_spec}_${formatTime}_${version}.log.json`, logJSON);
-
-        // Simulate GPT-4 response
-        const gptResponse = await simulateGptResponse(logData, version);
-        if (gptResponse) {
-            // Append GPT-4 response to the log
-            const gptComment: Comment = {
-                id: Date.now(),  // Ensure unique ID
-                time: new Date(),
-                user: defaultBotUser(gptResponse.botName),
-                content: gptResponse.content,
-            };
-            appendTopLevelComment(roomID, gptComment);
-
-            // Broadcast the bot message to all users
-            io.to(roomID).emit('broadcastGptResponse', gptComment);
-        }
     }
 
     const scheduleLogWrites = (roomID: string) => {
-        setTimeout(() => writeLog(roomID, 1, 0, 4), 4 * 60 * 1000) // From beginning to 4th minute
-        setTimeout(() => writeLog(roomID, 2, 4, 8), 8 * 60 * 1000) // From 4th minute to 8th minute
-        setTimeout(() => writeLog(roomID, 3, 8, 12), 12 * 60 * 1000) // From 8th minute to 12th minute
-        setTimeout(() => writeLog(roomID, 4, 0, 15), 15 * 60 * 1000) // From beginning to 15th minute
+        setTimeout(async () => {
+            await writeLog(roomID, 1, 0, 4);
+        }, 4 * 60 * 1000);      
+
+        setTimeout(async () => {
+            await writeLog(roomID, 2, 4, 8);
+        }, 8 * 60 * 1000);
+        
+        setTimeout(async () => {
+            await writeLog(roomID, 3, 8, 12);
+        }, 12 * 60 * 1000);
+
+        setTimeout(async () => {
+            await writeLog(roomID, 4, 0, 15);
+            console.log("Final log written for room", roomID);
+            delete logs[roomID];
+        }
+        , 15 * 60 * 1000);
     }
 
     export const initLogWithSchedule = (roomID: string, roomData: RoomData, specFileName: string) => {
         initLog(roomID, roomData, specFileName);
+        console.log(`Initialized log for room ${roomID}, room data ${roomData} and spec file name ${specFileName}`);
         scheduleLogWrites(roomID);
     }
-
-    const simulateGptResponse = async (logData: Log, version: number) => {
-        const roomName = logData.name;
-        let botName = '';
-
-        // Determine bot name based on the room name and version
-        const roomNumber = parseInt(roomName.replace('prompt_test_chat_', ''));
-        if ((roomNumber - 1) % 3 === 0) {
-            botName = 'bot';
-        } else if ((roomNumber - 2) % 3 === 0) {
-            botName = 'moderator bot';
-        } else {
-            return null; // For rooms where no GPT response is needed
-        }
-
-        // Simulate a GPT response
-        const missingArgument = `This is a simulated response from ${botName} for version ${version}.`;
-        return {
-            botName,
-            content: missingArgument,
-        };
-    }
-
-    const defaultBotUser = (botName: string): User => ({
-        id: botName,
-        name: botName,
-        prolificPid: 'botProlificPid',
-        sessionId: 'botSessionId',
-        studyId: 'botStudyId',
-    });
 }
