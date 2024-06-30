@@ -3,7 +3,6 @@ import fs from 'fs';
 import type { Log, RoomData } from "../../types/room.type";
 import type { BotComment, LoggedComment, Comment, Reply, ActionsUpdate } from "../../types/comment.type";
 import moment from "moment";
-import { Chats } from "./chat";
 import type { User, UserExtended } from '../../types/user.type';
 
 const __dirname = path.resolve();
