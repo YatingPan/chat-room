@@ -1,4 +1,3 @@
-// import type { Moderation, ModerationType, UnparsedModeration } from "./room.type"
 import type { User } from "./user.type"
 
 // Type of likes for comments
