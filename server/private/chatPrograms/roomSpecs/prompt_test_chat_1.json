@@ -1,25 +1,38 @@
 {
-    "roomName": "the online discussion room",
-    "startTime": "",
-    "postName": "prompt_test_chat.json",
-    "duration": 5,
-    "outboundLink": "",
-    "botType": "moderator bot", 
-    "comments": [
-        {   
-        "botName": "moderator bot",
-        "time": 250,
-        "content": "Wait for gpt response"
+  "id": "8JQe9kW6FIAv9nNXAZI4i16O9MW8PE3TYyqPhyOfOa8%3D",
+  "name": "the online discussion room",
+  "startTime": "2024-06-30T23:23:42.077Z",
+  "duration": 5,
+  "post": {
+    "id": "b%2F2LLJfIBV6XfRyrMbcBBNaCzR1IouE0wAPpvAltV8s%3D",
+    "time": "2024-05-02T18:00:00.000Z",
+    "title": "Artificial Intelligence in healthcare - what do you think?",
+    "lead": "In your opinion, should artificial intelligence (AI) be used in healthcare (e.g., for medical diagnosis, treatment, or patient care)? Discuss this question with others in this group. Express your opinion on the topic, support it with arguments, and respond to the arguments of others. Remember to always be respectful of others and their opinions, even if you disagree with them.",
+    "content": "",
+    "imageName": ""
+  },
+  "automaticComments": [
+    {
+      "id": -1,
+      "time": "2024-06-30T23:27:52.077Z",
+      "botName": "moderator bot",
+      "content": "Error: Unable to analyze log version 1.",
+      "replies": []
     },
-        {
-        "botName": "moderator bot",
-        "time": 500,
-        "content": "Wait for gpt response"
+    {
+      "id": -2,
+      "time": "2024-06-30T23:32:02.077Z",
+      "botName": "moderator bot",
+      "content": "Error: Unable to analyze log version 2.",
+      "replies": []
     },
-        {
-        "botName": "moderator bot",
-        "time": 750,
-        "content": "Wait for gpt response"
+    {
+      "id": -3,
+      "time": "2024-06-30T23:36:12.077Z",
+      "botName": "moderator bot",
+      "content": "Error: Unable to analyze log version 3.",
+      "replies": []
     }
-    ]
+  ],
+  "botType": "moderator bot"
 }
