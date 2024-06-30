@@ -82,20 +82,17 @@ io.on("connection", (socket) => {
 
     if (assignedChatRoom) {
       const room: RoomData = await Rooms.getStaticRoomData(accessInfo.accessCode);
-      const newUser: UserExtended | undefined = await Users.userJoin(accessInfo, socket.id);
-      if (newUser) {
-        // Rest of the code that uses newUser
-      }
+      const newUser: UserExtended = await Users.userJoin(accessInfo, socket.id)
       let fullLog: Log = Logs.returnLog()[room.id];
       let allReplies: Reply[] = Logs.returnRawReplies();
       let actions: ActionsUpdate[] = Logs.returnAction();
       let comments: Comment[] = Logs.returnLog()[room.id].comments;
       const userAssignment: UserAssignment = {
-        room: room,
-        user: newUser,
-        logs: comments,
-        replies: allReplies,
-        actions: actions,
+        "room": room,
+        "user": newUser,
+        "logs": comments,
+        "replies": allReplies,
+        "actions": actions,
       };
 
       socket.join(accessInfo.accessCode);
