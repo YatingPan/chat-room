@@ -9,8 +9,8 @@ import { Logs } from "./logs.js";
 import { GPT } from "./gpt.js";
 
 const __dirname = path.resolve();
-const privateDir = path.join(__dirname, "server", "private");
-const roomDir = path.join(privateDir, "roomSpecs");
+const privateDir = path.join(__dirname, "server", "private")
+const roomDir = path.join(privateDir, "chatPrograms")
 
 export module Rooms {
     let rooms = {};
