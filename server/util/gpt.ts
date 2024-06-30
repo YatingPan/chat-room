@@ -1,8 +1,8 @@
 import axios from 'axios';
 import type { Log } from "../../types/room.type";
 import type { Comment } from "../../types/comment.type";
-import { Logs } from "./logs";
-import { Rooms } from "./room";
+import { Logs } from "./logs.js";
+import { Rooms } from "./room.js";
 
 const GPT_API_URL = 'https://api.openai.com/v1/engines/davinci-codex/completions';
 
