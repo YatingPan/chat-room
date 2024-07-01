@@ -6,7 +6,6 @@ import type { Post, RoomData, UnparsedRoomData } from "../../types/room.type";
 import type { BotComment, Comment, UnparsedBotComment } from "../../types/comment.type.js";
 import { Chats } from "./chat.js";
 import { Logs } from "./logs.js";
-import { GPT } from "./gpt.js";
 
 const __dirname = path.resolve();
 const privateDir = path.join(__dirname, "server", "private")
@@ -111,26 +110,28 @@ export module Rooms {
     }
 
     export const getStaticRoomData = async (roomID: string): Promise<RoomData> => {
-        if (!rooms.hasOwnProperty(roomID)) {
-            let fileName;
-            try {
-                fileName = await getAssignedChatRoom(roomID);
-            } catch (error) {
-                console.error(error.message);
-                throw new Error("Room not found");
-            }
+        if(!rooms.hasOwnProperty(roomID)) {
 
-            const startTimeTimeStamp = Date.now();
-            const roomData: RoomData = await getRoomData(fileName, startTimeTimeStamp);
-            rooms[roomData.id] = roomData;
+            const fileName = await getAssignedChatRoom(roomID)
+            console.log(`Loading Room(roomID: ${roomID}, fileName: ${fileName}) for the first time!`)
 
-            Logs.initLogWithSchedule(roomData.id, roomData, fileName);
+            // set the start time of the room to the current time
+            const startTimeTimeStamp = Date.now()// Date.parse(roomData["startTime"])
 
-            const endTime = new Date(startTimeTimeStamp + roomData.duration * 60 * 1000);
-            registerEndRoom(roomData.id, endTime);
+            const roomData: RoomData = await getRoomData(fileName, startTimeTimeStamp)
+            rooms[roomData.id] = roomData
+
+            Logs.initLog(roomData.id, roomData, fileName)
+
+            // calculate end Time from start time and duration given in minutes
+            const endTime = new Date(startTimeTimeStamp + roomData.duration * 60 * 1000)
+            
+            console.log("endTime", endTime)
+            registerEndRoom(roomData.id, endTime)            
+            //console.log(rooms)
         }
-
-        return rooms[roomID];
+        
+        return rooms[roomID]
     }
 
     export const updateRoomData = async (roomID: string, updatedRoomData: RoomData): Promise<void> => {
