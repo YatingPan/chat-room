@@ -2,7 +2,7 @@ import path from "path";
 import fs from 'fs';
 import crypt from 'crypto';
 import { Posts } from "./post.js";
-import type { Post, RoomData, UnparsedRoomData } from "../../types/room.type";
+import type { Post, RoomData, UnparsedRoomData } from "../../types/room.type.js";
 import type { BotComment, Comment, UnparsedBotComment } from "../../types/comment.type.js";
 import { Chats } from "./chat.js";
 import { Logs } from "./logs.js";
