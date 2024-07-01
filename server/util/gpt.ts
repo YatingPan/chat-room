@@ -34,7 +34,7 @@ export module GPT {
         const commentIndex = version - 1;
         if (roomData.automaticComments[commentIndex]) {
             roomData.automaticComments[commentIndex].content = gptResponse;
-            await Rooms.updateRoomData(roomID, roomData);  // You need to implement this function to update the room data
+            await Rooms.updateRoomData(roomID, roomData);  
         }
     }
 
