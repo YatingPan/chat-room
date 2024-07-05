@@ -1,10 +1,11 @@
 'use strict';
 import type { UserAssignment, AccessInfo, UserExtended } from "../types/user.type";
-import type { ActionsUpdate, ProposedComment, ProposedReply, Reply } from "../types/comment.type";
+import type { ActionsUpdate, ProposedComment, LoggedComment, ProposedReply, Reply } from "../types/comment.type";
 import { Rooms } from "./util/room.js";
 import { Users } from "./util/users.js";
 import { Chats } from "./util/chat.js";
 import { Logs } from "./util/logs.js";
+import { GPT } from "./util/gpt.js";
 
 import cors from 'cors';
 import express from 'express';
@@ -14,6 +15,8 @@ import { Server } from "socket.io";
 import type { RoomData } from "../types/room.type";
 import type { Comment } from "../types/comment.type";
 import type { Log } from "../types/room.type";
+import moment from "moment";
+import fs from 'fs';
 
 const app = express();
 
@@ -75,6 +78,22 @@ io.on("connection", (socket) => {
 
   io.to(socket.id).emit("requestAccessCode");
 
+  // Helper function to convert LoggedComment to Comment
+  function loggedCommentToComment(loggedComment: LoggedComment): Comment {
+    return {
+        id: loggedComment.id,
+        time: new Date(loggedComment.time),
+        user: {
+            id: loggedComment.userName,
+            name: loggedComment.userName,
+            prolificPid: null,
+            sessionId: null,
+            studyId: null
+        },
+        content: loggedComment.content
+      };
+    }
+
   socket.on("accessInfo", async (accessInfo: AccessInfo) => {
     const assignedChatRoom = await Rooms.getAssignedChatRoom(accessInfo.accessCode);
     console.log("accessInfo", accessInfo);
@@ -82,23 +101,29 @@ io.on("connection", (socket) => {
 
     if (assignedChatRoom) {
       const room: RoomData = await Rooms.getStaticRoomData(accessInfo.accessCode);
-      const newUser: UserExtended = await Users.userJoin(accessInfo, socket.id)
+      const newUser: UserExtended = await Users.userJoin(accessInfo, socket.id);
       let fullLog: Log = Logs.returnLog()[room.id];
       let allReplies: Reply[] = Logs.returnRawReplies();
       let actions: ActionsUpdate[] = Logs.returnAction();
-      let comments: Comment[] = Logs.returnLog()[room.id].comments;
+
+      // All comments are now in the comments array directly
+      let comments: Comment[] = fullLog.comments.map(loggedCommentToComment);
+      
       const userAssignment: UserAssignment = {
-        "room": room,
-        "user": newUser,
-        "logs": comments,
-        "replies": allReplies,
-        "actions": actions,
+          "room": room,
+          "user": newUser,
+          "logs": comments,
+          "replies": allReplies,
+          "actions": actions
       };
 
       socket.join(accessInfo.accessCode);
       console.log(userAssignment);
       console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`);
       io.to(socket.id).emit("userAssignment", userAssignment);
+
+      // Schedule GPT responses
+      scheduleGPTResponses(room.id, newUser);
     } else {
       socket.emit("accessDenied", "accessDenied");
     }
@@ -130,3 +155,72 @@ io.on("connection", (socket) => {
     io.emit('userDisconnect', "A user has left the chat");
   });
 });
+
+const scheduleGPTResponses = (roomID: string, user: UserExtended) => {
+  const responsesDir = path.join(__dirname, "private", "gptResponses");
+
+  const getFilenameFromRoomID = (roomID: string): string => {
+    const roomMap: { [key: string]: string } = {
+"7HZLbSsNFN%2F%2F1N6A3U1JcpTA3l%2B38betm5zj0nE3z0M%3D":"pilot_study_1",
+"Q8N4%2B1cOZjA%2FkkrukolWAjeVsBZRYfhLyF1adDA68JE%3D":"pilot_study_10",
+"PUmAwsVscy0ScltUHLSaVDdqcMyFTO9CCsBE%2BTVZnCs%3D":"pilot_study_11",
+"v1pMhoy36jeLU4I2K%2BTbKzgEeoXTIhpLCAu0SJ55gBA%3D":"pilot_study_2",
+"29pEoP6tZniEzXnw%2F9WuVB1hkw4Lg7ohxE%2BRPAg2L2c%3D":"pilot_study_3",
+"Ii%2FAK3nTxjq7%2BZccEwQAKyakXBECM9IgoXZNMtSLk24%3D":"pilot_study_4",
+"pEnD1fTdbkvf%2BKlv2XGq3PdtfetMjOFM%2BcA008jCHk8%3D":"pilot_study_5",
+"xkOuOeDqHGsLoV7fNI%2BIMv%2FyxXopYkjxpbBkbpdEF9o%3D":"pilot_study_6",
+"U8xy3mGLwGInIbaWBXU8E7kafukrpt6tlMhMP19sKtI%3D":"pilot_study_7",
+"NspUu56Kd0cdk6ieCBz4piqbfd4JY6ibP6V4Ff9bM1U%3D":"pilot_study_8",
+"4wIMLmmzEYhA8O1kgqDtMn1StSSJya3gmxU0T7OqQoE%3D":"pilot_study_9",
+"%2FQgAFOcnKEFLgCu%2FfwkYtHNETfy62Fuk%2F%2FpQiw7STMQ%3D":"piolot_study_12",
+    };
+    return roomMap[roomID];
+  };
+
+  const getLatestResponseFile = async (roomID: string, version: number) => {
+    const fileName = getFilenameFromRoomID(roomID);
+    const responseFiles = await fs.promises.readdir(responsesDir);
+
+    const versionFiles = responseFiles
+      .filter(file => file.startsWith(`${fileName}_`) && file.includes(`_v${version}.json`))
+      .map(file => ({
+        file,
+        time: fs.statSync(path.join(responsesDir, file)).mtime
+      }))
+      .sort((a, b) => b.time.getTime() - a.time.getTime()); // Sort by modified time in descending order
+
+    return versionFiles.length > 0 ? versionFiles[0].file : null;
+  };
+
+  const sendGPTResponse = async (roomID: string, version: number, commentIndex: number) => {
+    const responseFile = await getLatestResponseFile(roomID, version);
+    const roomData = await Rooms.getStaticRoomData(roomID);
+
+    if (responseFile) {
+      const responseFilePath = path.join(responsesDir, responseFile);
+      const gptResponses = JSON.parse(await fs.promises.readFile(responseFilePath, 'utf-8'));
+      const responseContent = gptResponses[`second_response_${version}`];
+
+      const comment: ProposedComment = {
+        user: {
+          id: roomData.botType,
+          name: roomData.botType,
+          prolificPid: null,
+          sessionId: null,
+          studyId: null
+        },
+        content: responseContent
+      };
+
+      Chats.broadcastComment(comment, { ...comment.user, user: comment.user, accessCode: user.accessCode } as UserExtended, io);
+      console.log(`Broadcasted GPT response for room ID ${roomID} at version ${version}`);
+    } else {
+      console.error(`GPT response file not found for room ID ${roomID} at version ${version}`);
+    }
+  };
+
+  // Schedule the GPT responses at the defined times
+  setTimeout(() => sendGPTResponse(roomID, 1, 0), 2 * 60 * 1000 + 10 * 1000); // At 2:10
+  setTimeout(() => sendGPTResponse(roomID, 2, 1), 5 * 60 * 1000 + 10 * 1000); // At 5:10
+  setTimeout(() => sendGPTResponse(roomID, 3, 2), 8 * 60 * 1000 + 10 * 1000); // At 8:10
+};

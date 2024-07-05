@@ -80,7 +80,10 @@
           time: new Date(autoComment.time),
           user: {
               id: autoComment.botName,
-              name: autoComment.botName
+              name: autoComment.botName,
+              prolificPid: "null",
+              studyId: "null",
+              sessionId: "null",
           },
           content: autoComment.content,
           //moderation: autoComment.moderation
@@ -95,7 +98,7 @@
       console.log("####Comments after adding",comments)
       if(newComment.user.id === user.user.id) {
           console.log("###Animation since it's my comment")
-          animateScroll.scrollToBottom()
+          //animateScroll.scrollToBottom()
       }
       else{
           n_new_comments++
@@ -146,13 +149,15 @@
 
   const autoSend = (time: Date, callback, ...args) => {
       const timetarget = time.getTime();
-      const timenow =  new Date().getTime();
+      const timenow = new Date().getTime();
       const offsetmilliseconds = timetarget - timenow;
 
-
-      if (offsetmilliseconds > 0) setTimeout(() => callback.apply(this, args), offsetmilliseconds)
-      else callback.apply(this, args)
-  }
+      if (offsetmilliseconds > 0) {
+          setTimeout(() => callback.apply(this, args), offsetmilliseconds);
+      } else {
+          callback.apply(this, args);
+      }
+  };
   
 
   const closeChatRoom = () => {
@@ -185,8 +190,6 @@
               //})
           //}
 
-          // add to set room time as 5 minutes
-          assignedRoom.duration = 5;
           // Calculate the end time accounting for the 10-second wait time to join
           const endTime = new Date(new Date(assignedRoom?.startTime).getTime() + assignedRoom?.duration * 60 * 1000 + 10000)
           //const endTime = new Date(new Date(assignedRoom?.startTime).getTime() + assignedRoom?.duration * 60 * 1000)
@@ -227,7 +230,9 @@
               comms.map((autoComment: BotComment) => {
 
                   const newComment = generateComment(autoComment)
+                  console.log("Generated one comment")
                   autoSend(newComment.time, addComment, newComment)
+
 
                   // register top level comment moderation messages
                   //if(autoComment?.moderation) {

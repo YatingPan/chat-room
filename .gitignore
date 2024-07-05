@@ -4,6 +4,7 @@
 *.map
 *.type.js
 *.log.json
+*.gptResponses.json
 .ssh
 *.js
 *.js.map

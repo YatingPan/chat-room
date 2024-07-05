@@ -58,7 +58,7 @@ export module Logs {
             specFileName: specFileName,
             name: roomData.name,
             startTime: roomData.startTime,
-            duration: 15,
+            duration: roomData.duration,
             postTitle: roomData.post.title,
             users: [],
             comments: autoComments,
@@ -88,7 +88,7 @@ export module Logs {
         actions[actionsUpdate.parentCommentID] = {};
     }
 
-    const assembleLog = (roomID: string, startTime: number, endTime: number): Log => {
+    export const assembleLog = (roomID: string, startTime: number, endTime: number): Log => {
         let fullLog: Log = logs[roomID];
         let filteredLog: Log = {
             ...fullLog,
@@ -122,23 +122,23 @@ export module Logs {
 
     const scheduleLogWrites = (roomID: string) => {
         setTimeout(async () => {
-            await writeLog(roomID, 1, 0, 4);
-        }, 4 * 60 * 1000);      
+            await writeLog(roomID, 1, 0, 2);
+        }, 2 * 60 * 1000);      
 
         setTimeout(async () => {
-            await writeLog(roomID, 2, 4, 8);
-        }, 8 * 60 * 1000);
+            await writeLog(roomID, 2, 2, 5);
+        }, 5 * 60 * 1000);
         
         setTimeout(async () => {
-            await writeLog(roomID, 3, 8, 12);
-        }, 12 * 60 * 1000);
+            await writeLog(roomID, 3, 5, 8);
+        }, 8 * 60 * 1000);
 
         setTimeout(async () => {
-            await writeLog(roomID, 4, 0, 15);
+            await writeLog(roomID, 4, 0, 10);
             console.log("Final log written for room", roomID);
             delete logs[roomID];
         }
-        , 15 * 60 * 1000);
+        , 10 * 60 * 1000);
     }
 
     export const initLogWithSchedule = (roomID: string, roomData: RoomData, specFileName: string) => {

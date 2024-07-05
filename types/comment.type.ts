@@ -56,9 +56,11 @@ export type Reply = {
 }
 
 // Type for comments sent to the server for broadcasting
+  
 export type ProposedComment = {
     user: User
     content: string
+    time?: string
 }
 export type ProposedReply = {
     comment: ProposedComment
