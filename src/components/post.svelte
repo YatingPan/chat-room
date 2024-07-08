@@ -1,50 +1,43 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import  store from "../stores/store";
+    import store from "../stores/store";
     import type { RoomData, Post } from "../../types/room.type";
     import moment from "moment";
     import type { ActionsUpdate } from "../../types/comment.type";
 
-    //const bgImage = "build/Material/images/testImage.jpg"
-    let post: Post = null
-    //let likes: Like[] 
-    //let dislikes: Like[]
-    //$: headerImageURL = `../postImages/${post?.imageName}`
+    let post: Post = null;
     $: headerImageURL = post?.imageName ? `../postImages/${post.imageName}` : null;
 
     onMount(() => {
         store.roomStore.subscribe((assignedRoom: RoomData) => {
-            if(assignedRoom?.post) {
-                post = assignedRoom.post
-                //likes = post?.likes
-                //dislikes = post?.dislikes
+            if (assignedRoom?.post) {
+                post = assignedRoom.post;
             }
-        })
+        });
 
         store.actionsStore.subscribe((actionsUpdate: ActionsUpdate) => {
-            if(actionsUpdate && actionsUpdate.parentCommentID == 0) {
-                //likes = actionsUpdate.likes
-                //dislikes = actionsUpdate.dislikes
+            if (actionsUpdate && actionsUpdate.parentCommentID == 0) {
+                // Update likes and dislikes if needed
             }
-        })
-    })
+        });
+    });
+
     const formatTime = (date: Date): string => {
-        return moment(date).format("HH:mm D.MM.YYYY")
-        //date.toLocaleString('de-DE', {weekday: "long", year: "numeric", month:"numeric", day: "numeric"});
-    }
+        return moment(date).format("HH:mm D.MM.YYYY");
+    };
 </script>
 
 <div class="container">
     <div class="center">
-        <div class="imageContainer has-image" style="background-image: url({headerImageURL});">
-            <!-- Image will only show if headerImageURL is not null -->
-        </div>
+        {#if headerImageURL}
+        <div class="imageContainer" style="background-image: url({headerImageURL});"></div>
+        {/if}
         <div class="metaDataContainer">
-
             <div class="time">
                 <span>{formatTime(post?.time)}</span>
             </div>
             <div class="actionsContainer">
+                <!-- Actions like likes and dislikes can be added here -->
             </div>
         </div>
         <div class="header">
@@ -57,7 +50,7 @@
 
 <style lang="scss">
     @import "src/vars";
-    
+
     .container {
         width: 100%;
 
@@ -70,7 +63,7 @@
         .center {
             display: flex;
             flex-direction: column;
-        
+
             @media (min-width: $mid-bp) {
                 max-width: $mid-bp;
             }
@@ -82,28 +75,17 @@
                 background-position: center center;
                 background-size: cover;
                 background-repeat: no-repeat;
-                // apply conditional styling
-                &.has-image {
-                    height: 40vw;
-                    max-height: 50vh;
-                    margin: 0.5rem 1rem;
 
-                    @media (max-width: $mid-bp) {
-                        height: 12em;
-                        margin: 0;
+                @media (max-width: $mid-bp) {
+                    height: 12em;
+                    margin: 0;
                 }
-                }
-                //@media (max-width: $mid-bp) {
-                //    max-width: none;
-                //    width: 100%;
-                //    height: 12em;
-                //    margin: 0;
-                //}
-                //margin-right: 1em;
-            //}
+            }
+
             .header {
                 margin: 0.5rem 1rem;
             }
+
             .metaDataContainer {
                 margin: 0.5rem 1rem;
                 display: flex;
@@ -117,14 +99,15 @@
                         align-self: center;
                     }
                 }
-                .actionsContainer {
 
+                .actionsContainer {
+                    // Actions styles
                 }
             }
+
             .text {
                 margin: 1em;
             }
         }
     }
-}
 </style>

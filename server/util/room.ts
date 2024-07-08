@@ -116,6 +116,7 @@ export module Rooms {
         const name: string = roomData.roomName;
         const post: Post = await Posts.getPostData(roomData.postName);
         const botType: string = roomData.botType;
+        const outboundLink: string = roomData.outboundLink;
         const parsedRoomData: RoomData = {
             id,
             name,
@@ -124,6 +125,7 @@ export module Rooms {
             post,
             botType,
             automaticComments,
+            outboundLink
         };
         console.log(parsedRoomData);
         return parsedRoomData;

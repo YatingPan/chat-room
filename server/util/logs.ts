@@ -63,6 +63,7 @@ export module Logs {
             users: [],
             comments: autoComments,
             botType: roomData.botType,
+            outboundLink: roomData.outboundLink,
         }
         logs[roomID] = newLog;
     }
@@ -127,11 +128,11 @@ export module Logs {
 
         setTimeout(async () => {
             await writeLog(roomID, 2, 2, 5);
-        }, 5 * 60 * 1000);
+        }, 3 * 60 * 1000);
         
         setTimeout(async () => {
             await writeLog(roomID, 3, 5, 8);
-        }, 8 * 60 * 1000);
+        }, 3 * 60 * 1000);
 
         setTimeout(async () => {
             await writeLog(roomID, 4, 0, 10);

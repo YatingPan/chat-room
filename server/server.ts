@@ -123,10 +123,14 @@ io.on("connection", (socket) => {
       console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`);
       io.to(socket.id).emit("userAssignment", userAssignment);
 
-      // Schedule GPT responses only if this is a new session
-      if (!activeChatSessions.has(room.id)) {
+      console.log("The bot type is", room.botType);
+
+      // Schedule GPT responses only if this is a new session, and the room.botType is "Alex" or "Alex (Moderator)"
+      if (!activeChatSessions.has(room.id) && (room.botType == "Alex" || room.botType == "Alex (Moderator)")) {
         scheduleGPTResponses(room.id, newUser);
+        console.log(`Scheduled GPT responses for room ID ${room.id}`);
         activeChatSessions.set(room.id, Date.now());
+        console.log(`Room ID ${room.id} is now active.`);
 
         // Reset the active session after 10 minutes
         setTimeout(() => {

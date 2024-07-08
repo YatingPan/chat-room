@@ -59,14 +59,20 @@
   //    dislikes[commentID] = updates
   //}
   const addReply = (newReply: Reply) => {
-      if(replies[newReply.parentID])
-          replies[newReply.parentID] = [... replies[newReply.parentID], newReply.comment]
-      else
-          replies[newReply.parentID] = [newReply.comment]
+    if(replies[newReply.parentID])
+        replies[newReply.parentID] = [...replies[newReply.parentID], newReply.comment];
+    else
+        replies[newReply.parentID] = [newReply.comment];
 
-      if(newReply.comment.user.id === user.user.id)
-          animateScroll.scrollTo({element: `.commentCard.id${newReply.comment.id}`})
-  }
+    if(newReply.comment.user.id === user.user.id) {
+        // Using the Intersection Observer to scroll into view without affecting the entire page position
+        const targetElement = document.querySelector(`.commentCard.id${newReply.comment.id}`);
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+};
+
   //const botLikeToLike = (botDislike: BotLike, parentCommentID: number): Like => {
   //    return {
   //        userID: botDislike.botName,
@@ -356,7 +362,6 @@
 </div>
 </div>
 <div class="container">
-
   <div class="center">
       <div class="commentDisplay">
           {#if comments.length == 0}
