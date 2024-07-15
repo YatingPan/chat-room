@@ -33,9 +33,11 @@
         <div class="imageContainer" style="background-image: url({headerImageURL});"></div>
         {/if}
         <div class="metaDataContainer">
+            {#if post?.time}
             <div class="time">
                 <span>{formatTime(post?.time)}</span>
             </div>
+            {/if}
             <div class="actionsContainer">
                 <!-- Actions like likes and dislikes can be added here -->
             </div>
@@ -103,6 +105,17 @@
                 .actionsContainer {
                     // Actions styles
                 }
+            }
+
+            .title {
+                margin: 0.5rem 1rem;
+                text-align: center;
+            }
+
+            .lead {
+                margin: 0.5rem 1rem;
+                font-weight: normal;
+                text-align: justify;  
             }
 
             .text {

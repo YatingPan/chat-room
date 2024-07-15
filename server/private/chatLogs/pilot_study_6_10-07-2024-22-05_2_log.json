@@ -1,0 +1,100 @@
+{
+  "id": "xkOuOeDqHGsLoV7fNI%2BIMv%2FyxXopYkjxpbBkbpdEF9o%3D",
+  "specFileName": "pilot_study_6.json",
+  "name": "the online discussion room",
+  "startTime": "2024-07-10T20:02:43.507Z",
+  "duration": 10,
+  "postTitle": "Artificial Intelligence in healthcare - what do you think?",
+  "users": [
+    {
+      "name": "Davies",
+      "prolificPid": "5ec5a42a646f515ef0e3f68b",
+      "id": "Ij366qP-GdWd6Eg7AAAB",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee86ee1afa7e849c438a5"
+    },
+    {
+      "name": "Haywood",
+      "prolificPid": "6132542039ead71f30971bd6",
+      "id": "wGSNiwMZmd0rAzyFAAAD",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee86b2ae704dbee5ee58a"
+    },
+    {
+      "name": "Trejo",
+      "prolificPid": "5685850c333cbd000d4e042f",
+      "id": "7tv_cYwexeWcZjGhAAAG",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee86e463b8226d704a7bd"
+    },
+    {
+      "name": "Blue",
+      "prolificPid": "63ebaa1bd6a7be6e03b404a0",
+      "id": "2gGnwVwpVa39MeUsAAAH",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee85d4232e8a01d75d627"
+    },
+    {
+      "name": "Ramsey",
+      "prolificPid": "5d537c0cecc84200153075e9",
+      "id": "uQU5-VDmlNRYKwt9AAAJ",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee862608a3d4537e2dc75"
+    }
+  ],
+  "comments": [
+    {
+      "id": 14,
+      "bot": false,
+      "time": "2024-07-10T20:04:45.377Z",
+      "userName": "Davies",
+      "content": "\ndefinitely needs strict security measures and overseeing by a team of humans ",
+      "replies": [
+        {
+          "id": 38,
+          "bot": false,
+          "time": "2024-07-10T20:05:38.951Z",
+          "userName": "Trejo",
+          "content": "I think that's the only way it can be implemented even if the application is just administrative stuff."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "bot": false,
+      "time": "2024-07-10T20:04:51.104Z",
+      "userName": "Haywood",
+      "content": "\nRobotic surgery"
+    },
+    {
+      "id": 25,
+      "bot": false,
+      "time": "2024-07-10T20:05:15.885Z",
+      "userName": "Haywood",
+      "content": "\ndoctor uses the AI to guide the procedure"
+    },
+    {
+      "id": 28,
+      "bot": false,
+      "time": "2024-07-10T20:05:21.836Z",
+      "userName": "Davies",
+      "content": "\nrobotic surgery is an interesting thought, I don't know too much about it but could be useful under the eye of a human "
+    },
+    {
+      "id": 33,
+      "bot": false,
+      "time": "2024-07-10T20:05:31.888Z",
+      "userName": "Ramsey",
+      "content": "I think something to check your medical theory would be good, as it can go over a libery in a few seconds "
+    },
+    {
+      "id": 37,
+      "bot": false,
+      "time": "2024-07-10T20:05:35.774Z",
+      "userName": "Haywood",
+      "content": "\nyes"
+    }
+  ],
+  "botType": "",
+  "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_b1PyMohZBF29UoK"
+}

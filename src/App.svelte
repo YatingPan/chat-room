@@ -35,7 +35,7 @@
     </div>
 
     <footer class="footer">
-        <span>Discussion Room 2021; &copy; University of Zürich </span>
+        <span>Discussion Room 2024; &copy; University of Zürich </span>
     </footer>
    
 </main>

@@ -27,8 +27,6 @@ if (!fs.existsSync(responsesDir)) {
 const getFilenameFromRoomID = (roomID: string): string | undefined => {
     const roomMap: { [key: string]: string } = {
         "7HZLbSsNFN%2F%2F1N6A3U1JcpTA3l%2B38betm5zj0nE3z0M%3D": "pilot_study_1",
-        "Q8N4%2B1cOZjA%2FkkrukolWAjeVsBZRYfhLyF1adDA68JE%3D": "pilot_study_10",
-        "PUmAwsVscy0ScltUHLSaVDdqcMyFTO9CCsBE%2BTVZnCs%3D": "pilot_study_11",
         "v1pMhoy36jeLU4I2K%2BTbKzgEeoXTIhpLCAu0SJ55gBA%3D": "pilot_study_2",
         "29pEoP6tZniEzXnw%2F9WuVB1hkw4Lg7ohxE%2BRPAg2L2c%3D": "pilot_study_3",
         "Ii%2FAK3nTxjq7%2BZccEwQAKyakXBECM9IgoXZNMtSLk24%3D": "pilot_study_4",
@@ -37,7 +35,6 @@ const getFilenameFromRoomID = (roomID: string): string | undefined => {
         "U8xy3mGLwGInIbaWBXU8E7kafukrpt6tlMhMP19sKtI%3D": "pilot_study_7",
         "NspUu56Kd0cdk6ieCBz4piqbfd4JY6ibP6V4Ff9bM1U%3D": "pilot_study_8",
         "4wIMLmmzEYhA8O1kgqDtMn1StSSJya3gmxU0T7OqQoE%3D": "pilot_study_9",
-        "%2FQgAFOcnKEFLgCu%2FfwkYtHNETfy62Fuk%2F%2FpQiw7STMQ%3D": "piolot_study_12",
     };
     return roomMap[roomID];
 };

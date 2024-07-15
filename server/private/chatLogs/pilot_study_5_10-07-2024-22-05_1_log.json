@@ -1,0 +1,104 @@
+{
+  "id": "pEnD1fTdbkvf%2BKlv2XGq3PdtfetMjOFM%2BcA008jCHk8%3D",
+  "specFileName": "pilot_study_5.json",
+  "name": "the online discussion room",
+  "startTime": "2024-07-10T20:03:51.167Z",
+  "duration": 10,
+  "postTitle": "Artificial Intelligence in healthcare - what do you think?",
+  "users": [
+    {
+      "name": "Comer",
+      "prolificPid": "62cd43d66c2dd7ae9ab53ae7",
+      "id": "uORQq-b9gnHNALMbAAAV",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee859869ed492efcfe25d"
+    },
+    {
+      "name": "Bernal",
+      "prolificPid": "656e0dab178ffccdaa47202e",
+      "id": "ko3NkFyxEcCmPFX8AAAX",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee8648047c7cf69bf3d08"
+    },
+    {
+      "name": "Conklin",
+      "prolificPid": "6632990efc58d4414201aa97",
+      "id": "4zGINxr7_wv5508kAAAZ",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee873db6c27a0091af50b"
+    },
+    {
+      "name": "Keene",
+      "prolificPid": "628f827eeb876ed2617881e7",
+      "id": "pyxPewDXw8_xzW12AAAb",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee86c6d75d201bae917ae"
+    },
+    {
+      "name": "Wagner",
+      "prolificPid": "665c989703b2609ce0e958ad",
+      "id": "5W1ARbqWQFpZNAOkAAAd",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee8724232e8a01d75d62c"
+    }
+  ],
+  "comments": [
+    {
+      "id": 16,
+      "bot": false,
+      "time": "2024-07-10T20:04:54.870Z",
+      "userName": "Keene",
+      "content": "Yes, I think AI should be used in the health care industry. It would be so much easier to access your own information online with the help of AI."
+    },
+    {
+      "id": 17,
+      "bot": false,
+      "time": "2024-07-10T20:04:57.002Z",
+      "userName": "Comer",
+      "content": "It would be good to have AI checking MRIs and other scans to double check if the doctor missed anything",
+      "replies": [
+        {
+          "id": 20,
+          "bot": false,
+          "time": "2024-07-10T20:05:09.060Z",
+          "userName": "Keene",
+          "content": "I agree with you."
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "bot": false,
+      "time": "2024-07-10T20:05:12.598Z",
+      "userName": "Bernal",
+      "content": "I think it could be helpful in the early stages to kind of diagnose things but I wouldn't want there to be no human interaction in the later stages",
+      "replies": [
+        {
+          "id": 35,
+          "bot": false,
+          "time": "2024-07-10T20:05:34.057Z",
+          "userName": "Comer",
+          "content": "agreed.  There has to be a human doctor"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "bot": false,
+      "time": "2024-07-10T20:05:32.990Z",
+      "userName": "Wagner",
+      "content": "Depends on what part of healthcare. I think it would be great for administrative tasks, but would not want AI for say Telehealth. I want a real person.   ",
+      "replies": [
+        {
+          "id": 42,
+          "bot": false,
+          "time": "2024-07-10T20:05:45.059Z",
+          "userName": "Bernal",
+          "content": "100"
+        }
+      ]
+    }
+  ],
+  "botType": "Alex",
+  "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_b1PyMohZBF29UoK"
+}

@@ -1,0 +1,63 @@
+{
+  "id": "Ii%2FAK3nTxjq7%2BZccEwQAKyakXBECM9IgoXZNMtSLk24%3D",
+  "specFileName": "pilot_study_4.json",
+  "name": "the online discussion room",
+  "startTime": "2024-07-10T20:12:50.717Z",
+  "duration": 10,
+  "postTitle": "Artificial Intelligence in healthcare - what do you think?",
+  "users": [
+    {
+      "name": "Hubbard",
+      "prolificPid": null,
+      "id": "n0lYbi5ZtXpO30VIAAAR",
+      "studyId": null,
+      "sessionId": null
+    },
+    {
+      "name": "London",
+      "prolificPid": null,
+      "id": "kqa-wwKhg3PJaDeeAAAg",
+      "studyId": null,
+      "sessionId": null
+    },
+    {
+      "name": "Richmond",
+      "prolificPid": null,
+      "id": "A5ccsPDyjBtSU7D2AAAi",
+      "studyId": null,
+      "sessionId": null
+    },
+    {
+      "name": "Shapiro",
+      "prolificPid": null,
+      "id": "7tYLQRqRSLTrvH5lAAAI",
+      "studyId": null,
+      "sessionId": null
+    },
+    {
+      "name": "Finn",
+      "prolificPid": null,
+      "id": "cnWfoJ04rp4scTZjAAA_",
+      "studyId": null,
+      "sessionId": null
+    }
+  ],
+  "comments": [
+    {
+      "id": 59,
+      "bot": false,
+      "time": "2024-07-10T20:15:00.721Z",
+      "userName": "Alex (Moderator)",
+      "content": "Have you considered data privacy? AI can pose significant risks to patient data privacy."
+    },
+    {
+      "id": 65,
+      "bot": false,
+      "time": "2024-07-10T20:15:27.191Z",
+      "userName": "Richmond",
+      "content": "\nThe wide acceptance of AI confuses and worries me at times.  I see people so easily using it without really questioning how it works.  I think in a medical scenario it may cause problems"
+    }
+  ],
+  "botType": "Alex (Moderator)",
+  "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_b1PyMohZBF29UoK"
+}

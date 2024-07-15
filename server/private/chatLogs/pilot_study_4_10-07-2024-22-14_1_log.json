@@ -1,0 +1,95 @@
+{
+  "id": "Ii%2FAK3nTxjq7%2BZccEwQAKyakXBECM9IgoXZNMtSLk24%3D",
+  "specFileName": "pilot_study_4.json",
+  "name": "the online discussion room",
+  "startTime": "2024-07-10T20:12:50.717Z",
+  "duration": 10,
+  "postTitle": "Artificial Intelligence in healthcare - what do you think?",
+  "users": [
+    {
+      "name": "Hubbard",
+      "prolificPid": null,
+      "id": "n0lYbi5ZtXpO30VIAAAR",
+      "studyId": null,
+      "sessionId": null
+    },
+    {
+      "name": "London",
+      "prolificPid": null,
+      "id": "kqa-wwKhg3PJaDeeAAAg",
+      "studyId": null,
+      "sessionId": null
+    },
+    {
+      "name": "Richmond",
+      "prolificPid": null,
+      "id": "A5ccsPDyjBtSU7D2AAAi",
+      "studyId": null,
+      "sessionId": null
+    },
+    {
+      "name": "Shapiro",
+      "prolificPid": null,
+      "id": "7tYLQRqRSLTrvH5lAAAI",
+      "studyId": null,
+      "sessionId": null
+    },
+    {
+      "name": "Finn",
+      "prolificPid": null,
+      "id": "cnWfoJ04rp4scTZjAAA_",
+      "studyId": null,
+      "sessionId": null
+    }
+  ],
+  "comments": [
+    {
+      "id": 9,
+      "bot": false,
+      "time": "2024-07-10T20:13:20.676Z",
+      "userName": "London",
+      "content": "I worked in an ER and cant think of any situation where AI would have helped a patient \n",
+      "replies": [
+        {
+          "id": 36,
+          "bot": false,
+          "time": "2024-07-10T20:13:59.102Z",
+          "userName": "Hubbard",
+          "content": "I can't imagine it being that useful in its current stage for immediate issues, but I can see it being good for analyzing a patient's health and data over a long period of time to find issues."
+        },
+        {
+          "id": 45,
+          "bot": false,
+          "time": "2024-07-10T20:14:29.207Z",
+          "userName": "Richmond",
+          "content": "That's good to know.  I appreciate having the opinion of someone in that's worked in an area that we are discussing"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "bot": false,
+      "time": "2024-07-10T20:13:37.911Z",
+      "userName": "Richmond",
+      "content": "I think it may have it's uses in the future but it shouldn't be the only option.  That a real human doctor should always have the final say",
+      "replies": [
+        {
+          "id": 31,
+          "bot": false,
+          "time": "2024-07-10T20:13:51.024Z",
+          "userName": "London",
+          "content": "agree"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "bot": false,
+      "time": "2024-07-10T20:14:25.817Z",
+      "userName": "Finn",
+      "content": "\nAI is good for early analysis of a person's symptoms and health status, but every person's case is different so it could be good as a tool to help make doctors and nurses more efficient, but not for the actual decisions regarding a person's care which should always be made by the doctors and their patients together."
+    }
+  ],
+  "botType": "Alex (Moderator)",
+  "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_b1PyMohZBF29UoK"
+}

@@ -1,0 +1,226 @@
+{
+  "id": "NspUu56Kd0cdk6ieCBz4piqbfd4JY6ibP6V4Ff9bM1U%3D",
+  "specFileName": "pilot_study_8.json",
+  "name": "the online discussion room",
+  "startTime": "2024-07-10T20:13:09.421Z",
+  "duration": 10,
+  "postTitle": "Artificial Intelligence in healthcare - what do you think?",
+  "users": [
+    {
+      "name": "Humphrey",
+      "prolificPid": "6496f9fbc2928ee6956ef623",
+      "id": "rtJcntart8KUDMbtAABI",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee856333123072d473c3c"
+    },
+    {
+      "name": "Haywood",
+      "prolificPid": "5ea89d0c5a0a9c12978f8263",
+      "id": "HHNhiBnecri5H-OIAABJ",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee8689cdb3025fdbe577b"
+    },
+    {
+      "name": "Timmons",
+      "prolificPid": "657db19ca4e2e63c2eb7296f",
+      "id": "T5Rfkk2G-NanPcs1AABL",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee85f43f4ae83946beb7e"
+    },
+    {
+      "name": "Snell",
+      "prolificPid": "666dbb1357a8cfb6025951df",
+      "id": "cn0iyFy2ELAb9aGoAABN",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee86b335c9acb7c027d6a"
+    },
+    {
+      "name": "Pike",
+      "prolificPid": "66610488829548b15de4c5c1",
+      "id": "ICbeuJtowGNAF1pwAABR",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee98f6181febf811dbd10"
+    }
+  ],
+  "comments": [
+    {
+      "id": 14,
+      "bot": false,
+      "time": "2024-07-10T20:13:30.886Z",
+      "userName": "Haywood",
+      "content": "Hello",
+      "replies": [
+        {
+          "id": 23,
+          "bot": false,
+          "time": "2024-07-10T20:13:37.202Z",
+          "userName": "Snell",
+          "content": "Hey"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "bot": false,
+      "time": "2024-07-10T20:13:36.213Z",
+      "userName": "Timmons",
+      "content": "Hi!"
+    },
+    {
+      "id": 22,
+      "bot": false,
+      "time": "2024-07-10T20:13:36.348Z",
+      "userName": "Humphrey",
+      "content": "Hey"
+    },
+    {
+      "id": 38,
+      "bot": false,
+      "time": "2024-07-10T20:14:02.410Z",
+      "userName": "Timmons",
+      "content": "\nDo you folks believe AI should be used in healthcare?  It already is :)"
+    },
+    {
+      "id": 46,
+      "bot": false,
+      "time": "2024-07-10T20:14:30.723Z",
+      "userName": "Haywood",
+      "content": "\nMaybe as a failsafe or backup to decisions made by medical professionals"
+    },
+    {
+      "id": 63,
+      "bot": false,
+      "time": "2024-07-10T20:15:19.426Z",
+      "userName": "Alex",
+      "content": "Have you considered large data processing? AI can manage and process vast amounts of data more effectively."
+    },
+    {
+      "id": 64,
+      "bot": false,
+      "time": "2024-07-10T20:15:23.371Z",
+      "userName": "Timmons",
+      "content": "I agree, it's how it's being used now.  But eventually AI will be trained on enough data and \"smart\" enough to make decisions autonomously and people will be the backup."
+    },
+    {
+      "id": 67,
+      "bot": false,
+      "time": "2024-07-10T20:15:36.244Z",
+      "userName": "Snell",
+      "content": "I don't think it should be used for writing prescriptions/giving diagnosis. "
+    },
+    {
+      "id": 73,
+      "bot": false,
+      "time": "2024-07-10T20:16:04.648Z",
+      "userName": "Humphrey",
+      "content": "Yes, but in situations where help is needed and there is no other options."
+    },
+    {
+      "id": 77,
+      "bot": false,
+      "time": "2024-07-10T20:16:21.281Z",
+      "userName": "Timmons",
+      "content": "\nI think the AI models that exist now are already trained or being trained on all the medical data that exists."
+    },
+    {
+      "id": 78,
+      "bot": false,
+      "time": "2024-07-10T20:16:22.794Z",
+      "userName": "Pike",
+      "content": "i think AI should be use"
+    },
+    {
+      "id": 79,
+      "bot": false,
+      "time": "2024-07-10T20:16:53.552Z",
+      "userName": "Pike",
+      "content": "\nbecause its makes works easier "
+    },
+    {
+      "id": 80,
+      "bot": false,
+      "time": "2024-07-10T20:17:00.032Z",
+      "userName": "Haywood",
+      "content": "\nI think replacing bedside manner with AI would be a mistake"
+    },
+    {
+      "id": 89,
+      "bot": false,
+      "time": "2024-07-10T20:18:02.315Z",
+      "userName": "Pike",
+      "content": "its not about total replacement but it can aid efficiency "
+    },
+    {
+      "id": 90,
+      "bot": false,
+      "time": "2024-07-10T20:18:15.041Z",
+      "userName": "Timmons",
+      "content": "I don't AI will every replace human interaction.  It will just be the co-pilot/assistant that physicians will rely on to help make decisions."
+    },
+    {
+      "id": 94,
+      "bot": false,
+      "time": "2024-07-10T20:19:11.992Z",
+      "userName": "Timmons",
+      "content": "Would you let a robot perform surgery on you autonomously?"
+    },
+    {
+      "id": 96,
+      "bot": false,
+      "time": "2024-07-10T20:19:14.115Z",
+      "userName": "Pike",
+      "content": "like calculations of infusions "
+    },
+    {
+      "id": 100,
+      "bot": false,
+      "time": "2024-07-10T20:19:53.982Z",
+      "userName": "Haywood",
+      "content": "\nRobot-assisted surgery or fully autonomous robot surgery?"
+    },
+    {
+      "id": 102,
+      "bot": false,
+      "time": "2024-07-10T20:20:27.123Z",
+      "userName": "Timmons",
+      "content": "Fully autonomous, I think we are headed there eventually where a doctor coordinates and monitors."
+    },
+    {
+      "id": 103,
+      "bot": false,
+      "time": "2024-07-10T20:20:44.269Z",
+      "userName": "Haywood",
+      "content": "\nI'd rather have someone with something to lose operate on me"
+    },
+    {
+      "id": 104,
+      "bot": false,
+      "time": "2024-07-10T20:20:45.535Z",
+      "userName": "Pike",
+      "content": "\nthere are some surgical procedures that will require AI assistance"
+    },
+    {
+      "id": 110,
+      "bot": false,
+      "time": "2024-07-10T20:21:53.570Z",
+      "userName": "Pike",
+      "content": "like timmons said its just needs coordination and monitoring "
+    },
+    {
+      "id": 111,
+      "bot": false,
+      "time": "2024-07-10T20:22:42.159Z",
+      "userName": "Timmons",
+      "content": "\nYes, essentially the AI will be trained by doctors.  But eventually it will be able to be autonomous."
+    },
+    {
+      "id": 112,
+      "bot": false,
+      "time": "2024-07-10T20:23:02.956Z",
+      "userName": "Timmons",
+      "content": "Interesting but scary times."
+    }
+  ],
+  "botType": "Alex",
+  "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_b1PyMohZBF29UoK"
+}

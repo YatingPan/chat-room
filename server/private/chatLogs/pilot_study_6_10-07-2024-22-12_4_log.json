@@ -1,0 +1,355 @@
+{
+  "id": "xkOuOeDqHGsLoV7fNI%2BIMv%2FyxXopYkjxpbBkbpdEF9o%3D",
+  "specFileName": "pilot_study_6.json",
+  "name": "the online discussion room",
+  "startTime": "2024-07-10T20:02:43.507Z",
+  "duration": 10,
+  "postTitle": "Artificial Intelligence in healthcare - what do you think?",
+  "users": [
+    {
+      "name": "Davies",
+      "prolificPid": "5ec5a42a646f515ef0e3f68b",
+      "id": "Ij366qP-GdWd6Eg7AAAB",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee86ee1afa7e849c438a5"
+    },
+    {
+      "name": "Haywood",
+      "prolificPid": "6132542039ead71f30971bd6",
+      "id": "wGSNiwMZmd0rAzyFAAAD",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee86b2ae704dbee5ee58a"
+    },
+    {
+      "name": "Trejo",
+      "prolificPid": "5685850c333cbd000d4e042f",
+      "id": "7tv_cYwexeWcZjGhAAAG",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee86e463b8226d704a7bd"
+    },
+    {
+      "name": "Blue",
+      "prolificPid": "63ebaa1bd6a7be6e03b404a0",
+      "id": "2gGnwVwpVa39MeUsAAAH",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee85d4232e8a01d75d627"
+    },
+    {
+      "name": "Ramsey",
+      "prolificPid": "5d537c0cecc84200153075e9",
+      "id": "uQU5-VDmlNRYKwt9AAAJ",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee862608a3d4537e2dc75"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "bot": false,
+      "time": "2024-07-10T20:03:04.658Z",
+      "userName": "Davies",
+      "content": "hi all ",
+      "replies": [
+        {
+          "id": 4,
+          "bot": false,
+          "time": "2024-07-10T20:03:19.015Z",
+          "userName": "Haywood",
+          "content": "All"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "bot": false,
+      "time": "2024-07-10T20:03:09.505Z",
+      "userName": "Trejo",
+      "content": "Hello everybody"
+    },
+    {
+      "id": 3,
+      "bot": false,
+      "time": "2024-07-10T20:03:15.521Z",
+      "userName": "Ramsey",
+      "content": "hello"
+    },
+    {
+      "id": 5,
+      "bot": false,
+      "time": "2024-07-10T20:03:22.094Z",
+      "userName": "Blue",
+      "content": "Hi"
+    },
+    {
+      "id": 6,
+      "bot": false,
+      "time": "2024-07-10T20:04:03.115Z",
+      "userName": "Haywood",
+      "content": "Should be used for certain things such as routine adminthings - storing information; recording information; etc."
+    },
+    {
+      "id": 7,
+      "bot": false,
+      "time": "2024-07-10T20:04:06.100Z",
+      "userName": "Davies",
+      "content": "\nI would say AI could be used for manual and more administrative tasks in healthcare like billing or appointment confirmations but not much beyond that ",
+      "replies": [
+        {
+          "id": 12,
+          "bot": false,
+          "time": "2024-07-10T20:04:30.095Z",
+          "userName": "Haywood",
+          "content": "what about surgery?"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "bot": false,
+      "time": "2024-07-10T20:04:06.936Z",
+      "userName": "Trejo",
+      "content": "\nSo, I personally think AI should be used in healthcare, but with the oversight of human professionals. Thoughts?"
+    },
+    {
+      "id": 14,
+      "bot": false,
+      "time": "2024-07-10T20:04:45.377Z",
+      "userName": "Davies",
+      "content": "\ndefinitely needs strict security measures and overseeing by a team of humans ",
+      "replies": [
+        {
+          "id": 38,
+          "bot": false,
+          "time": "2024-07-10T20:05:38.951Z",
+          "userName": "Trejo",
+          "content": "I think that's the only way it can be implemented even if the application is just administrative stuff."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "bot": false,
+      "time": "2024-07-10T20:04:51.104Z",
+      "userName": "Haywood",
+      "content": "\nRobotic surgery"
+    },
+    {
+      "id": 25,
+      "bot": false,
+      "time": "2024-07-10T20:05:15.885Z",
+      "userName": "Haywood",
+      "content": "\ndoctor uses the AI to guide the procedure"
+    },
+    {
+      "id": 28,
+      "bot": false,
+      "time": "2024-07-10T20:05:21.836Z",
+      "userName": "Davies",
+      "content": "\nrobotic surgery is an interesting thought, I don't know too much about it but could be useful under the eye of a human "
+    },
+    {
+      "id": 33,
+      "bot": false,
+      "time": "2024-07-10T20:05:31.888Z",
+      "userName": "Ramsey",
+      "content": "I think something to check your medical theory would be good, as it can go over a libery in a few seconds "
+    },
+    {
+      "id": 37,
+      "bot": false,
+      "time": "2024-07-10T20:05:35.774Z",
+      "userName": "Haywood",
+      "content": "\nyes"
+    },
+    {
+      "id": 40,
+      "bot": false,
+      "time": "2024-07-10T20:05:43.698Z",
+      "userName": "Blue",
+      "content": "I believe that AI should be used in healthcare to a limited extent. I think it can help medical professionals with patient intake and other administrative duties. "
+    },
+    {
+      "id": 49,
+      "bot": false,
+      "time": "2024-07-10T20:06:02.792Z",
+      "userName": "Ramsey",
+      "content": "\nthey use it now for small incisions "
+    },
+    {
+      "id": 53,
+      "bot": false,
+      "time": "2024-07-10T20:06:20.014Z",
+      "userName": "Haywood",
+      "content": "it will be used more and more as time passes"
+    },
+    {
+      "id": 61,
+      "bot": false,
+      "time": "2024-07-10T20:06:34.553Z",
+      "userName": "Trejo",
+      "content": "\nUsing robots in surgery isn't new, but they're controlled by people as of right now as far as I'm aware"
+    },
+    {
+      "id": 65,
+      "bot": false,
+      "time": "2024-07-10T20:06:45.924Z",
+      "userName": "Ramsey",
+      "content": "\nlike back surgeries, but its just for one or two cuts "
+    },
+    {
+      "id": 79,
+      "bot": false,
+      "time": "2024-07-10T20:07:15.495Z",
+      "userName": "Haywood",
+      "content": "more involved surgeries will happen in time ; especially brain surgery",
+      "replies": [
+        {
+          "id": 154,
+          "bot": false,
+          "time": "2024-07-10T20:10:45.315Z",
+          "userName": "Blue",
+          "content": "\nI would not trust an AI to touch my brain."
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "bot": false,
+      "time": "2024-07-10T20:07:17.781Z",
+      "userName": "Trejo",
+      "content": "\nThe technology will probably get to a point where it can do full surgeries on its own without much or any human intervention"
+    },
+    {
+      "id": 85,
+      "bot": false,
+      "time": "2024-07-10T20:07:31.023Z",
+      "userName": "Haywood",
+      "content": "\nexactly"
+    },
+    {
+      "id": 98,
+      "bot": false,
+      "time": "2024-07-10T20:08:09.632Z",
+      "userName": "Ramsey",
+      "content": "\nsadly when people say robot surgeon they think of the one from Fallout. For sure, its not ready yet"
+    },
+    {
+      "id": 106,
+      "bot": false,
+      "time": "2024-07-10T20:08:29.635Z",
+      "userName": "Haywood",
+      "content": "will take time but it will happen"
+    },
+    {
+      "id": 110,
+      "bot": false,
+      "time": "2024-07-10T20:08:38.304Z",
+      "userName": "Davies",
+      "content": "\nin my personal experience it can sometimes be tough finding the right department to track down if you have a question, so AI could be helpful when it comes to customer service and pulling up records etc. "
+    },
+    {
+      "id": 117,
+      "bot": false,
+      "time": "2024-07-10T20:08:59.689Z",
+      "userName": "Haywood",
+      "content": "yes - storing medical info\n"
+    },
+    {
+      "id": 122,
+      "bot": false,
+      "time": "2024-07-10T20:09:22.774Z",
+      "userName": "Haywood",
+      "content": "\ntransmitting it to a hospital or doctor"
+    },
+    {
+      "id": 134,
+      "bot": false,
+      "time": "2024-07-10T20:09:46.841Z",
+      "userName": "Blue",
+      "content": "I can understand how some might think AI can be useful in surgeries since they may offer more precision and lower chance of mistakes when it comes to normal, routine operations. However, there is a human element to performing surgeries, like risk assessment or taking a different action for safety reasons during the procedure that an AI may not be able to assess. ",
+      "replies": [
+        {
+          "id": 146,
+          "bot": false,
+          "time": "2024-07-10T20:10:28.125Z",
+          "userName": "Haywood",
+          "content": "in time this will be resolved"
+        },
+        {
+          "id": 167,
+          "bot": false,
+          "time": "2024-07-10T20:11:10.286Z",
+          "userName": "Trejo",
+          "content": "I agree with Haywood. It'll probably get most of the kinks worked out of it in time."
+        }
+      ]
+    },
+    {
+      "id": 142,
+      "bot": false,
+      "time": "2024-07-10T20:10:01.256Z",
+      "userName": "Trejo",
+      "content": "I think one downside to the technology is with AI being such a new thing, healthcare companies would have to decide when it's good enough to be used on patients. That kind of worries me, but I'm sure most companies would be responsible with the implementation."
+    },
+    {
+      "id": 162,
+      "bot": false,
+      "time": "2024-07-10T20:11:00.994Z",
+      "userName": "Haywood",
+      "content": "\nwill be like autonomous cars- will only work when everyone accepts it "
+    },
+    {
+      "id": 174,
+      "bot": false,
+      "time": "2024-07-10T20:11:30.698Z",
+      "userName": "Ramsey",
+      "content": "\nthat and companies are itching to replace people for cheap AI",
+      "replies": [
+        {
+          "id": 192,
+          "bot": false,
+          "time": "2024-07-10T20:12:18.525Z",
+          "userName": "Trejo",
+          "content": "Another downside. Human staffing in hospitals would be cut even more. I'm still for AI in healthcare, but hopefully it doesn't replace a lot of human jobs."
+        }
+      ]
+    },
+    {
+      "id": 187,
+      "bot": false,
+      "time": "2024-07-10T20:12:03.725Z",
+      "userName": "Haywood",
+      "content": "\nsome jobs will be lost - no doubt but others will be created as well"
+    },
+    {
+      "id": 189,
+      "bot": false,
+      "time": "2024-07-10T20:12:05.647Z",
+      "userName": "Blue",
+      "content": "What if there is an error in the AI system or a technical issue? It seems dangerous to solely rely on AI. "
+    },
+    {
+      "id": 193,
+      "bot": false,
+      "time": "2024-07-10T20:12:19.028Z",
+      "userName": "Davies",
+      "content": "\nI wonder if patients could be given a choice, like a form of do you consent to AI being used in the procedure or no "
+    },
+    {
+      "id": 195,
+      "bot": false,
+      "time": "2024-07-10T20:12:23.745Z",
+      "userName": "Haywood",
+      "content": "\neven humans make mistakes"
+    },
+    {
+      "id": 204,
+      "bot": false,
+      "time": "2024-07-10T20:12:42.583Z",
+      "userName": "Blue",
+      "content": "\nYes, but we can hold humans accountable through malpractice lawsuits."
+    }
+  ],
+  "botType": "",
+  "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_b1PyMohZBF29UoK"
+}

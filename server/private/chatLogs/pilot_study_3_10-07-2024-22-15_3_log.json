@@ -1,0 +1,48 @@
+{
+  "id": "29pEoP6tZniEzXnw%2F9WuVB1hkw4Lg7ohxE%2BRPAg2L2c%3D",
+  "specFileName": "pilot_study_3.json",
+  "name": "the online discussion room",
+  "startTime": "2024-07-10T20:12:50.202Z",
+  "duration": 10,
+  "postTitle": "Artificial Intelligence in healthcare - what do you think?",
+  "users": [
+    {
+      "name": "Ramsey",
+      "prolificPid": null,
+      "id": "Wpg767ts1EMw_vrgAAAJ",
+      "studyId": null,
+      "sessionId": null
+    },
+    {
+      "name": "Mayo",
+      "prolificPid": null,
+      "id": "Y8Ff0jRBQIOQIMToAAAP",
+      "studyId": null,
+      "sessionId": null
+    },
+    {
+      "name": "Dobson",
+      "prolificPid": null,
+      "id": "gAJ38XGUGXZncn6nAAAN",
+      "studyId": null,
+      "sessionId": null
+    },
+    {
+      "name": "Puckett",
+      "prolificPid": null,
+      "id": "I4IJmiZ4jICCriUDAAAl",
+      "studyId": null,
+      "sessionId": null
+    },
+    {
+      "name": "Kerr",
+      "prolificPid": null,
+      "id": "vN7gMzpCcwJdIqt1AABF",
+      "studyId": null,
+      "sessionId": null
+    }
+  ],
+  "comments": [],
+  "botType": "",
+  "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_b1PyMohZBF29UoK"
+}

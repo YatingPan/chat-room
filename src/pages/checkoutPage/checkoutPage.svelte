@@ -1,54 +1,35 @@
 <script lang="ts">
     import type { RoomData } from "../../../types/room.type";
     import type { UserExtended } from "../../../types/user.type";
-	import { Router, Link, Route, navigate } from "svelte-routing";
     import { onMount } from "svelte";
     import store from "../../stores/store";
-    import moment from "moment";
 
-    // export let url = "";
     let user: UserExtended;
     let room: RoomData;
-    let startTime, endTime, surveyLink
-    
-    onMount(() => {
+    let surveyLink: string;
 
-        //navigate(surveyLink, {replace: true})
+    onMount(() => {
         store.userStore.subscribe((userData: UserExtended) => {
-            user = userData
-        })
+            user = userData;
+        });
 
         store.roomStore.subscribe((roomData: RoomData) => {
-            if(roomData) {
-                room = roomData
-                console.log(room)
-                startTime = new Date(room.startTime)
-                console.log(startTime)
-                endTime = new Date(startTime.getTime() + room.duration * 60 * 1000)
+            if (roomData) {
+                room = roomData;
+                const startTime = new Date(room.startTime);
+                const endTime = new Date(startTime.getTime() + room.duration * 60 * 1000);
+                surveyLink = `${room.outboundLink}?PROLIFIC_PID=${user?.user?.prolificPid}&STUDY_ID=${user?.user?.studyId}&SESSION_ID=${user?.user?.sessionId}`;
+
+                // Redirect immediately
+                window.location.href = surveyLink;
             }
-        })
-
-        //surveyLink = `${room.outboundLink}?&roomId=${user.accessCode}&prolificPid=${user?.user?.prolificPid}&sessionId=${user?.user?.sessionId}&studyId=${user?.user?.studyId}`;
-        surveyLink = `${room.outboundLink}?PROLIFIC_PID=${user?.user?.prolificPid}&STUDY_ID=${user?.user?.studyId}&SESSION_ID=${user?.user?.sessionId}`;
-    })
-    const formatTime = (date: Date): string => {
-        return moment(date).format("D.MM.YYYY, HH:mm")
-        //date.toLocaleString('de-DE', {weekday: "long", year: "numeric", month:"numeric", day: "numeric"});
-    }
-
+        });
+    });
 </script>
 
 <svelte:head>
     <title>Checkout</title>
 </svelte:head>
-
-
-<div class="container">
-    <h1>Experiment ended at: {formatTime(endTime)}</h1>
-    <p>
-        Thank you for your participation, we will now review your submission and you will hear from us within max. 10 business days.
-    </p>
-</div>
 
 <style lang="scss">
     @import "src/vars";

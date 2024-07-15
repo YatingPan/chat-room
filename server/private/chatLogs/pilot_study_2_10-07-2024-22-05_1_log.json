@@ -1,0 +1,107 @@
+{
+  "id": "v1pMhoy36jeLU4I2K%2BTbKzgEeoXTIhpLCAu0SJ55gBA%3D",
+  "specFileName": "pilot_study_2.json",
+  "name": "the online discussion room",
+  "startTime": "2024-07-10T20:03:45.228Z",
+  "duration": 10,
+  "postTitle": "Artificial Intelligence in healthcare - what do you think?",
+  "users": [
+    {
+      "name": "Shapiro",
+      "prolificPid": "654bc148c95bca00d541ec33",
+      "id": "I11CGsZOWr762sHtAAAL",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee870bc2ae7eae4f065b9"
+    },
+    {
+      "name": "Lujan",
+      "prolificPid": "630cc9747cb664e8a03c29f0",
+      "id": "T2MegMUFcgfaXmiAAAAN",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee8681411a6cf4ff9fa12"
+    },
+    {
+      "name": "Dotson",
+      "prolificPid": "5a6eac90d5d4cb0001d6815a",
+      "id": "zoybIqA2s1HDRr66AAAP",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee861ecd51115ede95660"
+    },
+    {
+      "name": "Mcelroy",
+      "prolificPid": "5fb5ef0ab61b9e02d5752768",
+      "id": "du3TSVufPGtSq5v7AAAR",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee86666fdb7a4b2b4b851"
+    },
+    {
+      "name": "Woodruff",
+      "prolificPid": "60fe3a34f7f4d5e48ad56af2",
+      "id": "mtji4hFm6HW-wPt6AAAT",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee86f1aeffb4f65900b00"
+    }
+  ],
+  "comments": [
+    {
+      "id": 9,
+      "bot": false,
+      "time": "2024-07-10T20:04:10.523Z",
+      "userName": "Mcelroy",
+      "content": "Hows, it going ?",
+      "replies": [
+        {
+          "id": 10,
+          "bot": false,
+          "time": "2024-07-10T20:04:19.982Z",
+          "userName": "Shapiro",
+          "content": "fine"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "bot": false,
+      "time": "2024-07-10T20:04:22.876Z",
+      "userName": "Dotson",
+      "content": "Hello"
+    },
+    {
+      "id": 13,
+      "bot": false,
+      "time": "2024-07-10T20:04:33.702Z",
+      "userName": "Lujan",
+      "content": "I believe the value of AI in healthcare is entirely dependent on its efficacy."
+    },
+    {
+      "id": 19,
+      "bot": false,
+      "time": "2024-07-10T20:05:08.547Z",
+      "userName": "Woodruff",
+      "content": "I think kit would be good only for minor things"
+    },
+    {
+      "id": 22,
+      "bot": false,
+      "time": "2024-07-10T20:05:13.115Z",
+      "userName": "Lujan",
+      "content": "\nI know there are some studies that show AI can better diagnose certain conditions from scans than doctors, in these cases there is probably a lot of value in utilizing AI."
+    },
+    {
+      "id": 24,
+      "bot": false,
+      "time": "2024-07-10T20:05:14.840Z",
+      "userName": "Shapiro",
+      "content": "i think ai in healthcare would be awesome"
+    },
+    {
+      "id": 32,
+      "bot": false,
+      "time": "2024-07-10T20:05:30.710Z",
+      "userName": "Mcelroy",
+      "content": "\nMy problem with AI is i feel like it might take jobs away in an already terrible economy."
+    }
+  ],
+  "botType": "Alex",
+  "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_b1PyMohZBF29UoK"
+}

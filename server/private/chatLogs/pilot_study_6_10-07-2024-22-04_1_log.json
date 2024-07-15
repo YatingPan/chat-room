@@ -1,0 +1,116 @@
+{
+  "id": "xkOuOeDqHGsLoV7fNI%2BIMv%2FyxXopYkjxpbBkbpdEF9o%3D",
+  "specFileName": "pilot_study_6.json",
+  "name": "the online discussion room",
+  "startTime": "2024-07-10T20:02:43.507Z",
+  "duration": 10,
+  "postTitle": "Artificial Intelligence in healthcare - what do you think?",
+  "users": [
+    {
+      "name": "Davies",
+      "prolificPid": "5ec5a42a646f515ef0e3f68b",
+      "id": "Ij366qP-GdWd6Eg7AAAB",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee86ee1afa7e849c438a5"
+    },
+    {
+      "name": "Haywood",
+      "prolificPid": "6132542039ead71f30971bd6",
+      "id": "wGSNiwMZmd0rAzyFAAAD",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee86b2ae704dbee5ee58a"
+    },
+    {
+      "name": "Trejo",
+      "prolificPid": "5685850c333cbd000d4e042f",
+      "id": "7tv_cYwexeWcZjGhAAAG",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee86e463b8226d704a7bd"
+    },
+    {
+      "name": "Blue",
+      "prolificPid": "63ebaa1bd6a7be6e03b404a0",
+      "id": "2gGnwVwpVa39MeUsAAAH",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee85d4232e8a01d75d627"
+    },
+    {
+      "name": "Ramsey",
+      "prolificPid": "5d537c0cecc84200153075e9",
+      "id": "uQU5-VDmlNRYKwt9AAAJ",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee862608a3d4537e2dc75"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "bot": false,
+      "time": "2024-07-10T20:03:04.658Z",
+      "userName": "Davies",
+      "content": "hi all ",
+      "replies": [
+        {
+          "id": 4,
+          "bot": false,
+          "time": "2024-07-10T20:03:19.015Z",
+          "userName": "Haywood",
+          "content": "All"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "bot": false,
+      "time": "2024-07-10T20:03:09.505Z",
+      "userName": "Trejo",
+      "content": "Hello everybody"
+    },
+    {
+      "id": 3,
+      "bot": false,
+      "time": "2024-07-10T20:03:15.521Z",
+      "userName": "Ramsey",
+      "content": "hello"
+    },
+    {
+      "id": 5,
+      "bot": false,
+      "time": "2024-07-10T20:03:22.094Z",
+      "userName": "Blue",
+      "content": "Hi"
+    },
+    {
+      "id": 6,
+      "bot": false,
+      "time": "2024-07-10T20:04:03.115Z",
+      "userName": "Haywood",
+      "content": "Should be used for certain things such as routine adminthings - storing information; recording information; etc."
+    },
+    {
+      "id": 7,
+      "bot": false,
+      "time": "2024-07-10T20:04:06.100Z",
+      "userName": "Davies",
+      "content": "\nI would say AI could be used for manual and more administrative tasks in healthcare like billing or appointment confirmations but not much beyond that ",
+      "replies": [
+        {
+          "id": 12,
+          "bot": false,
+          "time": "2024-07-10T20:04:30.095Z",
+          "userName": "Haywood",
+          "content": "what about surgery?"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "bot": false,
+      "time": "2024-07-10T20:04:06.936Z",
+      "userName": "Trejo",
+      "content": "\nSo, I personally think AI should be used in healthcare, but with the oversight of human professionals. Thoughts?"
+    }
+  ],
+  "botType": "",
+  "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_b1PyMohZBF29UoK"
+}

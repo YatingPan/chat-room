@@ -39,8 +39,6 @@ const publicDir = path.join(__dirname, "../public");
 console.log(publicDir);
 const privateDir = path.join(__dirname, "private");
 
-const activeChatSessions = new Map();
-
 app.use(express.static(publicDir));
 
 // Page to display the available chatroom access links
@@ -97,51 +95,49 @@ io.on("connection", (socket) => {
     }
 
     socket.on("accessInfo", async (accessInfo) => {
-      const assignedChatRoom = await Rooms.getAssignedChatRoom(accessInfo.accessCode);
-      console.log("accessInfo", accessInfo);
-      console.log("assignedChatRoom", assignedChatRoom);
+      try {
+        const assignedChatRoom = await Rooms.getAssignedChatRoom(accessInfo.accessCode);
+        console.log("accessInfo", accessInfo);
+        console.log("assignedChatRoom", assignedChatRoom);
 
-    if (assignedChatRoom) {
-      const room = await Rooms.getStaticRoomData(accessInfo.accessCode);
-      const newUser = await Users.userJoin(accessInfo, socket.id);
-      let fullLog = Logs.returnLog()[room.id];
-      let allReplies = Logs.returnRawReplies();
-      let actions = Logs.returnAction();
+        if (assignedChatRoom) {
+          const room = await Rooms.getStaticRoomData(accessInfo.accessCode);
+          const newUser = await Users.userJoin(accessInfo, socket.id);
+          let fullLog = Logs.returnLog()[room.id] || { comments: [] };
+          let allReplies = Logs.returnRawReplies();
+          let actions = Logs.returnAction();
 
-      let comments = fullLog.comments.map(loggedCommentToComment);
+          let comments = fullLog.comments.map(loggedCommentToComment);
 
-      const userAssignment = {
-        room,
-        user: newUser,
-        logs: comments,
-        replies: allReplies,
-        actions: actions
-      };
+          const userAssignment = {
+            room,
+            user: newUser,
+            logs: comments,
+            replies: allReplies,
+            actions: actions
+          };
 
-      socket.join(accessInfo.accessCode);
-      console.log(userAssignment);
-      console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`);
-      io.to(socket.id).emit("userAssignment", userAssignment);
+          socket.join(accessInfo.accessCode);
+          console.log(userAssignment);
+          console.log(`${newUser.user.name} with id ${newUser.user.id} has joined the chatroom: ${assignedChatRoom}`);
+          io.to(socket.id).emit("userAssignment", userAssignment);
 
-      console.log("The bot type is", room.botType);
+          console.log("The bot type is", room.botType);
 
-      // Schedule GPT responses only if this is a new session, and the room.botType is "Alex" or "Alex (Moderator)"
-      if (!activeChatSessions.has(room.id) && (room.botType == "Alex" || room.botType == "Alex (Moderator)")) {
-        scheduleGPTResponses(room.id, newUser);
-        console.log(`Scheduled GPT responses for room ID ${room.id}`);
-        activeChatSessions.set(room.id, Date.now());
-        console.log(`Room ID ${room.id} is now active.`);
-
-        // Reset the active session after 10 minutes
-        setTimeout(() => {
-          activeChatSessions.delete(room.id);
-          console.log(`Room ID ${room.id} is now available for a new session.`);
-        }, 10 * 60 * 1000);
+          // Schedule GPT responses only if the room.botType is "Alex" or "Alex (Moderator)"
+          if (room.botType == "Alex" || room.botType == "Alex (Moderator)") {
+            scheduleGPTResponses(room.id, newUser);
+            console.log(`Scheduled GPT responses for room ID ${room.id}`);
+          }else{
+          socket.emit("accessDenied", "accessDenied");
+          }
+        }
+      } catch (error) {
+        console.error(error);
+        socket.emit("accessDenied", "accessDenied");
       }
-    } else {
-      socket.emit("accessDenied", "accessDenied");
     }
-  });
+  );
 
   socket.on("broadcastComment", (proposedComment) => {
     const sendingUser = Users.getUserFromID(proposedComment.user.id);
@@ -177,8 +173,6 @@ const scheduleGPTResponses = (roomID, user) => {
   const getFilenameFromRoomID = (roomID) => {
     const roomMap = {
       "7HZLbSsNFN%2F%2F1N6A3U1JcpTA3l%2B38betm5zj0nE3z0M%3D": "pilot_study_1",
-      "Q8N4%2B1cOZjA%2FkkrukolWAjeVsBZRYfhLyF1adDA68JE%3D": "pilot_study_10",
-      "PUmAwsVscy0ScltUHLSaVDdqcMyFTO9CCsBE%2BTVZnCs%3D": "pilot_study_11",
       "v1pMhoy36jeLU4I2K%2BTbKzgEeoXTIhpLCAu0SJ55gBA%3D": "pilot_study_2",
       "29pEoP6tZniEzXnw%2F9WuVB1hkw4Lg7ohxE%2BRPAg2L2c%3D": "pilot_study_3",
       "Ii%2FAK3nTxjq7%2BZccEwQAKyakXBECM9IgoXZNMtSLk24%3D": "pilot_study_4",
@@ -187,7 +181,6 @@ const scheduleGPTResponses = (roomID, user) => {
       "U8xy3mGLwGInIbaWBXU8E7kafukrpt6tlMhMP19sKtI%3D": "pilot_study_7",
       "NspUu56Kd0cdk6ieCBz4piqbfd4JY6ibP6V4Ff9bM1U%3D": "pilot_study_8",
       "4wIMLmmzEYhA8O1kgqDtMn1StSSJya3gmxU0T7OqQoE%3D": "pilot_study_9",
-      "%2FQgAFOcnKEFLgCu%2FfwkYtHNETfy62Fuk%2F%2FpQiw7STMQ%3D": "piolot_study_12",
     };
     return roomMap[roomID];
   };

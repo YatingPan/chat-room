@@ -1,41 +1,33 @@
 <script lang="ts">
     import moment from "moment";
     
-    import type { Comment} from "../../types/comment.type"
-    import CommentComponent from "./comment.svelte"
-    import SendCommentComponent from "./sendCommentComponent.svelte"
+    import type { Comment } from "../../types/comment.type";
+    import CommentComponent from "./comment.svelte";
+    import SendCommentComponent from "./sendCommentComponent.svelte";
 
-    export let comment: Comment
-    export let myComment: Boolean = false
-    export let replies: Comment[] = []
-    //export let likes: {}
-    //export let dislikes: {}
-    export let isTopLevelComment: Boolean = true
-    let showReplyInput: Boolean = false
-    //export let flagged: Boolean = false
-    //$: thisCommentLikes = likes[comment.id] ? likes[comment.id] : []
-    //$: thisCommentDislikes = dislikes[comment.id] ? dislikes[comment.id] : []
+    export let comment: Comment;
+    export let myComment: Boolean = false;
+    export let replies: Comment[] = [];
+    export let isTopLevelComment: Boolean = true;
+    let showReplyInput: Boolean = false;
 
-    const formatTime = (date: Date): string => moment(date).format("D.MM.YYYY, HH:mm")
+    const formatTime = (date: Date): string => moment(date).format("D.MM.YYYY, HH:mm");
+    const isModerator = (userName: string): boolean => userName.includes("Moderator");
+
     console.log(JSON.stringify(comment, null, 4));
 </script>
 
-{#if comment.removed}
 <article class="commentCard id{comment?.id}" class:myComment={myComment}>
-    <div class="commentContainer {comment?.removed === true ? 'removed' : ''}"
-    >
+    <div class="commentContainer {comment?.removed === true ? 'removed' : ''}">
         <header class="CommentCard_header">
             <div class="userInfo">
-                <h2 class="userName">{comment?.user?.name}</h2>
+                <h2 class="userName {isModerator(comment?.user?.name) ? 'moderatorName' : ''}">{comment?.user?.name}</h2>
                 <h3 class="time">{formatTime(comment?.time)}</h3>
             </div>
         </header>
         {#if !comment?.removed}
             <p class="text">{comment?.content}</p>
         {/if}
-
-        {#if comment?.removed}
-        {/if} 
     </div>
     <div class="actionsContainer">
         <div class="reply-button" class:showReplyButton={isTopLevelComment}>
@@ -57,38 +49,6 @@
         </div>
     {/if}
 </article>
-{:else}
-<article class="commentCard id{comment?.id}" class:myComment={myComment}>
-    <div class="commentContainer">
-        <header class="CommentCard_header">
-            <div class="userInfo">
-                <h2 class="userName">{comment?.user?.name}</h2>
-                <h3 class="time">{formatTime(comment?.time)}</h3>
-            </div>
-        </header>
-        <p class="text">{comment?.content}</p>
-    </div>
-    <div class="actionsContainer">
-        <div class="reply-button" class:showReplyButton={isTopLevelComment}>
-            <button on:click="{() => showReplyInput = !showReplyInput}">
-                <span>Reply</span>
-            </button>
-        </div>
-    </div>
-    {#if showReplyInput}
-        <div class="reply-input">
-            <SendCommentComponent parentID={comment.id} isReply={true} bind:showReplyInput={showReplyInput}/>
-        </div>
-    {/if}
-    {#if replies}  
-        <div class="repliesContainer" class:showReplies={replies}> 
-            {#each replies as reply, i}
-                <CommentComponent comment={reply} replies={[]} isTopLevelComment={false}/>
-            {/each}
-        </div>
-    {/if}
-</article>
-{/if}
 
 <style lang="scss">
     @import "src/vars";
@@ -96,14 +56,6 @@
     @keyframes newComment {
         from { background: rgb(179, 179, 179)}
         to   { background: white}
-    }
-
-    // .commentCard:last-of-type {
-    //     border-bottom: .0625rem solid rgba(0,0,0,.15);
-    // }
-    
-    .signature {
-        font-size-adjust: 0.1;
     }
 
     .commentCard {
@@ -128,6 +80,9 @@
                     font-weight: 400;
                     font-size: small;
                     margin: 0;
+                }
+                .userName.moderatorName {
+                    color: #cc5500;
                 }
             }
         }

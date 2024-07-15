@@ -1,0 +1,84 @@
+{
+  "id": "Ii%2FAK3nTxjq7%2BZccEwQAKyakXBECM9IgoXZNMtSLk24%3D",
+  "specFileName": "pilot_study_4.json",
+  "name": "the online discussion room",
+  "startTime": "2024-07-10T20:10:32.971Z",
+  "duration": 10,
+  "postTitle": "Artificial Intelligence in healthcare - what do you think?",
+  "users": [
+    {
+      "name": "Hamm",
+      "prolificPid": "5f4a7a00dc1bde60ab8f7ac5",
+      "id": "HCxBvO3bYQ4FyFIDAABB",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee867a0deeb3fb92eb7e4"
+    },
+    {
+      "name": "Finn",
+      "prolificPid": "5c3c1617f5ebd500018596cb",
+      "id": "w_VzGZ5YoH-VIYNFAABD",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee85f703366ed9d31d789"
+    },
+    {
+      "name": "Pike",
+      "prolificPid": "5c0b388b9c7b1100015ab55f",
+      "id": "-D1vqw61NGiLIwYKAABF",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee85b91ca75d643686717"
+    },
+    {
+      "name": "McBride",
+      "prolificPid": "5d3221b8eb6cfa0001950113",
+      "id": "6aHD6_EWm1YR_htAAABH",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee86f59741d809b8dc431"
+    },
+    {
+      "name": "Bravo",
+      "prolificPid": "65429041aa9bde9216c53dc2",
+      "id": "nyktSxSm9OkjUIPUAABN",
+      "studyId": "668cf429e81923a8ead043a0",
+      "sessionId": "668ee869758a6f7bfeb2a968"
+    }
+  ],
+  "comments": [
+    {
+      "id": 170,
+      "bot": false,
+      "time": "2024-07-10T20:11:20.066Z",
+      "userName": "Hamm",
+      "content": "Hello all, I personally think that AI definitely has a usage in health care, but more so as a supplementary tool. At least at the current stage."
+    },
+    {
+      "id": 177,
+      "bot": false,
+      "time": "2024-07-10T20:11:48.154Z",
+      "userName": "Finn",
+      "content": "AI has its benefits for any industry, but needs to be kept in check to prevent displacing job availability."
+    },
+    {
+      "id": 184,
+      "bot": false,
+      "time": "2024-07-10T20:11:59.715Z",
+      "userName": "McBride",
+      "content": "I think that there is a place for it, but it shouldn't be used as a crutch.  That the final word should always be a human doctor and their patient. "
+    },
+    {
+      "id": 190,
+      "bot": false,
+      "time": "2024-07-10T20:12:06.021Z",
+      "userName": "Pike",
+      "content": "I think most situations require a physician or medical professional to determine if you need treatment and AI cant do a physical check up"
+    },
+    {
+      "id": 197,
+      "bot": false,
+      "time": "2024-07-10T20:12:30.016Z",
+      "userName": "Hamm",
+      "content": "It's definitely been proven to be useful in identifying cases that humans might overlook, but it's still learning. Once it builds upon its database and has a nigh 100% accuracy rate, then I would be interested in increasing its authority."
+    }
+  ],
+  "botType": "Alex (Moderator)",
+  "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_b1PyMohZBF29UoK"
+}
