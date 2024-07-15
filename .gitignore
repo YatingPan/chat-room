@@ -4,7 +4,7 @@
 *.map
 *.type.js
 *.log.json
-*.gptResponses.json
+/srv/chat-room/server/private/gptResponses
 .ssh
 *.js
 *.js.map
