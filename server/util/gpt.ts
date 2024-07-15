@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import moment from 'moment';
 import dotenv from 'dotenv';
+import { Rooms } from './room.js'; // Importing the Rooms module
 
 // Load environment variables from .env file
 dotenv.config();
@@ -22,22 +23,6 @@ if (!OPENAI_API_KEY) {
 if (!fs.existsSync(responsesDir)) {
     fs.mkdirSync(responsesDir);
 }
-
-// Mapping function
-const getFilenameFromRoomID = (roomID: string): string | undefined => {
-    const roomMap: { [key: string]: string } = {
-        "7HZLbSsNFN%2F%2F1N6A3U1JcpTA3l%2B38betm5zj0nE3z0M%3D": "pilot_study_1",
-        "v1pMhoy36jeLU4I2K%2BTbKzgEeoXTIhpLCAu0SJ55gBA%3D": "pilot_study_2",
-        "29pEoP6tZniEzXnw%2F9WuVB1hkw4Lg7ohxE%2BRPAg2L2c%3D": "pilot_study_3",
-        "Ii%2FAK3nTxjq7%2BZccEwQAKyakXBECM9IgoXZNMtSLk24%3D": "pilot_study_4",
-        "pEnD1fTdbkvf%2BKlv2XGq3PdtfetMjOFM%2BcA008jCHk8%3D": "pilot_study_5",
-        "xkOuOeDqHGsLoV7fNI%2BIMv%2FyxXopYkjxpbBkbpdEF9o%3D": "pilot_study_6",
-        "U8xy3mGLwGInIbaWBXU8E7kafukrpt6tlMhMP19sKtI%3D": "pilot_study_7",
-        "NspUu56Kd0cdk6ieCBz4piqbfd4JY6ibP6V4Ff9bM1U%3D": "pilot_study_8",
-        "4wIMLmmzEYhA8O1kgqDtMn1StSSJya3gmxU0T7OqQoE%3D": "pilot_study_9",
-    };
-    return roomMap[roomID];
-};
 
 interface LogData {
     postTitle: string;
@@ -70,58 +55,63 @@ const sendToGPT = async (messages: { role: string, content: string }[]): Promise
 };
 
 const saveGPTResponses = async (roomID: string, version: number, gptResponses: any): Promise<void> => {
-    const fileName = getFilenameFromRoomID(roomID);
-    if (!fileName) {
-        throw new Error(`No filename found for room ID: ${roomID}`);
+    try {
+        const fileName = await Rooms.getAssignedChatRoom(roomID);
+        const currentDate = new Date();
+        const formatTime = moment(currentDate).format("D.MM.YYYY-HH:mm");
+        const responseFilePath = path.join(responsesDir, `${fileName}_${formatTime}_v${version}.json`);
+        await fs.promises.writeFile(responseFilePath, JSON.stringify(gptResponses, null, 2));
+        console.log(`GPT responses saved for room ID ${roomID} version ${version}`);
+    } catch (error) {
+        console.error(`Error saving GPT responses for room ID ${roomID} version ${version}: ${error.message}`);
     }
-    const currentDate = new Date();
-    const formatTime = moment(currentDate).format("D.MM.YYYY-HH:mm");
-    const responseFilePath = path.join(responsesDir, `${fileName}_${formatTime}_v${version}.json`);
-    await fs.promises.writeFile(responseFilePath, JSON.stringify(gptResponses, null, 2));
-    console.log(`GPT responses saved for room ID ${roomID} version ${version}`);
 };
 
 const processLogAndSendToGPT = async (roomID: string, version: number, startTime: number, endTime: number, previousArguments: Set<string>, gptResponses: any, argumentsList: string[]): Promise<void> => {
-    const logData = Logs.assembleLog(roomID, startTime, endTime);
-    const preprocessedLog = preprocessLog(logData);
+    try {
+        const logData = Logs.assembleLog(roomID, startTime, endTime);
+        const preprocessedLog = preprocessLog(logData);
 
-    const userMessage = {
-        role: "user",
-        content: `Here is the log data from ${startTime}:00 to ${endTime}:00:\n${preprocessedLog}\n\nHere is the list of arguments with brief explanation:\n${argumentsList.join(', ')}\n\nYour tasks are:
-- Identify and list all the arguments in the list that mentioned in the current log using <arguments_mentioned>arguments mentioned here</arguments_mentioned>, separating arguments with commas. If no arguments are mentioned, use <arguments_mentioned>None</arguments_mentioned>.
-- Identify and list all the arguments in the list that are not mentioned from the beginning to the current log using <arguments_not>arguments not mentioned here</arguments_not>, separating arguments with commas.
-- Pick one of the missing arguments from the list of arguments not mentioned, and insert it into "Have you considered [selected_missing_argument]?" with the brief explanation of the argument from the list. Don't add any special characters or punctuation around the argument.`
-    };
+        const userMessage = {
+            role: "user",
+            content: `Here is the log data from ${startTime}:00 to ${endTime}:00:\n${preprocessedLog}\n\nHere is the list of arguments with brief explanation:\n${argumentsList.join(', ')}\n\nYour tasks are:
+        - Identify and list all the arguments in the list that mentioned in the current log using <arguments_mentioned>arguments mentioned here</arguments_mentioned>, separating arguments with commas. If no arguments are mentioned, use <arguments_mentioned>None</arguments_mentioned>.
+        - Identify and list all the arguments in the list that are not mentioned from the beginning to the current log using <arguments_not>arguments not mentioned here</arguments_not>, separating arguments with commas.
+        - Pick one of the missing arguments from the list of arguments not mentioned, and insert it into "Have you considered [selected_missing_argument]?" with the brief explanation of the argument from the list. Don't add any special characters or punctuation around the argument.`
+        };
 
-    const messages = [
-        { role: "system", content: "You are an ArgumentBot for democratic discussions about AI applications in medicine and health." },
-        userMessage
-    ];
+        const messages = [
+            { role: "system", content: "You are an ArgumentBot for democratic discussions about AI applications in medicine and health." },
+            userMessage
+        ];
 
-    const response = await sendToGPT(messages);
-    console.log(`GPT response for room ID ${roomID} at log version ${version}: `, response);
+        const response = await sendToGPT(messages);
+        console.log(`GPT response for room ID ${roomID} at log version ${version}: `, response);
 
-    const mentionedMatch = response.match(/<arguments_mentioned>(.*?)<\/arguments_mentioned>/);
-    const notMentionedMatch = response.match(/<arguments_not>(.*?)<\/arguments_not>/);
-    const selectedArgumentMatch = response.match(/(Have you considered.*)$/);
+        const mentionedMatch = response.match(/<arguments_mentioned>(.*?)<\/arguments_mentioned>/);
+        const notMentionedMatch = response.match(/<arguments_not>(.*?)<\/arguments_not>/);
+        const selectedArgumentMatch = response.match(/(Have you considered.*)$/);
 
-    if (mentionedMatch) {
-        const mentionedArguments = mentionedMatch[1].trim().split(',').map(arg => arg.trim());
-        mentionedArguments.forEach(arg => previousArguments.add(arg));
-        gptResponses[`arguments_mentioned_for_log_${version}`] = mentionedMatch[1].trim();
+        if (mentionedMatch) {
+            const mentionedArguments = mentionedMatch[1].trim().split(',').map(arg => arg.trim());
+            mentionedArguments.forEach(arg => previousArguments.add(arg));
+            gptResponses[`arguments_mentioned_for_log_${version}`] = mentionedMatch[1].trim();
+        }
+
+        if (notMentionedMatch) {
+            gptResponses[`arguments_not_mentioned_for_log_${version}`] = notMentionedMatch[1].trim();
+        }
+
+        if (selectedArgumentMatch) {
+            const selectedArgument = selectedArgumentMatch[1].trim().replace(/\*\*/g, '').replace(/\.\.\./g, '');
+            gptResponses[`selected_missing_argument_for_log_${version}`] = selectedArgument;
+            previousArguments.add(selectedArgument);
+        }
+
+        await saveGPTResponses(roomID, version, gptResponses);
+    } catch (error) {
+        console.error(`Error processing log and sending to GPT for room ${roomID} at version ${version}: ${error.message}`);
     }
-
-    if (notMentionedMatch) {
-        gptResponses[`arguments_not_mentioned_for_log_${version}`] = notMentionedMatch[1].trim();
-    }
-
-    if (selectedArgumentMatch) {
-        const selectedArgument = selectedArgumentMatch[1].trim().replace(/\*\*/g, '').replace(/\.\.\./g, '');
-        gptResponses[`selected_missing_argument_for_log_${version}`] = selectedArgument;
-        previousArguments.add(selectedArgument);
-    }
-
-    await saveGPTResponses(roomID, version, gptResponses);
 };
 
 const updateArgumentsList = (argumentsList: string[], previousArguments: Set<string>): string[] => {
@@ -132,7 +122,7 @@ const updateArgumentsList = (argumentsList: string[], previousArguments: Set<str
 };
 
 export namespace GPT {
-    export const scheduleGPTCalls = (roomID: string): void => {
+    export const scheduleGPTCalls = (roomID: string, io: any, sendGPTResponse: (roomID: string, version: number, io: any) => void): void => {
         const previousArguments = new Set<string>();
         const gptResponses: any = {};
 
@@ -178,20 +168,35 @@ export namespace GPT {
         ];
 
         setTimeout(async () => {
-            await processLogAndSendToGPT(roomID, 1, 0, 2, previousArguments, gptResponses, argumentsList);
-            argumentsList = updateArgumentsList(argumentsList, previousArguments);
-            console.log("Scheduled GPT call 1 with arguments: ", argumentsList);
+            try {
+                await processLogAndSendToGPT(roomID, 1, 0, 2, previousArguments, gptResponses, argumentsList);
+                argumentsList = updateArgumentsList(argumentsList, previousArguments);
+                await sendGPTResponse(roomID, 1, io); // Broadcast the GPT response
+                console.log("Scheduled GPT call 1 with arguments: ", argumentsList);
+            } catch (error) {
+                console.error(`Error scheduling GPT call 1 for room ${roomID}: ${error.message}`);
+            }
         }, 2 * 60 * 1000 + 3 * 1000); // At 2:03
 
         setTimeout(async () => {
-            await processLogAndSendToGPT(roomID, 2, 2, 5, previousArguments, gptResponses, argumentsList);
-            argumentsList = updateArgumentsList(argumentsList, previousArguments);
-            console.log("Scheduled GPT call 2 with arguments: ", argumentsList);
+            try {
+                await processLogAndSendToGPT(roomID, 2, 2, 5, previousArguments, gptResponses, argumentsList);
+                argumentsList = updateArgumentsList(argumentsList, previousArguments);
+                await sendGPTResponse(roomID, 2, io); // Broadcast the GPT response
+                console.log("Scheduled GPT call 2 with arguments: ", argumentsList);
+            } catch (error) {
+                console.error(`Error scheduling GPT call 2 for room ${roomID}: ${error.message}`);
+            }
         }, 5 * 60 * 1000 + 3 * 1000); // At 5:03
 
         setTimeout(async () => {
-            await processLogAndSendToGPT(roomID, 3, 5, 8, previousArguments, gptResponses, argumentsList);
-            console.log("Scheduled GPT call 3 with arguments: ", argumentsList);
+            try {
+                await processLogAndSendToGPT(roomID, 3, 5, 8, previousArguments, gptResponses, argumentsList);
+                await sendGPTResponse(roomID, 3, io); // Broadcast the GPT response
+                console.log("Scheduled GPT call 3 with arguments: ", argumentsList);
+            } catch (error) {
+                console.error(`Error scheduling GPT call 3 for room ${roomID}: ${error.message}`);
+            }
         }, 8 * 60 * 1000 + 3 * 1000); // At 8:03
     };
 }

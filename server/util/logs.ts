@@ -31,7 +31,7 @@ export module Logs {
     const commentToLoggedComment = (comment: Comment): LoggedComment => {
         const loggedComment: LoggedComment = {
             id: comment.id,
-            bot: false,
+            bot: comment.user.name === "Alex" || comment.user.name === "Alex (Moderator)",
             time: comment.time,
             userName: comment.user.name,
             content: comment.content,
@@ -69,10 +69,18 @@ export module Logs {
     }
 
     export const appendTopLevelComment = (roomID: string, comment: Comment) => {
+        if (!logs[roomID]) {
+            console.error(`Log for roomID ${roomID} not found when appending top level comment.`);
+            return;
+        }
         logs[roomID].comments.push(commentToLoggedComment(comment));
     }
 
     export const appendUser = (roomID: string, user: UserExtended) => {
+        if (!logs[roomID]) {
+            console.error(`Log for roomID ${roomID} not found when appending user.`);
+            return;
+        }
         logs[roomID].users.push(user.user);
     }
 
@@ -90,7 +98,11 @@ export module Logs {
     }
 
     export const assembleLog = (roomID: string, startTime: number, endTime: number): Log => {
-        let fullLog: Log = logs[roomID];
+        const fullLog: Log = logs[roomID];
+        if (!fullLog) {
+            throw new Error(`Log for roomID ${roomID} not found.`);
+        }
+
         let filteredLog: Log = {
             ...fullLog,
             comments: [],
@@ -111,14 +123,18 @@ export module Logs {
     }
 
     export const writeLog = async (roomID: string, version: number, startTime: number, endTime: number): Promise<void> => {
-        const logData = assembleLog(roomID, startTime, endTime);
-        const src_spec = logData.specFileName.split(".")[0];
-        const logJSON = JSON.stringify(logData, null, 2);
+        try {
+            const logData = assembleLog(roomID, startTime, endTime);
+            const src_spec = logData.specFileName.split(".")[0];
+            const logJSON = JSON.stringify(logData, null, 2);
 
-        const currentdate = new Date();
-        const formatTime = moment(currentdate).format("D.MM.YYYY-HH:mm");
+            const currentdate = new Date();
+            const formatTime = moment(currentdate).format("D.MM.YYYY-HH:mm");
 
-        await fs.promises.writeFile(`${logDir}/${src_spec}_${formatTime}_${version}.log.json`, logJSON);
+            await fs.promises.writeFile(`${logDir}/${src_spec}_${formatTime}_${version}.log.json`, logJSON);
+        } catch (error) {
+            console.error(`Error writing log for roomID ${roomID}: ${error.message}`);
+        }
     }
 
     const scheduleLogWrites = (roomID: string) => {
@@ -128,23 +144,26 @@ export module Logs {
 
         setTimeout(async () => {
             await writeLog(roomID, 2, 2, 5);
-        }, 3 * 60 * 1000);
+        }, 5 * 60 * 1000);
         
         setTimeout(async () => {
             await writeLog(roomID, 3, 5, 8);
-        }, 3 * 60 * 1000);
+        }, 8 * 60 * 1000);
 
         setTimeout(async () => {
             await writeLog(roomID, 4, 0, 10);
             console.log("Final log written for room", roomID);
             delete logs[roomID];
-        }
-        , 10 * 60 * 1000);
+        }, 10 * 60 * 1000);
     }
 
     export const initLogWithSchedule = (roomID: string, roomData: RoomData, specFileName: string) => {
-        initLog(roomID, roomData, specFileName);
-        console.log(`Initialized log for room ${roomID}, room data ${roomData} and spec file name ${specFileName}`);
-        scheduleLogWrites(roomID);
+        try {
+            initLog(roomID, roomData, specFileName);
+            console.log(`Initialized log for room ${roomID}, room data ${roomData} and spec file name ${specFileName}`);
+            scheduleLogWrites(roomID);
+        } catch (error) {
+            console.error(`Failed to initialize log for room ${roomID}: ${error.message}`);
+        }
     }
 }

@@ -7,9 +7,11 @@ import type { BotComment, Comment, UnparsedBotComment } from "../../types/commen
 import { Chats } from "./chat.js";
 import { Logs } from "./logs.js";
 import { GPT } from "./gpt.js";
+import moment from "moment";
 
 const __dirname = path.resolve();
 const privateDir = path.join(__dirname, "server", "private");
+const responsesDir = path.join(privateDir, "gptResponses");
 const roomDir = path.join(privateDir, "chatPrograms");
 
 export module Rooms {
@@ -26,9 +28,13 @@ export module Rooms {
         console.log("offsetmilliseconds", offsetmilliseconds);
 
         const end_func = async () => {
-            await Logs.writeLog(roomID, 4, 0, 10);  // Final log from beginning to 15th minute
-            console.log("start writing log for room", roomID);
-            delete rooms[roomID];
+            try {
+                await Logs.writeLog(roomID, 4, 0, 10);  // Final log from beginning to 15th minute
+                console.log("start writing log for room", roomID);
+                delete rooms[roomID];
+            } catch (error) {
+                console.error(`Failed to write final log for room ${roomID}: ${error.message}`);
+            }
         }
 
         if (offsetmilliseconds > 0) {
@@ -38,17 +44,7 @@ export module Rooms {
         }
     }
 
-    /**
-     * Used for Access checks
-     * Access is granted if the access Code is equal to the sha265 hash of a filename in the chatPrograms directory
-     * 
-     * 
-     * @returns Returns an array of tuples (arrays) that maps from hash to fileNames and back
-     * 
-     */
     export async function getAvailableRooms(): Promise<any[]> {
-        // only read the room spec file list the first time this function gets called.
-        // if spec files added -> need to restart the chatroom
         if (!(roomSpecFiles.length > 0)) {
             roomSpecFiles = await fs.promises.readdir(path.resolve(roomDir, "roomSpecs"));
         }
@@ -61,12 +57,6 @@ export module Rooms {
         return hash_filename_map;
     }
 
-    /**
-     * The roomID argument is the sha256 hash of the file name of the room spec file
-     * 
-     * @param roomID: string
-     * @returns Returns a promise of the fileName if there is a chat room specfile who's hash is equal to the roomID
-     */
     export async function getAssignedChatRoom(roomID: string): Promise<string> {
         console.log(`getAssignedChatRoom called with roomID: ${roomID}`); // Debugging line
         const availableRooms = await getAvailableRooms();
@@ -78,11 +68,6 @@ export module Rooms {
         throw new Error(`Room with ID ${roomID} not found`);
     }
 
-    /**
-     * 
-     * @param roomFileName 
-     * @returns a promise of the hash of the roomSpecFile name given the roomFileName
-     */
     async function fileNameLookup(roomFileName: string): Promise<string> {
         const availableRooms = await getAvailableRooms();
         const availableRoomMap = availableRooms.find(([hash, fileName]) => fileName === roomFileName);
@@ -98,15 +83,7 @@ export module Rooms {
             .update(fileName)
             .digest('base64'));
 
-    /**
-     * 
-     * @param roomData is an object of unparsed, raw room data
-     * @param fileName is the file name this data has originated from
-     * @param startTimeStamp is the time stamp at which this room should be started
-     * @returns returns a promise of the parsed room data
-     */
     const parseRoomData = async (roomData: UnparsedRoomData, fileName: string, startTimeStamp: number): Promise<RoomData> => {
-        // The duration of the room experiment in minutes
         const duration = roomData.duration;
         const automaticComments: BotComment[] = 
             roomData.comments.map( (comment: UnparsedBotComment): BotComment => {
@@ -137,24 +114,68 @@ export module Rooms {
         return roomData;
     }
 
-    /**
-     * 
-     * @parameter roomFileName of a room
-     * @parameter start time is the time stamp at which the room should start
-     * @returns A parsed room Object
-     */
     const getRoomData = async (roomFileName: string, startTime: number) : Promise<RoomData> => {
         const unparsedRoomData: UnparsedRoomData = await getRawRoomData(roomFileName);
         return parseRoomData(unparsedRoomData, roomFileName, startTime);
     }
 
-    /**
-     * If there exists a room spec file with the corresponding hash (roomID) it will parse the file and return the RoomData object
-     * where the time is set to this first call to the function.
-     * 
-     * @param roomID the sha256 hash of the file name of the room spec file
-     */
-    export const getStaticRoomData = async (roomID: string): Promise<RoomData> => {
+    const sendGPTResponse = async (roomID: string, version: number, io: any) => {
+        try {
+            const responseFile = await getLatestResponseFile(roomID, version);
+            const roomData = await getStaticRoomData(roomID, io);
+
+            if (responseFile) {
+                const responseFilePath = path.join(responsesDir, responseFile);
+                const gptResponses = JSON.parse(await fs.promises.readFile(responseFilePath, 'utf-8'));
+                const responseContent = gptResponses[`selected_missing_argument_for_log_${version}`];
+                console.log(`GPT response for room ID ${roomID} at version ${version}: ${responseContent}`);
+
+                const comment = {
+                    user: {
+                        id: roomData.botType,
+                        name: roomData.botType,
+                        prolificPid: null,
+                        sessionId: null,
+                        studyId: null
+                    },
+                    content: responseContent
+                };
+
+                Chats.broadcastComment(comment, { ...comment.user, user: comment.user, accessCode: roomID }, io);
+                console.log(`Broadcasted GPT response for room ID ${roomID} at version ${version}`);
+            } else {
+                console.error(`GPT response file not found for room ID ${roomID} at version ${version}`);
+            }
+        } catch (error) {
+            console.error(`Failed to send GPT response for room ${roomID} at version ${version}: ${error.message}`);
+        }
+    };
+
+    const getLatestResponseFile = async (roomID: string, version: number) => {
+        const availableRooms = await getAvailableRooms();
+        const availableRoomMap = availableRooms.find(([hash, fileName]) => hash === roomID);
+        if (!availableRoomMap) {
+            throw new Error(`Room with ID ${roomID} not found`);
+        }
+        const [_, fileName] = availableRoomMap;
+        
+        const responseFiles = await fs.promises.readdir(responsesDir);
+
+        const versionFiles = responseFiles
+            .filter(file => file.startsWith(`${fileName}_`) && file.includes(`_v${version}.json`))
+            .map(file => {
+                const match = file.match(/_(\d+\.\d+\.\d+-\d+:\d+)_v\d+\.json$/);
+                return {
+                    file,
+                    time: match ? moment(match[1], "D.MM.YYYY-HH:mm").toDate() : new Date(0)
+                };
+            })
+            .sort((a, b) => b.time.getTime() - a.time.getTime());
+
+        return versionFiles.length > 0 ? versionFiles[0].file : null;
+    };
+
+    export const getStaticRoomData = async (roomID: string, io: any): Promise<RoomData> => {
         if (!rooms.hasOwnProperty(roomID)) {
             let fileName;
             try {
@@ -166,20 +187,21 @@ export module Rooms {
 
             console.log(`Loading Room(roomID: ${roomID}, fileName: ${fileName}) for the first time!`);
 
-            // set the start time of the room to the current time
             const startTimeTimeStamp = Date.now();
 
             const roomData: RoomData = await getRoomData(fileName, startTimeTimeStamp);
             rooms[roomData.id] = roomData;
 
-            Logs.initLogWithSchedule(roomData.id, roomData, fileName);
-
-            // Conditionally call GPT.scheduleGPTCalls based on botType
-            if (roomData.botType === "Alex (Moderator)" || roomData.botType === "Alex") {
-                GPT.scheduleGPTCalls(roomData.id);
+            try {
+                Logs.initLogWithSchedule(roomData.id, roomData, fileName);
+            } catch (error) {
+                console.error(`Failed to initialize log with schedule for room ${roomData.id}: ${error.message}`);
             }
 
-            // calculate end Time from start time and duration given in minutes
+            if (roomData.botType === "Alex (Moderator)" || roomData.botType === "Alex") {
+                GPT.scheduleGPTCalls(roomData.id, io, sendGPTResponse);
+            }
+
             const endTime = new Date(startTimeTimeStamp + roomData.duration * 60 * 1000);
 
             console.log("endTime", endTime);
