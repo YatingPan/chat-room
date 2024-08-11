@@ -3,7 +3,11 @@
 .DS_Store
 *.map
 *.type.js
-*.log.json
+*log.json
+*.zip
+*.csv
+*.txt
+/srv/chat-room/server/private/gptResponsesFinal
 /srv/chat-room/server/private/gptResponses
 .ssh
 *.js

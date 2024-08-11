@@ -40,6 +40,7 @@ export type RoomData = {
     botType: string
     //userModerationEvents: Moderation[]
     outboundLink: string
+    gptScheduled: boolean
 }
 
 //export type Moderation = {

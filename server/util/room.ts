@@ -31,6 +31,7 @@ export module Rooms {
             try {
                 await Logs.writeLog(roomID, 4, 0, 10);  // Final log from beginning to 15th minute
                 console.log("start writing log for room", roomID);
+                rooms[roomID].gptScheduled = false; // Reset the gptScheduled flag
                 delete rooms[roomID];
             } catch (error) {
                 console.error(`Failed to write final log for room ${roomID}: ${error.message}`);
@@ -102,7 +103,8 @@ export module Rooms {
             post,
             botType,
             automaticComments,
-            outboundLink
+            outboundLink,
+            gptScheduled: false // Initialize the gptScheduled flag
         };
         console.log(parsedRoomData);
         return parsedRoomData;
@@ -198,8 +200,9 @@ export module Rooms {
                 console.error(`Failed to initialize log with schedule for room ${roomData.id}: ${error.message}`);
             }
 
-            if (roomData.botType === "Alex (Moderator)" || roomData.botType === "Alex") {
+            if (!roomData.gptScheduled && (roomData.botType === "Alex (Moderator)" || roomData.botType === "Alex")) {
                 GPT.scheduleGPTCalls(roomData.id, io, sendGPTResponse);
+                rooms[roomData.id].gptScheduled = true;  // Mark GPT calls as scheduled
             }
 
             const endTime = new Date(startTimeTimeStamp + roomData.duration * 60 * 1000);

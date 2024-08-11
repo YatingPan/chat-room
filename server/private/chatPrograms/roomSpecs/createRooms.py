@@ -13,7 +13,7 @@ room_base = {
     "startTime": "",
     "postName": "prompt_test_chat.json",
     "duration": 10,
-    "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_3lVg6EgK5fV78eG",
+    "outboundLink": "https://ipz.qualtrics.com/jfe/form/SV_aXIdNomI88sWYDk",
     "comments": []
 }
 
@@ -34,6 +34,7 @@ def create_room_files(directory, total_rooms, room_base):
     for room_id in range(1, total_rooms + 1):
         room_data = room_base.copy()
         room_data["botType"] = get_bot_type(room_id)
+        # Specify the room file name
         room_file_path = os.path.join(directory, "pilot_study_{}.json".format(room_id))
         
         with open(room_file_path, 'w') as room_file:

@@ -150,11 +150,12 @@ export module Logs {
             await writeLog(roomID, 3, 5, 8);
         }, 8 * 60 * 1000);
 
+        //write final log after 11 minutes
         setTimeout(async () => {
-            await writeLog(roomID, 4, 0, 10);
+            await writeLog(roomID, 4, 0, 11);
             console.log("Final log written for room", roomID);
             delete logs[roomID];
-        }, 10 * 60 * 1000);
+        }, 11 * 60 * 1000);
     }
 
     export const initLogWithSchedule = (roomID: string, roomData: RoomData, specFileName: string) => {

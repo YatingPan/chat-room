@@ -5,6 +5,7 @@ import path from 'path';
 import moment from 'moment';
 import dotenv from 'dotenv';
 import { Rooms } from './room.js'; // Importing the Rooms module
+import * as process from 'process';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -38,7 +39,7 @@ const preprocessLog = (logData: LogData): string => {
 const sendToGPT = async (messages: { role: string, content: string }[]): Promise<string> => {
     try {
         const response = await axios.post(GPT_API_URL, {
-            model: "gpt-3.5-turbo",
+            model: "gpt-4o",
             messages: messages
         }, {
             headers: {
